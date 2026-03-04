@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean"
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean && cp -r src/styles dist/"
   },
   "private": true,
   "devDependencies": {
@@ -21,7 +21,7 @@
     "react-dom": "^19.2.4",
     "typescript": "^5"
   },
-    "exports": {
+  "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
