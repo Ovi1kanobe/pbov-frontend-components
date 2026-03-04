@@ -1,0 +1,65 @@
+/* Coastal Sunrise Theme */
+.theme-coastal-sunrise {
+  --background: #F4F8FA;
+  --foreground: #004851;
+  --card: #FFFFFF;
+  --card-foreground: #004851;
+  --popover: #FFFFFF;
+  --popover-foreground: #004851;
+
+  --primary: #0095A8;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FF7043;
+  --secondary-foreground: #FFFFFF;
+  --accent: #26C6DA;
+  --accent-foreground: #004851;
+  --destructive: #C25432;
+
+  --muted: #D4F4F8;
+  --muted-foreground: #667687;
+  --border: #CDE9F3;
+  --input: #FFFFFF;
+  --ring: #00BED6;
+
+  --sidebar: #004851;
+  --sidebar-foreground: #F4F8FA;
+  --sidebar-primary: #0095A8;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #FF7043;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #CDE9F3;
+  --sidebar-ring: #00BED6;
+}
+
+/* Coastal Sunrise Theme Dark Mode */
+.theme-coastal-sunrise.dark {
+  --background: #00282E;
+  --foreground: #D4F4F8;
+  --card: #004851;
+  --card-foreground: #D4F4F8;
+  --popover: #004851;
+  --popover-foreground: #D4F4F8;
+
+  --primary: #0095A8;
+  --primary-foreground: #D4F4F8;
+  --secondary: #D4F4F8;
+  --secondary-foreground: #00282E;
+  --accent: #26C6DA;
+  --accent-foreground: #00282E;
+  --destructive: #C25432;
+
+  --muted: #003C44;
+  --muted-foreground: #6BEFF9;
+  --border: #001B1F;
+  --input: #001B1F;
+  --ring: #006C7A;
+
+  --sidebar: #001B1F;
+  --sidebar-foreground: #D4F4F8;
+  --sidebar-primary: #0095A8;
+  --sidebar-primary-foreground: #D4F4F8;
+  --sidebar-accent: #FF7043;
+  --sidebar-accent-foreground: #00282E;
+  --sidebar-border: #001B1F;
+  --sidebar-ring: #006C7A;
+}

@@ -1,0 +1,65 @@
+/* Corporate Theme */
+.theme-corporate {
+  --background: #F9F7F5;            /* very light cream */
+  --foreground: #2F2A28;            /* dark brown for primary text */
+  --card: #FFFFFF;
+  --card-foreground: #2F2A28;
+  --popover: #FFFFFF;
+  --popover-foreground: #2F2A28;
+
+  --primary: #800020;               /* deep burgundy */
+  --primary-foreground: #FFFFFF;
+  --secondary: #4B4F52;             /* dark grey */
+  --secondary-foreground: #FFFFFF;
+  --accent: #D2B48C;                /* tan accent */
+  --accent-foreground: #2F2A28;
+  --destructive: #A80000;           /* rich red */
+
+  --muted: #F4EDE8;                 /* pale beige */
+  --muted-foreground: #6D5948;      /* muted brown */
+  --border: #E3D8C6;               /* light beige border */
+  --input: #FFFFFF;
+  --ring: #C59B6B;                /* warm brown focus ring */
+
+  --sidebar: #2F2A28;               /* dark brown sidebar */
+  --sidebar-foreground: #F9F7F5;
+  --sidebar-primary: #800020;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #D2B48C;
+  --sidebar-accent-foreground: #2F2A28;
+  --sidebar-border: #E3D8C6;
+  --sidebar-ring: #C59B6B;
+}
+
+/* Corporate Theme Dark Mode */
+.theme-corporate.dark {
+  --background: #2F2A28;
+  --foreground: #F0E9E0;            /* light beige text */
+  --card: #403632;
+  --card-foreground: #F0E9E0;
+  --popover: #403632;
+  --popover-foreground: #F0E9E0;
+
+  --primary: #800020;
+  --primary-foreground: #F0E9E0;
+  --secondary: #F0E9E0;
+  --secondary-foreground: #2F2A28;
+  --accent: #D2B48C;
+  --accent-foreground: #2F2A28;
+  --destructive: #A80000;
+
+  --muted: #403632;
+  --muted-foreground: #D2B48C;
+  --border: #2A2420;
+  --input: #2A2420;
+  --ring: #800020;
+
+  --sidebar: #2A2420;
+  --sidebar-foreground: #F0E9E0;
+  --sidebar-primary: #800020;
+  --sidebar-primary-foreground: #F0E9E0;
+  --sidebar-accent: #D2B48C;
+  --sidebar-accent-foreground: #2F2A28;
+  --sidebar-border: #2A2420;
+  --sidebar-ring: #800020;
+}

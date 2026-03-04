@@ -1,0 +1,32 @@
+/* Default Theme */
+.theme-default {
+  --background: #F4F4F4;
+  --foreground: #1B1E29;
+  --card: #FFFFFF;
+  --card-foreground: #1B1E29;
+  --popover: #FFFFFF;
+  --popover-foreground: #1B1E29;
+
+  --primary: #205493;
+  --primary-foreground: #FFFFFF;
+  --secondary: #5B616B;
+  --secondary-foreground: #FFFFFF;
+  --accent: #9BDAF1;
+  --accent-foreground: #112E51;
+  --destructive: #CD2026;
+
+  --muted: #E1F3F8;
+  --muted-foreground: #667B83;
+  --border: #DCE4EF;
+  --input: #FFFFFF;
+  --ring: #00A6D2;
+
+  --sidebar: #112E51;
+  --sidebar-foreground: #F4F4F4;
+  --sidebar-primary: #205493;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #9BDAF1;
+  --sidebar-accent-foreground: #112E51;
+  --sidebar-border: #DCE4EF;
+  --sidebar-ring: #00A6D2;
+}
