@@ -46,6 +46,7 @@ __export(index_exports, {
   AlertDialogPortal: () => AlertDialogPortal,
   AlertDialogTitle: () => AlertDialogTitle,
   AlertDialogTrigger: () => AlertDialogTrigger,
+  AnimatedNumber: () => AnimatedNumber,
   Avatar: () => Avatar,
   AvatarBadge: () => AvatarBadge,
   AvatarFallback: () => AvatarFallback,
@@ -68,6 +69,17 @@ __export(index_exports, {
   ChartTooltip: () => ChartTooltip,
   ChartTooltipContent: () => ChartTooltipContent,
   Checkbox: () => Checkbox,
+  ColorPicker: () => ColorPicker,
+  Command: () => Command,
+  CommandDialog: () => CommandDialog,
+  CommandEmpty: () => CommandEmpty,
+  CommandGroup: () => CommandGroup,
+  CommandInput: () => CommandInput,
+  CommandItem: () => CommandItem,
+  CommandList: () => CommandList,
+  CommandSeparator: () => CommandSeparator,
+  CommandShortcut: () => CommandShortcut,
+  DateInput: () => DateInput,
   Dialog: () => Dialog,
   DialogClose: () => DialogClose,
   DialogContent: () => DialogContent,
@@ -78,8 +90,30 @@ __export(index_exports, {
   DialogPortal: () => DialogPortal,
   DialogTitle: () => DialogTitle,
   DialogTrigger: () => DialogTrigger,
+  DropdownMenu: () => DropdownMenu,
+  DropdownMenuCheckboxItem: () => DropdownMenuCheckboxItem,
+  DropdownMenuContent: () => DropdownMenuContent,
+  DropdownMenuGroup: () => DropdownMenuGroup,
+  DropdownMenuItem: () => DropdownMenuItem,
+  DropdownMenuLabel: () => DropdownMenuLabel,
+  DropdownMenuPortal: () => DropdownMenuPortal,
+  DropdownMenuRadioGroup: () => DropdownMenuRadioGroup,
+  DropdownMenuRadioItem: () => DropdownMenuRadioItem,
+  DropdownMenuSeparator: () => DropdownMenuSeparator,
+  DropdownMenuShortcut: () => DropdownMenuShortcut,
+  DropdownMenuSub: () => DropdownMenuSub,
+  DropdownMenuSubContent: () => DropdownMenuSubContent,
+  DropdownMenuSubTrigger: () => DropdownMenuSubTrigger,
+  DropdownMenuTrigger: () => DropdownMenuTrigger,
   Input: () => Input,
   Label: () => Label,
+  Popover: () => Popover,
+  PopoverAnchor: () => PopoverAnchor,
+  PopoverContent: () => PopoverContent,
+  PopoverDescription: () => PopoverDescription,
+  PopoverHeader: () => PopoverHeader,
+  PopoverTitle: () => PopoverTitle,
+  PopoverTrigger: () => PopoverTrigger,
   Separator: () => Separator,
   Skeleton: () => Skeleton,
   Tabs: () => Tabs,
@@ -1309,11 +1343,733 @@ function DialogDescription({
   );
 }
 
-// src/hooks/useDebounce.tsx
+// src/components/ui/color-picker.tsx
+var import_react2 = require("react");
+var import_react_colorful = require("react-colorful");
+
+// src/lib/use-forwarded-ref.tsx
 var import_react = require("react");
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = (0, import_react.useState)(value);
+function useForwardedRef(ref) {
+  const innerRef = (0, import_react.useRef)(null);
   (0, import_react.useEffect)(() => {
+    if (!ref) return;
+    if (typeof ref === "function") {
+      ref(innerRef.current);
+    } else {
+      ref.current = innerRef.current;
+    }
+  });
+  return innerRef;
+}
+
+// src/components/ui/popover.tsx
+var React16 = require("react");
+var import_radix_ui13 = require("radix-ui");
+var import_jsx_runtime17 = require("react/jsx-runtime");
+function Popover({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_radix_ui13.Popover.Root, { "data-slot": "popover", ...props });
+}
+function PopoverTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_radix_ui13.Popover.Trigger, { "data-slot": "popover-trigger", ...props });
+}
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_radix_ui13.Popover.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    import_radix_ui13.Popover.Content,
+    {
+      "data-slot": "popover-content",
+      align,
+      sideOffset,
+      className: cn(
+        "z-50 flex w-72 origin-(--radix-popover-content-transform-origin) flex-col gap-2.5 rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+        className
+      ),
+      ...props
+    }
+  ) });
+}
+function PopoverAnchor({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_radix_ui13.Popover.Anchor, { "data-slot": "popover-anchor", ...props });
+}
+function PopoverHeader({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    "div",
+    {
+      "data-slot": "popover-header",
+      className: cn("flex flex-col gap-0.5 text-sm", className),
+      ...props
+    }
+  );
+}
+function PopoverTitle({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    "div",
+    {
+      "data-slot": "popover-title",
+      className: cn("font-medium", className),
+      ...props
+    }
+  );
+}
+function PopoverDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    "p",
+    {
+      "data-slot": "popover-description",
+      className: cn("text-muted-foreground", className),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/color-picker.tsx
+var import_jsx_runtime18 = require("react/jsx-runtime");
+var ColorPicker = (0, import_react2.forwardRef)(
+  ({ disabled, value, onChange, onBlur, name, className, size, ...props }, forwardedRef) => {
+    const ref = useForwardedRef(forwardedRef);
+    const [open, setOpen] = (0, import_react2.useState)(false);
+    const parsedValue = (0, import_react2.useMemo)(() => {
+      return value || "#FFFFFF";
+    }, [value]);
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Popover, { onOpenChange: setOpen, open, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(PopoverTrigger, { asChild: true, disabled, onBlur, children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+        Button,
+        {
+          ...props,
+          className: cn("block", className),
+          name,
+          onClick: () => {
+            setOpen(true);
+          },
+          size,
+          style: {
+            backgroundColor: parsedValue
+          },
+          variant: "outline",
+          children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {})
+        }
+      ) }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(PopoverContent, { className: "w-full", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_react_colorful.HexColorPicker, { color: parsedValue, onChange }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+          Input,
+          {
+            maxLength: 7,
+            onChange: (e) => {
+              onChange(e?.currentTarget?.value);
+            },
+            ref,
+            value: parsedValue
+          }
+        )
+      ] })
+    ] });
+  }
+);
+ColorPicker.displayName = "ColorPicker";
+
+// src/components/ui/date-input.tsx
+var import_react3 = require("react");
+var import_lucide_react4 = require("lucide-react");
+var import_jsx_runtime19 = require("react/jsx-runtime");
+function DateInput({
+  value,
+  onChange,
+  label,
+  placeholder = "Select Date",
+  disabled = false,
+  className,
+  showNavigation = false,
+  onPreviousDate,
+  onNextDate,
+  previousLabel = "Previous date",
+  nextLabel = "Next date",
+  calendarTooltip = "Select Date",
+  showCalendarIcon = true
+}) {
+  const dateInputRef = (0, import_react3.useRef)(null);
+  const handleCalendarClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dateInputRef.current?.showPicker?.();
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: cn("flex flex-col", className), children: [
+    label && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Label, { className: "mb-2", children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", { className: "flex flex-row", children: [
+      showCalendarIcon && /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(Tooltip, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+          Button,
+          {
+            type: "button",
+            onClick: handleCalendarClick,
+            disabled,
+            className: "mr-2 bg-white",
+            "aria-label": calendarTooltip,
+            variant: "outline",
+            children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_lucide_react4.Calendar, { className: "h-5 w-5 hover:scale-110 transition-all duration-200" })
+          }
+        ) }),
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(TooltipContent, { side: "left", children: calendarTooltip })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+        Input,
+        {
+          ref: dateInputRef,
+          value,
+          onChange: (e) => onChange(e.target.value),
+          type: "date",
+          placeholder,
+          disabled,
+          className: cn(
+            "mb-4 dark:scheme-dark [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden",
+            showNavigation ? "mr-3" : ""
+          )
+        }
+      ),
+      showNavigation && /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)(import_jsx_runtime19.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+          Button,
+          {
+            type: "button",
+            onClick: onPreviousDate,
+            variant: "outline",
+            disabled,
+            className: "rounded-none rounded-l-full hover:bg-primary hover:text-white",
+            "aria-label": previousLabel,
+            children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_lucide_react4.ArrowLeft, { className: "h-4 w-4" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+          Button,
+          {
+            type: "button",
+            onClick: onNextDate,
+            variant: "outline",
+            disabled,
+            className: "rounded-none border-l-0 rounded-r-full hover:bg-primary hover:text-white",
+            "aria-label": nextLabel,
+            children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_lucide_react4.ArrowRight, { className: "h-4 w-4" })
+          }
+        )
+      ] })
+    ] })
+  ] });
+}
+
+// src/components/ui/dropdown-menu.tsx
+var React18 = require("react");
+var import_radix_ui14 = require("radix-ui");
+var import_lucide_react5 = require("lucide-react");
+var import_jsx_runtime20 = require("react/jsx-runtime");
+function DropdownMenu({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.Root, { "data-slot": "dropdown-menu", ...props });
+}
+function DropdownMenuPortal({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.Portal, { "data-slot": "dropdown-menu-portal", ...props });
+}
+function DropdownMenuTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.Trigger,
+    {
+      "data-slot": "dropdown-menu-trigger",
+      ...props
+    }
+  );
+}
+function DropdownMenuContent({
+  className,
+  align = "start",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.Content,
+    {
+      "data-slot": "dropdown-menu-content",
+      sideOffset,
+      align,
+      className: cn("z-50 max-h-(--radix-dropdown-menu-content-available-height) w-(--radix-dropdown-menu-trigger-width) min-w-32 origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:overflow-hidden data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className),
+      ...props
+    }
+  ) });
+}
+function DropdownMenuGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.Group, { "data-slot": "dropdown-menu-group", ...props });
+}
+function DropdownMenuItem({
+  className,
+  inset,
+  variant = "default",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.Item,
+    {
+      "data-slot": "dropdown-menu-item",
+      "data-inset": inset,
+      "data-variant": variant,
+      className: cn(
+        "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+    import_radix_ui14.DropdownMenu.CheckboxItem,
+    {
+      "data-slot": "dropdown-menu-checkbox-item",
+      "data-inset": inset,
+      className: cn(
+        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      checked,
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+          "span",
+          {
+            className: "pointer-events-none absolute right-2 flex items-center justify-center",
+            "data-slot": "dropdown-menu-checkbox-item-indicator",
+            children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+              import_lucide_react5.CheckIcon,
+              {}
+            ) })
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuRadioGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.RadioGroup,
+    {
+      "data-slot": "dropdown-menu-radio-group",
+      ...props
+    }
+  );
+}
+function DropdownMenuRadioItem({
+  className,
+  children,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+    import_radix_ui14.DropdownMenu.RadioItem,
+    {
+      "data-slot": "dropdown-menu-radio-item",
+      "data-inset": inset,
+      className: cn(
+        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+          "span",
+          {
+            className: "pointer-events-none absolute right-2 flex items-center justify-center",
+            "data-slot": "dropdown-menu-radio-item-indicator",
+            children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+              import_lucide_react5.CheckIcon,
+              {}
+            ) })
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuLabel({
+  className,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.Label,
+    {
+      "data-slot": "dropdown-menu-label",
+      "data-inset": inset,
+      className: cn(
+        "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.Separator,
+    {
+      "data-slot": "dropdown-menu-separator",
+      className: cn("-mx-1 my-1 h-px bg-border", className),
+      ...props
+    }
+  );
+}
+function DropdownMenuShortcut({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    "span",
+    {
+      "data-slot": "dropdown-menu-shortcut",
+      className: cn(
+        "ml-auto text-xs tracking-widest text-muted-foreground group-focus/dropdown-menu-item:text-accent-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSub({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_radix_ui14.DropdownMenu.Sub, { "data-slot": "dropdown-menu-sub", ...props });
+}
+function DropdownMenuSubTrigger({
+  className,
+  inset,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+    import_radix_ui14.DropdownMenu.SubTrigger,
+    {
+      "data-slot": "dropdown-menu-sub-trigger",
+      "data-inset": inset,
+      className: cn(
+        "flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-open:bg-accent data-open:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_lucide_react5.ChevronRightIcon, { className: "ml-auto" })
+      ]
+    }
+  );
+}
+function DropdownMenuSubContent({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+    import_radix_ui14.DropdownMenu.SubContent,
+    {
+      "data-slot": "dropdown-menu-sub-content",
+      className: cn("z-50 min-w-[96px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-lg bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/command.tsx
+var React21 = require("react");
+var import_cmdk = require("cmdk");
+
+// src/components/ui/input-group.tsx
+var React20 = require("react");
+var import_class_variance_authority5 = require("class-variance-authority");
+
+// src/components/ui/textarea.tsx
+var React19 = require("react");
+var import_jsx_runtime21 = require("react/jsx-runtime");
+
+// src/components/ui/input-group.tsx
+var import_jsx_runtime22 = require("react/jsx-runtime");
+function InputGroup({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+    "div",
+    {
+      "data-slot": "input-group",
+      role: "group",
+      className: cn(
+        "group/input-group relative flex h-8 w-full min-w-0 items-center rounded-lg border border-input transition-colors outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-input/50 has-disabled:opacity-50 has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-3 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:bg-input/30 dark:has-disabled:bg-input/80 dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+        className
+      ),
+      ...props
+    }
+  );
+}
+var inputGroupAddonVariants = (0, import_class_variance_authority5.cva)(
+  "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      align: {
+        "inline-start": "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
+        "inline-end": "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
+        "block-start": "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
+        "block-end": "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2"
+      }
+    },
+    defaultVariants: {
+      align: "inline-start"
+    }
+  }
+);
+function InputGroupAddon({
+  className,
+  align = "inline-start",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+    "div",
+    {
+      role: "group",
+      "data-slot": "input-group-addon",
+      "data-align": align,
+      className: cn(inputGroupAddonVariants({ align }), className),
+      onClick: (e) => {
+        if (e.target.closest("button")) {
+          return;
+        }
+        e.currentTarget.parentElement?.querySelector("input")?.focus();
+      },
+      ...props
+    }
+  );
+}
+var inputGroupButtonVariants = (0, import_class_variance_authority5.cva)(
+  "flex items-center gap-2 text-sm shadow-none",
+  {
+    variants: {
+      size: {
+        xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
+        sm: "",
+        "icon-xs": "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
+        "icon-sm": "size-8 p-0 has-[>svg]:p-0"
+      }
+    },
+    defaultVariants: {
+      size: "xs"
+    }
+  }
+);
+
+// src/components/ui/command.tsx
+var import_lucide_react6 = require("lucide-react");
+var import_jsx_runtime23 = require("react/jsx-runtime");
+function Command({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    import_cmdk.Command,
+    {
+      "data-slot": "command",
+      className: cn(
+        "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandDialog({
+  title = "Command Palette",
+  description = "Search for a command to run...",
+  children,
+  className,
+  showCloseButton = false,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(Dialog, { ...props, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(DialogHeader, { className: "sr-only", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DialogTitle, { children: title }),
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DialogDescription, { children: description })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+      DialogContent,
+      {
+        className: cn(
+          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
+          className
+        ),
+        showCloseButton,
+        children
+      }
+    )
+  ] });
+}
+function CommandInput({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { "data-slot": "command-input-wrapper", className: "p-1 pb-0", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(InputGroup, { className: "h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+      import_cmdk.Command.Input,
+      {
+        "data-slot": "command-input",
+        className: cn(
+          "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        ),
+        ...props
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(InputGroupAddon, { children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react6.SearchIcon, { className: "size-4 shrink-0 opacity-50" }) })
+  ] }) });
+}
+function CommandList({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    import_cmdk.Command.List,
+    {
+      "data-slot": "command-list",
+      className: cn(
+        "no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandEmpty({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    import_cmdk.Command.Empty,
+    {
+      "data-slot": "command-empty",
+      className: cn("py-6 text-center text-sm", className),
+      ...props
+    }
+  );
+}
+function CommandGroup({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    import_cmdk.Command.Group,
+    {
+      "data-slot": "command-group",
+      className: cn(
+        "overflow-hidden p-1 text-foreground **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    import_cmdk.Command.Separator,
+    {
+      "data-slot": "command-separator",
+      className: cn("-mx-1 h-px bg-border", className),
+      ...props
+    }
+  );
+}
+function CommandItem({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+    import_cmdk.Command.Item,
+    {
+      "data-slot": "command-item",
+      className: cn(
+        "group/command-item relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react6.CheckIcon, { className: "ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" })
+      ]
+    }
+  );
+}
+function CommandShortcut({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    "span",
+    {
+      "data-slot": "command-shortcut",
+      className: cn(
+        "ml-auto text-xs tracking-widest text-muted-foreground group-data-selected/command-item:text-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/animated-number.tsx
+var import_framer_motion = require("framer-motion");
+var import_react4 = require("react");
+var import_jsx_runtime24 = require("react/jsx-runtime");
+function AnimatedNumber({ value }) {
+  const prevValueRef = (0, import_react4.useRef)(value);
+  const spring = (0, import_framer_motion.useSpring)(value, { stiffness: 100, damping: 30 });
+  const rounded = (0, import_framer_motion.useTransform)(spring, (v) => Math.round(v));
+  (0, import_react4.useEffect)(() => {
+    if (prevValueRef.current !== value) {
+      spring.set(value);
+      prevValueRef.current = value;
+    }
+  }, [value, spring]);
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_framer_motion.motion.span, { children: rounded });
+}
+
+// src/hooks/useDebounce.tsx
+var import_react5 = require("react");
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = (0, import_react5.useState)(value);
+  (0, import_react5.useEffect)(() => {
     const timer = setTimeout(() => {
       setDebouncedValue(value);
     }, delay || 500);
@@ -1325,11 +2081,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React16 = __toESM(require("react"), 1);
+var React22 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React16.useState(void 0);
-  React16.useEffect(() => {
+  const [isMobile, setIsMobile] = React22.useState(void 0);
+  React22.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -1342,7 +2098,7 @@ function useIsMobile() {
 }
 
 // src/hooks/useRealtimeSubscription.tsx
-var import_react2 = require("react");
+var import_react6 = require("react");
 var import_pocketbase = require("pocketbase");
 function useDebouncedRealtimeSubscription({
   pb,
@@ -1354,12 +2110,12 @@ function useDebouncedRealtimeSubscription({
   debounceMs = 500,
   maxFloodMs = 5e3
 }) {
-  const debounceTimer = (0, import_react2.useRef)(null);
-  const floodStartTime = (0, import_react2.useRef)(null);
-  const lastEvent = (0, import_react2.useRef)(void 0);
-  const unsubscribersRef = (0, import_react2.useRef)([]);
-  const setupRunId = (0, import_react2.useRef)(0);
-  const debouncedUpdate = (0, import_react2.useCallback)((event) => {
+  const debounceTimer = (0, import_react6.useRef)(null);
+  const floodStartTime = (0, import_react6.useRef)(null);
+  const lastEvent = (0, import_react6.useRef)(void 0);
+  const unsubscribersRef = (0, import_react6.useRef)([]);
+  const setupRunId = (0, import_react6.useRef)(0);
+  const debouncedUpdate = (0, import_react6.useCallback)((event) => {
     lastEvent.current = event;
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
@@ -1378,7 +2134,7 @@ function useDebouncedRealtimeSubscription({
       floodStartTime.current = null;
     }, debounceMs);
   }, [onUpdate, debounceMs, maxFloodMs]);
-  (0, import_react2.useEffect)(() => {
+  (0, import_react6.useEffect)(() => {
     if (!pb || !enabled) return;
     const collectionArray = Array.isArray(collections) ? collections : [collections];
     const thisRun = ++setupRunId.current;
@@ -1428,7 +2184,7 @@ function useDebouncedRealtimeSubscription({
       }
     };
   }, [pb, collections, id, debouncedUpdate, enabled, filter]);
-  const cleanup = (0, import_react2.useCallback)(() => {
+  const cleanup = (0, import_react6.useCallback)(() => {
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
       debounceTimer.current = null;
@@ -1463,6 +2219,7 @@ function useDebouncedRealtimeSubscription({
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AnimatedNumber,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -1485,6 +2242,17 @@ function useDebouncedRealtimeSubscription({
   ChartTooltip,
   ChartTooltipContent,
   Checkbox,
+  ColorPicker,
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+  DateInput,
   Dialog,
   DialogClose,
   DialogContent,
@@ -1495,8 +2263,30 @@ function useDebouncedRealtimeSubscription({
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   Input,
   Label,
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
   Separator,
   Skeleton,
   Tabs,

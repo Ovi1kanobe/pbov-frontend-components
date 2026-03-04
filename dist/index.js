@@ -1205,11 +1205,733 @@ function DialogDescription({
   );
 }
 
-// src/hooks/useDebounce.tsx
-import { useEffect, useState } from "react";
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+// src/components/ui/color-picker.tsx
+import { forwardRef, useMemo as useMemo2, useState } from "react";
+import { HexColorPicker } from "react-colorful";
+
+// src/lib/use-forwarded-ref.tsx
+import { useEffect, useRef } from "react";
+function useForwardedRef(ref) {
+  const innerRef = useRef(null);
   useEffect(() => {
+    if (!ref) return;
+    if (typeof ref === "function") {
+      ref(innerRef.current);
+    } else {
+      ref.current = innerRef.current;
+    }
+  });
+  return innerRef;
+}
+
+// src/components/ui/popover.tsx
+import "react";
+import { Popover as PopoverPrimitive } from "radix-ui";
+import { jsx as jsx17 } from "react/jsx-runtime";
+function Popover({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx17(PopoverPrimitive.Root, { "data-slot": "popover", ...props });
+}
+function PopoverTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx17(PopoverPrimitive.Trigger, { "data-slot": "popover-trigger", ...props });
+}
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx17(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx17(
+    PopoverPrimitive.Content,
+    {
+      "data-slot": "popover-content",
+      align,
+      sideOffset,
+      className: cn(
+        "z-50 flex w-72 origin-(--radix-popover-content-transform-origin) flex-col gap-2.5 rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+        className
+      ),
+      ...props
+    }
+  ) });
+}
+function PopoverAnchor({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx17(PopoverPrimitive.Anchor, { "data-slot": "popover-anchor", ...props });
+}
+function PopoverHeader({ className, ...props }) {
+  return /* @__PURE__ */ jsx17(
+    "div",
+    {
+      "data-slot": "popover-header",
+      className: cn("flex flex-col gap-0.5 text-sm", className),
+      ...props
+    }
+  );
+}
+function PopoverTitle({ className, ...props }) {
+  return /* @__PURE__ */ jsx17(
+    "div",
+    {
+      "data-slot": "popover-title",
+      className: cn("font-medium", className),
+      ...props
+    }
+  );
+}
+function PopoverDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx17(
+    "p",
+    {
+      "data-slot": "popover-description",
+      className: cn("text-muted-foreground", className),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/color-picker.tsx
+import { jsx as jsx18, jsxs as jsxs6 } from "react/jsx-runtime";
+var ColorPicker = forwardRef(
+  ({ disabled, value, onChange, onBlur, name, className, size, ...props }, forwardedRef) => {
+    const ref = useForwardedRef(forwardedRef);
+    const [open, setOpen] = useState(false);
+    const parsedValue = useMemo2(() => {
+      return value || "#FFFFFF";
+    }, [value]);
+    return /* @__PURE__ */ jsxs6(Popover, { onOpenChange: setOpen, open, children: [
+      /* @__PURE__ */ jsx18(PopoverTrigger, { asChild: true, disabled, onBlur, children: /* @__PURE__ */ jsx18(
+        Button,
+        {
+          ...props,
+          className: cn("block", className),
+          name,
+          onClick: () => {
+            setOpen(true);
+          },
+          size,
+          style: {
+            backgroundColor: parsedValue
+          },
+          variant: "outline",
+          children: /* @__PURE__ */ jsx18("div", {})
+        }
+      ) }),
+      /* @__PURE__ */ jsxs6(PopoverContent, { className: "w-full", children: [
+        /* @__PURE__ */ jsx18(HexColorPicker, { color: parsedValue, onChange }),
+        /* @__PURE__ */ jsx18(
+          Input,
+          {
+            maxLength: 7,
+            onChange: (e) => {
+              onChange(e?.currentTarget?.value);
+            },
+            ref,
+            value: parsedValue
+          }
+        )
+      ] })
+    ] });
+  }
+);
+ColorPicker.displayName = "ColorPicker";
+
+// src/components/ui/date-input.tsx
+import { useRef as useRef2 } from "react";
+import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
+import { Fragment as Fragment2, jsx as jsx19, jsxs as jsxs7 } from "react/jsx-runtime";
+function DateInput({
+  value,
+  onChange,
+  label,
+  placeholder = "Select Date",
+  disabled = false,
+  className,
+  showNavigation = false,
+  onPreviousDate,
+  onNextDate,
+  previousLabel = "Previous date",
+  nextLabel = "Next date",
+  calendarTooltip = "Select Date",
+  showCalendarIcon = true
+}) {
+  const dateInputRef = useRef2(null);
+  const handleCalendarClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dateInputRef.current?.showPicker?.();
+  };
+  return /* @__PURE__ */ jsxs7("div", { className: cn("flex flex-col", className), children: [
+    label && /* @__PURE__ */ jsx19(Label, { className: "mb-2", children: label }),
+    /* @__PURE__ */ jsxs7("div", { className: "flex flex-row", children: [
+      showCalendarIcon && /* @__PURE__ */ jsxs7(Tooltip, { children: [
+        /* @__PURE__ */ jsx19(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsx19(
+          Button,
+          {
+            type: "button",
+            onClick: handleCalendarClick,
+            disabled,
+            className: "mr-2 bg-white",
+            "aria-label": calendarTooltip,
+            variant: "outline",
+            children: /* @__PURE__ */ jsx19(Calendar, { className: "h-5 w-5 hover:scale-110 transition-all duration-200" })
+          }
+        ) }),
+        /* @__PURE__ */ jsx19(TooltipContent, { side: "left", children: calendarTooltip })
+      ] }),
+      /* @__PURE__ */ jsx19(
+        Input,
+        {
+          ref: dateInputRef,
+          value,
+          onChange: (e) => onChange(e.target.value),
+          type: "date",
+          placeholder,
+          disabled,
+          className: cn(
+            "mb-4 dark:scheme-dark [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden",
+            showNavigation ? "mr-3" : ""
+          )
+        }
+      ),
+      showNavigation && /* @__PURE__ */ jsxs7(Fragment2, { children: [
+        /* @__PURE__ */ jsx19(
+          Button,
+          {
+            type: "button",
+            onClick: onPreviousDate,
+            variant: "outline",
+            disabled,
+            className: "rounded-none rounded-l-full hover:bg-primary hover:text-white",
+            "aria-label": previousLabel,
+            children: /* @__PURE__ */ jsx19(ArrowLeft, { className: "h-4 w-4" })
+          }
+        ),
+        /* @__PURE__ */ jsx19(
+          Button,
+          {
+            type: "button",
+            onClick: onNextDate,
+            variant: "outline",
+            disabled,
+            className: "rounded-none border-l-0 rounded-r-full hover:bg-primary hover:text-white",
+            "aria-label": nextLabel,
+            children: /* @__PURE__ */ jsx19(ArrowRight, { className: "h-4 w-4" })
+          }
+        )
+      ] })
+    ] })
+  ] });
+}
+
+// src/components/ui/dropdown-menu.tsx
+import "react";
+import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
+import { CheckIcon as CheckIcon2, ChevronRightIcon } from "lucide-react";
+import { jsx as jsx20, jsxs as jsxs8 } from "react/jsx-runtime";
+function DropdownMenu({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
+}
+function DropdownMenuPortal({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
+}
+function DropdownMenuTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.Trigger,
+    {
+      "data-slot": "dropdown-menu-trigger",
+      ...props
+    }
+  );
+}
+function DropdownMenuContent({
+  className,
+  align = "start",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.Content,
+    {
+      "data-slot": "dropdown-menu-content",
+      sideOffset,
+      align,
+      className: cn("z-50 max-h-(--radix-dropdown-menu-content-available-height) w-(--radix-dropdown-menu-trigger-width) min-w-32 origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:overflow-hidden data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className),
+      ...props
+    }
+  ) });
+}
+function DropdownMenuGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
+}
+function DropdownMenuItem({
+  className,
+  inset,
+  variant = "default",
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.Item,
+    {
+      "data-slot": "dropdown-menu-item",
+      "data-inset": inset,
+      "data-variant": variant,
+      className: cn(
+        "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs8(
+    DropdownMenuPrimitive.CheckboxItem,
+    {
+      "data-slot": "dropdown-menu-checkbox-item",
+      "data-inset": inset,
+      className: cn(
+        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      checked,
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx20(
+          "span",
+          {
+            className: "pointer-events-none absolute right-2 flex items-center justify-center",
+            "data-slot": "dropdown-menu-checkbox-item-indicator",
+            children: /* @__PURE__ */ jsx20(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx20(
+              CheckIcon2,
+              {}
+            ) })
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuRadioGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.RadioGroup,
+    {
+      "data-slot": "dropdown-menu-radio-group",
+      ...props
+    }
+  );
+}
+function DropdownMenuRadioItem({
+  className,
+  children,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs8(
+    DropdownMenuPrimitive.RadioItem,
+    {
+      "data-slot": "dropdown-menu-radio-item",
+      "data-inset": inset,
+      className: cn(
+        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx20(
+          "span",
+          {
+            className: "pointer-events-none absolute right-2 flex items-center justify-center",
+            "data-slot": "dropdown-menu-radio-item-indicator",
+            children: /* @__PURE__ */ jsx20(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx20(
+              CheckIcon2,
+              {}
+            ) })
+          }
+        ),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuLabel({
+  className,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.Label,
+    {
+      "data-slot": "dropdown-menu-label",
+      "data-inset": inset,
+      className: cn(
+        "px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.Separator,
+    {
+      "data-slot": "dropdown-menu-separator",
+      className: cn("-mx-1 my-1 h-px bg-border", className),
+      ...props
+    }
+  );
+}
+function DropdownMenuShortcut({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    "span",
+    {
+      "data-slot": "dropdown-menu-shortcut",
+      className: cn(
+        "ml-auto text-xs tracking-widest text-muted-foreground group-focus/dropdown-menu-item:text-accent-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSub({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
+}
+function DropdownMenuSubTrigger({
+  className,
+  inset,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs8(
+    DropdownMenuPrimitive.SubTrigger,
+    {
+      "data-slot": "dropdown-menu-sub-trigger",
+      "data-inset": inset,
+      className: cn(
+        "flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-open:bg-accent data-open:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ jsx20(ChevronRightIcon, { className: "ml-auto" })
+      ]
+    }
+  );
+}
+function DropdownMenuSubContent({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx20(
+    DropdownMenuPrimitive.SubContent,
+    {
+      "data-slot": "dropdown-menu-sub-content",
+      className: cn("z-50 min-w-[96px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-lg bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/command.tsx
+import "react";
+import { Command as CommandPrimitive } from "cmdk";
+
+// src/components/ui/input-group.tsx
+import "react";
+import { cva as cva5 } from "class-variance-authority";
+
+// src/components/ui/textarea.tsx
+import "react";
+import { jsx as jsx21 } from "react/jsx-runtime";
+
+// src/components/ui/input-group.tsx
+import { jsx as jsx22 } from "react/jsx-runtime";
+function InputGroup({ className, ...props }) {
+  return /* @__PURE__ */ jsx22(
+    "div",
+    {
+      "data-slot": "input-group",
+      role: "group",
+      className: cn(
+        "group/input-group relative flex h-8 w-full min-w-0 items-center rounded-lg border border-input transition-colors outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-disabled:bg-input/50 has-disabled:opacity-50 has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-3 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:ring-3 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto dark:bg-input/30 dark:has-disabled:bg-input/80 dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+        className
+      ),
+      ...props
+    }
+  );
+}
+var inputGroupAddonVariants = cva5(
+  "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      align: {
+        "inline-start": "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
+        "inline-end": "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
+        "block-start": "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
+        "block-end": "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2"
+      }
+    },
+    defaultVariants: {
+      align: "inline-start"
+    }
+  }
+);
+function InputGroupAddon({
+  className,
+  align = "inline-start",
+  ...props
+}) {
+  return /* @__PURE__ */ jsx22(
+    "div",
+    {
+      role: "group",
+      "data-slot": "input-group-addon",
+      "data-align": align,
+      className: cn(inputGroupAddonVariants({ align }), className),
+      onClick: (e) => {
+        if (e.target.closest("button")) {
+          return;
+        }
+        e.currentTarget.parentElement?.querySelector("input")?.focus();
+      },
+      ...props
+    }
+  );
+}
+var inputGroupButtonVariants = cva5(
+  "flex items-center gap-2 text-sm shadow-none",
+  {
+    variants: {
+      size: {
+        xs: "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
+        sm: "",
+        "icon-xs": "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
+        "icon-sm": "size-8 p-0 has-[>svg]:p-0"
+      }
+    },
+    defaultVariants: {
+      size: "xs"
+    }
+  }
+);
+
+// src/components/ui/command.tsx
+import { SearchIcon, CheckIcon as CheckIcon3 } from "lucide-react";
+import { jsx as jsx23, jsxs as jsxs9 } from "react/jsx-runtime";
+function Command({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    CommandPrimitive,
+    {
+      "data-slot": "command",
+      className: cn(
+        "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandDialog({
+  title = "Command Palette",
+  description = "Search for a command to run...",
+  children,
+  className,
+  showCloseButton = false,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs9(Dialog, { ...props, children: [
+    /* @__PURE__ */ jsxs9(DialogHeader, { className: "sr-only", children: [
+      /* @__PURE__ */ jsx23(DialogTitle, { children: title }),
+      /* @__PURE__ */ jsx23(DialogDescription, { children: description })
+    ] }),
+    /* @__PURE__ */ jsx23(
+      DialogContent,
+      {
+        className: cn(
+          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
+          className
+        ),
+        showCloseButton,
+        children
+      }
+    )
+  ] });
+}
+function CommandInput({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23("div", { "data-slot": "command-input-wrapper", className: "p-1 pb-0", children: /* @__PURE__ */ jsxs9(InputGroup, { className: "h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!", children: [
+    /* @__PURE__ */ jsx23(
+      CommandPrimitive.Input,
+      {
+        "data-slot": "command-input",
+        className: cn(
+          "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        ),
+        ...props
+      }
+    ),
+    /* @__PURE__ */ jsx23(InputGroupAddon, { children: /* @__PURE__ */ jsx23(SearchIcon, { className: "size-4 shrink-0 opacity-50" }) })
+  ] }) });
+}
+function CommandList({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    CommandPrimitive.List,
+    {
+      "data-slot": "command-list",
+      className: cn(
+        "no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandEmpty({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    CommandPrimitive.Empty,
+    {
+      "data-slot": "command-empty",
+      className: cn("py-6 text-center text-sm", className),
+      ...props
+    }
+  );
+}
+function CommandGroup({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    CommandPrimitive.Group,
+    {
+      "data-slot": "command-group",
+      className: cn(
+        "overflow-hidden p-1 text-foreground **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function CommandSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    CommandPrimitive.Separator,
+    {
+      "data-slot": "command-separator",
+      className: cn("-mx-1 h-px bg-border", className),
+      ...props
+    }
+  );
+}
+function CommandItem({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs9(
+    CommandPrimitive.Item,
+    {
+      "data-slot": "command-item",
+      className: cn(
+        "group/command-item relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ jsx23(CheckIcon3, { className: "ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" })
+      ]
+    }
+  );
+}
+function CommandShortcut({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    "span",
+    {
+      "data-slot": "command-shortcut",
+      className: cn(
+        "ml-auto text-xs tracking-widest text-muted-foreground group-data-selected/command-item:text-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/animated-number.tsx
+import { motion, useSpring, useTransform } from "framer-motion";
+import { useEffect as useEffect2, useRef as useRef3 } from "react";
+import { jsx as jsx24 } from "react/jsx-runtime";
+function AnimatedNumber({ value }) {
+  const prevValueRef = useRef3(value);
+  const spring = useSpring(value, { stiffness: 100, damping: 30 });
+  const rounded = useTransform(spring, (v) => Math.round(v));
+  useEffect2(() => {
+    if (prevValueRef.current !== value) {
+      spring.set(value);
+      prevValueRef.current = value;
+    }
+  }, [value, spring]);
+  return /* @__PURE__ */ jsx24(motion.span, { children: rounded });
+}
+
+// src/hooks/useDebounce.tsx
+import { useEffect as useEffect3, useState as useState2 } from "react";
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState2(value);
+  useEffect3(() => {
     const timer = setTimeout(() => {
       setDebouncedValue(value);
     }, delay || 500);
@@ -1221,11 +1943,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-import * as React16 from "react";
+import * as React22 from "react";
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React16.useState(void 0);
-  React16.useEffect(() => {
+  const [isMobile, setIsMobile] = React22.useState(void 0);
+  React22.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -1238,7 +1960,7 @@ function useIsMobile() {
 }
 
 // src/hooks/useRealtimeSubscription.tsx
-import { useEffect as useEffect3, useRef, useCallback } from "react";
+import { useEffect as useEffect5, useRef as useRef4, useCallback } from "react";
 import "pocketbase";
 function useDebouncedRealtimeSubscription({
   pb,
@@ -1250,11 +1972,11 @@ function useDebouncedRealtimeSubscription({
   debounceMs = 500,
   maxFloodMs = 5e3
 }) {
-  const debounceTimer = useRef(null);
-  const floodStartTime = useRef(null);
-  const lastEvent = useRef(void 0);
-  const unsubscribersRef = useRef([]);
-  const setupRunId = useRef(0);
+  const debounceTimer = useRef4(null);
+  const floodStartTime = useRef4(null);
+  const lastEvent = useRef4(void 0);
+  const unsubscribersRef = useRef4([]);
+  const setupRunId = useRef4(0);
   const debouncedUpdate = useCallback((event) => {
     lastEvent.current = event;
     if (debounceTimer.current) {
@@ -1274,7 +1996,7 @@ function useDebouncedRealtimeSubscription({
       floodStartTime.current = null;
     }, debounceMs);
   }, [onUpdate, debounceMs, maxFloodMs]);
-  useEffect3(() => {
+  useEffect5(() => {
     if (!pb || !enabled) return;
     const collectionArray = Array.isArray(collections) ? collections : [collections];
     const thisRun = ++setupRunId.current;
@@ -1358,6 +2080,7 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AnimatedNumber,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -1380,6 +2103,17 @@ export {
   ChartTooltip,
   ChartTooltipContent,
   Checkbox,
+  ColorPicker,
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+  DateInput,
   Dialog,
   DialogClose,
   DialogContent,
@@ -1390,8 +2124,30 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   Input,
   Label,
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
   Separator,
   Skeleton,
   Tabs,

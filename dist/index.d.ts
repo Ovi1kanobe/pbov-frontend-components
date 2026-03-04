@@ -2,8 +2,9 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import * as React$1 from 'react';
 import { VariantProps } from 'class-variance-authority';
-import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1, Toggle as Toggle$1, Dialog as Dialog$1 } from 'radix-ui';
+import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1, Toggle as Toggle$1, Dialog as Dialog$1, DropdownMenu as DropdownMenu$1, Popover as Popover$1 } from 'radix-ui';
 import * as RechartsPrimitive from 'recharts';
+import { Command as Command$1 } from 'cmdk';
 import Pocketbase, { RecordModel, RecordSubscription } from 'pocketbase';
 import { ClassValue } from 'clsx';
 
@@ -143,6 +144,87 @@ declare function DialogFooter({ className, showCloseButton, children, ...props }
 declare function DialogTitle({ className, ...props }: React$1.ComponentProps<typeof Dialog$1.Title>): react_jsx_runtime.JSX.Element;
 declare function DialogDescription({ className, ...props }: React$1.ComponentProps<typeof Dialog$1.Description>): react_jsx_runtime.JSX.Element;
 
+interface ColorPickerProps {
+    value: string;
+    onChange: (value: string) => void;
+    onBlur?: () => void;
+}
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+    asChild?: boolean;
+}
+declare const ColorPicker: React$1.ForwardRefExoticComponent<Omit<ButtonProps, "value" | "onBlur" | "onChange"> & ColorPickerProps & ButtonProps & React$1.RefAttributes<HTMLInputElement>>;
+
+interface DateInputProps {
+    value: string;
+    onChange: (value: string) => void;
+    label?: string;
+    placeholder?: string;
+    disabled?: boolean;
+    className?: string;
+    showNavigation?: boolean;
+    onPreviousDate?: () => void;
+    onNextDate?: () => void;
+    previousLabel?: string;
+    nextLabel?: string;
+    calendarTooltip?: string;
+    showCalendarIcon?: boolean;
+}
+declare function DateInput({ value, onChange, label, placeholder, disabled, className, showNavigation, onPreviousDate, onNextDate, previousLabel, nextLabel, calendarTooltip, showCalendarIcon, }: DateInputProps): react_jsx_runtime.JSX.Element;
+
+declare function DropdownMenu({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Root>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuPortal({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Portal>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuTrigger({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Trigger>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Content>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuGroup({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Group>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuItem({ className, inset, variant, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Item> & {
+    inset?: boolean;
+    variant?: "default" | "destructive";
+}): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuCheckboxItem({ className, children, checked, inset, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.CheckboxItem> & {
+    inset?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuRadioGroup({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.RadioGroup>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuRadioItem({ className, children, inset, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.RadioItem> & {
+    inset?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuLabel({ className, inset, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Label> & {
+    inset?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuSeparator({ className, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Separator>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuShortcut({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuSub({ ...props }: React$1.ComponentProps<typeof DropdownMenu$1.Sub>): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuSubTrigger({ className, inset, children, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.SubTrigger> & {
+    inset?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DropdownMenuSubContent({ className, ...props }: React$1.ComponentProps<typeof DropdownMenu$1.SubContent>): react_jsx_runtime.JSX.Element;
+
+declare function Command({ className, ...props }: React$1.ComponentProps<typeof Command$1>): react_jsx_runtime.JSX.Element;
+declare function CommandDialog({ title, description, children, className, showCloseButton, ...props }: React$1.ComponentProps<typeof Dialog> & {
+    title?: string;
+    description?: string;
+    className?: string;
+    showCloseButton?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function CommandInput({ className, ...props }: React$1.ComponentProps<typeof Command$1.Input>): react_jsx_runtime.JSX.Element;
+declare function CommandList({ className, ...props }: React$1.ComponentProps<typeof Command$1.List>): react_jsx_runtime.JSX.Element;
+declare function CommandEmpty({ className, ...props }: React$1.ComponentProps<typeof Command$1.Empty>): react_jsx_runtime.JSX.Element;
+declare function CommandGroup({ className, ...props }: React$1.ComponentProps<typeof Command$1.Group>): react_jsx_runtime.JSX.Element;
+declare function CommandSeparator({ className, ...props }: React$1.ComponentProps<typeof Command$1.Separator>): react_jsx_runtime.JSX.Element;
+declare function CommandItem({ className, children, ...props }: React$1.ComponentProps<typeof Command$1.Item>): react_jsx_runtime.JSX.Element;
+declare function CommandShortcut({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
+
+declare function Popover({ ...props }: React$1.ComponentProps<typeof Popover$1.Root>): react_jsx_runtime.JSX.Element;
+declare function PopoverTrigger({ ...props }: React$1.ComponentProps<typeof Popover$1.Trigger>): react_jsx_runtime.JSX.Element;
+declare function PopoverContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof Popover$1.Content>): react_jsx_runtime.JSX.Element;
+declare function PopoverAnchor({ ...props }: React$1.ComponentProps<typeof Popover$1.Anchor>): react_jsx_runtime.JSX.Element;
+declare function PopoverHeader({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+declare function PopoverTitle({ className, ...props }: React$1.ComponentProps<"h2">): react_jsx_runtime.JSX.Element;
+declare function PopoverDescription({ className, ...props }: React$1.ComponentProps<"p">): react_jsx_runtime.JSX.Element;
+
+declare function AnimatedNumber({ value }: {
+    value: number;
+}): react_jsx_runtime.JSX.Element;
+
 declare function useDebounce<T>(value: T, delay?: number): T;
 
 declare function useIsMobile(): boolean;
@@ -161,4 +243,4 @@ declare function useDebouncedRealtimeSubscription<T = RecordModel>({ pb, collect
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Input, Label, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, toggleVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AnimatedNumber, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, ColorPicker, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, DateInput, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Input, Label, Popover, PopoverAnchor, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, toggleVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };
