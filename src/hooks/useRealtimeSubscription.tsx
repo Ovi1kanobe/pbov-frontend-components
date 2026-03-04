@@ -72,7 +72,7 @@ export function useDebouncedRealtimeSubscription<T = RecordModel>({
         for (const collection of collectionArray) {
           if (isCancelled) break;
 
-          const unsubscribe = await pb.collection(collection).subscribe<T>(id, (event: RecordSubscription<T>) => {
+          const unsubscribe = await pb.collection(collection).subscribe<T>(id, (event) => {
             // Apply filter if provided
             if (filter && !filter(event, collection)) {
               return; // Skip this update
