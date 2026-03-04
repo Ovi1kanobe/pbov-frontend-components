@@ -20,3 +20,4 @@ export * from "./ui/dropdown-menu";
 export * from "./ui/command";
 export * from "./ui/popover";
 export * from "./ui/animated-number";
+export * from "sonner";
