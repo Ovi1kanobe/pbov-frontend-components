@@ -2,7 +2,8 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import * as React$1 from 'react';
 import { VariantProps } from 'class-variance-authority';
-import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1 } from 'radix-ui';
+import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1, Toggle as Toggle$1 } from 'radix-ui';
+import * as RechartsPrimitive from 'recharts';
 import Pocketbase, { RecordModel, RecordSubscription } from 'pocketbase';
 import { ClassValue } from 'clsx';
 
@@ -83,6 +84,50 @@ declare function Badge({ className, variant, asChild, ...props }: React$1.Compon
     asChild?: boolean;
 }): react_jsx_runtime.JSX.Element;
 
+declare const toggleVariants: (props?: ({
+    variant?: "default" | "outline" | null | undefined;
+    size?: "default" | "sm" | "lg" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+declare function Toggle({ className, variant, size, ...props }: React$1.ComponentProps<typeof Toggle$1.Root> & VariantProps<typeof toggleVariants>): react_jsx_runtime.JSX.Element;
+
+declare const THEMES: {
+    readonly light: "";
+    readonly dark: ".dark";
+};
+type ChartConfig = {
+    [k in string]: {
+        label?: React$1.ReactNode;
+        icon?: React$1.ComponentType;
+    } & ({
+        color?: string;
+        theme?: never;
+    } | {
+        color?: never;
+        theme: Record<keyof typeof THEMES, string>;
+    });
+};
+declare function ChartContainer({ id, className, children, config, ...props }: React$1.ComponentProps<"div"> & {
+    config: ChartConfig;
+    children: React$1.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"];
+}): react_jsx_runtime.JSX.Element;
+declare const ChartStyle: ({ id, config }: {
+    id: string;
+    config: ChartConfig;
+}) => react_jsx_runtime.JSX.Element | null;
+declare const ChartTooltip: typeof RechartsPrimitive.Tooltip;
+declare function ChartTooltipContent({ active, payload, className, indicator, hideLabel, hideIndicator, label, labelFormatter, labelClassName, formatter, color, nameKey, labelKey, }: React$1.ComponentProps<typeof RechartsPrimitive.Tooltip> & React$1.ComponentProps<"div"> & {
+    hideLabel?: boolean;
+    hideIndicator?: boolean;
+    indicator?: "line" | "dot" | "dashed";
+    nameKey?: string;
+    labelKey?: string;
+}): react_jsx_runtime.JSX.Element | null;
+declare const ChartLegend: typeof RechartsPrimitive.Legend;
+declare function ChartLegendContent({ className, hideIcon, payload, verticalAlign, nameKey, }: React$1.ComponentProps<"div"> & Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+    hideIcon?: boolean;
+    nameKey?: string;
+}): react_jsx_runtime.JSX.Element | null;
+
 declare function useDebounce<T>(value: T, delay?: number): T;
 
 declare function useIsMobile(): boolean;
@@ -101,4 +146,4 @@ declare function useDebouncedRealtimeSubscription<T = RecordModel>({ pb, collect
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Checkbox, Input, Label, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Input, Label, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, toggleVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };

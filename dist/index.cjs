@@ -61,6 +61,12 @@ __export(index_exports, {
   CardFooter: () => CardFooter,
   CardHeader: () => CardHeader,
   CardTitle: () => CardTitle,
+  ChartContainer: () => ChartContainer,
+  ChartLegend: () => ChartLegend,
+  ChartLegendContent: () => ChartLegendContent,
+  ChartStyle: () => ChartStyle,
+  ChartTooltip: () => ChartTooltip,
+  ChartTooltipContent: () => ChartTooltipContent,
   Checkbox: () => Checkbox,
   Input: () => Input,
   Label: () => Label,
@@ -70,6 +76,7 @@ __export(index_exports, {
   TabsContent: () => TabsContent,
   TabsList: () => TabsList,
   TabsTrigger: () => TabsTrigger,
+  Toggle: () => Toggle,
   Tooltip: () => Tooltip,
   TooltipContent: () => TooltipContent,
   TooltipProvider: () => TooltipProvider,
@@ -78,6 +85,7 @@ __export(index_exports, {
   buttonVariants: () => buttonVariants,
   cn: () => cn,
   tabsListVariants: () => tabsListVariants,
+  toggleVariants: () => toggleVariants,
   useDebounce: () => useDebounce,
   useDebouncedRealtimeSubscription: () => useDebouncedRealtimeSubscription,
   useIsMobile: () => useIsMobile
@@ -873,6 +881,282 @@ function Badge({
   );
 }
 
+// src/components/ui/toggle.tsx
+var React13 = require("react");
+var import_class_variance_authority4 = require("class-variance-authority");
+var import_radix_ui11 = require("radix-ui");
+var import_jsx_runtime14 = require("react/jsx-runtime");
+var toggleVariants = (0, import_class_variance_authority4.cva)(
+  "group/toggle inline-flex items-center justify-center gap-1 rounded-lg text-sm font-medium whitespace-nowrap transition-all outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-pressed:bg-muted data-[state=on]:bg-muted dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default: "bg-transparent",
+        outline: "border border-input bg-transparent hover:bg-muted"
+      },
+      size: {
+        default: "h-8 min-w-8 px-2",
+        sm: "h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-1.5 text-[0.8rem]",
+        lg: "h-9 min-w-9 px-2.5"
+      }
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default"
+    }
+  }
+);
+function Toggle({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    import_radix_ui11.Toggle.Root,
+    {
+      "data-slot": "toggle",
+      className: cn(toggleVariants({ variant, size, className })),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/chart.tsx
+var React14 = __toESM(require("react"), 1);
+var RechartsPrimitive = __toESM(require("recharts"), 1);
+var import_jsx_runtime15 = require("react/jsx-runtime");
+var THEMES = { light: "", dark: ".dark" };
+var ChartContext = React14.createContext(null);
+function useChart() {
+  const context = React14.useContext(ChartContext);
+  if (!context) {
+    throw new Error("useChart must be used within a <ChartContainer />");
+  }
+  return context;
+}
+function ChartContainer({
+  id,
+  className,
+  children,
+  config,
+  ...props
+}) {
+  const uniqueId = React14.useId();
+  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(ChartContext.Provider, { value: { config }, children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    "div",
+    {
+      "data-slot": "chart",
+      "data-chart": chartId,
+      className: cn(
+        "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(ChartStyle, { id: chartId, config }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(RechartsPrimitive.ResponsiveContainer, { children })
+      ]
+    }
+  ) });
+}
+var ChartStyle = ({ id, config }) => {
+  const colorConfig = Object.entries(config).filter(
+    ([, config2]) => config2.theme || config2.color
+  );
+  if (!colorConfig.length) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    "style",
+    {
+      dangerouslySetInnerHTML: {
+        __html: Object.entries(THEMES).map(
+          ([theme, prefix]) => `
+${prefix} [data-chart=${id}] {
+${colorConfig.map(([key, itemConfig]) => {
+            const color = itemConfig.theme?.[theme] || itemConfig.color;
+            return color ? `  --color-${key}: ${color};` : null;
+          }).join("\n")}
+}
+`
+        ).join("\n")
+      }
+    }
+  );
+};
+var ChartTooltip = RechartsPrimitive.Tooltip;
+function ChartTooltipContent({
+  active,
+  payload,
+  className,
+  indicator = "dot",
+  hideLabel = false,
+  hideIndicator = false,
+  label,
+  labelFormatter,
+  labelClassName,
+  formatter,
+  color,
+  nameKey,
+  labelKey
+}) {
+  const { config } = useChart();
+  const tooltipLabel = React14.useMemo(() => {
+    if (hideLabel || !payload?.length) {
+      return null;
+    }
+    const [item] = payload;
+    const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
+    const itemConfig = getPayloadConfigFromPayload(config, item, key);
+    const value = !labelKey && typeof label === "string" ? config[label]?.label || label : itemConfig?.label;
+    if (labelFormatter) {
+      return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: cn("font-medium", labelClassName), children: labelFormatter(value, payload) });
+    }
+    if (!value) {
+      return null;
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: cn("font-medium", labelClassName), children: value });
+  }, [
+    label,
+    labelFormatter,
+    payload,
+    hideLabel,
+    labelClassName,
+    config,
+    labelKey
+  ]);
+  if (!active || !payload?.length) {
+    return null;
+  }
+  const nestLabel = payload.length === 1 && indicator !== "dot";
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    "div",
+    {
+      className: cn(
+        "grid min-w-32 items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
+        className
+      ),
+      children: [
+        !nestLabel ? tooltipLabel : null,
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "grid gap-1.5", children: payload.filter((item) => item.type !== "none").map((item, index) => {
+          const key = `${nameKey || item.name || item.dataKey || "value"}`;
+          const itemConfig = getPayloadConfigFromPayload(config, item, key);
+          const indicatorColor = color || item.payload.fill || item.color;
+          return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+            "div",
+            {
+              className: cn(
+                "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
+                indicator === "dot" && "items-center"
+              ),
+              children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(import_jsx_runtime15.Fragment, { children: [
+                itemConfig?.icon ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(itemConfig.icon, {}) : !hideIndicator && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+                  "div",
+                  {
+                    className: cn(
+                      "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
+                      {
+                        "h-2.5 w-2.5": indicator === "dot",
+                        "w-1": indicator === "line",
+                        "w-0 border-[1.5px] border-dashed bg-transparent": indicator === "dashed",
+                        "my-0.5": nestLabel && indicator === "dashed"
+                      }
+                    ),
+                    style: {
+                      "--color-bg": indicatorColor,
+                      "--color-border": indicatorColor
+                    }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+                  "div",
+                  {
+                    className: cn(
+                      "flex flex-1 justify-between leading-none",
+                      nestLabel ? "items-end" : "items-center"
+                    ),
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "grid gap-1.5", children: [
+                        nestLabel ? tooltipLabel : null,
+                        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "text-muted-foreground", children: itemConfig?.label || item.name })
+                      ] }),
+                      item.value && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "font-mono font-medium text-foreground tabular-nums", children: item.value.toLocaleString() })
+                    ]
+                  }
+                )
+              ] })
+            },
+            item.dataKey
+          );
+        }) })
+      ]
+    }
+  );
+}
+var ChartLegend = RechartsPrimitive.Legend;
+function ChartLegendContent({
+  className,
+  hideIcon = false,
+  payload,
+  verticalAlign = "bottom",
+  nameKey
+}) {
+  const { config } = useChart();
+  if (!payload?.length) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    "div",
+    {
+      className: cn(
+        "flex items-center justify-center gap-4",
+        verticalAlign === "top" ? "pb-3" : "pt-3",
+        className
+      ),
+      children: payload.filter((item) => item.type !== "none").map((item) => {
+        const key = `${nameKey || item.dataKey || "value"}`;
+        const itemConfig = getPayloadConfigFromPayload(config, item, key);
+        return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+          "div",
+          {
+            className: cn(
+              "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
+            ),
+            children: [
+              itemConfig?.icon && !hideIcon ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(itemConfig.icon, {}) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+                "div",
+                {
+                  className: "h-2 w-2 shrink-0 rounded-[2px]",
+                  style: {
+                    backgroundColor: item.color
+                  }
+                }
+              ),
+              itemConfig?.label
+            ]
+          },
+          item.value
+        );
+      })
+    }
+  );
+}
+function getPayloadConfigFromPayload(config, payload, key) {
+  if (typeof payload !== "object" || payload === null) {
+    return void 0;
+  }
+  const payloadPayload = "payload" in payload && typeof payload.payload === "object" && payload.payload !== null ? payload.payload : void 0;
+  let configLabelKey = key;
+  if (key in payload && typeof payload[key] === "string") {
+    configLabelKey = payload[key];
+  } else if (payloadPayload && key in payloadPayload && typeof payloadPayload[key] === "string") {
+    configLabelKey = payloadPayload[key];
+  }
+  return configLabelKey in config ? config[configLabelKey] : config[key];
+}
+
 // src/hooks/useDebounce.tsx
 var import_react = require("react");
 function useDebounce(value, delay) {
@@ -889,11 +1173,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React13 = __toESM(require("react"), 1);
+var React15 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React13.useState(void 0);
-  React13.useEffect(() => {
+  const [isMobile, setIsMobile] = React15.useState(void 0);
+  React15.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -1042,6 +1326,12 @@ function useDebouncedRealtimeSubscription({
   CardFooter,
   CardHeader,
   CardTitle,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
   Checkbox,
   Input,
   Label,
@@ -1051,6 +1341,7 @@ function useDebouncedRealtimeSubscription({
   TabsContent,
   TabsList,
   TabsTrigger,
+  Toggle,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -1059,6 +1350,7 @@ function useDebouncedRealtimeSubscription({
   buttonVariants,
   cn,
   tabsListVariants,
+  toggleVariants,
   useDebounce,
   useDebouncedRealtimeSubscription,
   useIsMobile

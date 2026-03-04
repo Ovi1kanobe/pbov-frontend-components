@@ -11,3 +11,5 @@ export * from "./ui/accordion";
 export * from "./ui/avatar";
 export * from "./ui/alert-dialog";
 export * from "./ui/badge";
+export * from "./ui/toggle";
+export * from "./ui/chart";
