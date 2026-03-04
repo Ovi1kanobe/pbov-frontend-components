@@ -1,9 +1,8 @@
 import { useEffect, useRef, useCallback } from 'react';
 import type { RecordModel, RecordSubscription } from 'pocketbase';
-import type { TypedPocketBase } from '../lib/pocketbaseTypes';
-
+import Pocketbase from 'pocketbase';
 interface UseDebouncedRealtimeSubscriptionOptions<T = RecordModel> {
-  pb: TypedPocketBase;
+  pb: Pocketbase;
   collections: string | string[]; // single collection or array of collections
   id?: string; // defaults to '*' if not provided
   onUpdate: (event?: RecordSubscription<T>) => void;
