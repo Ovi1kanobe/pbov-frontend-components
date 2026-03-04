@@ -1,5 +1,5 @@
 /* Business Casual Theme */
-.theme-business-casual {
+html.theme-business-casual {
   --background: #F0F6F6;
   --foreground: #0F1B1E;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Business Casual Theme Dark Mode */
-.theme-business-casual.dark {
+html.theme-business-casual.dark {
   --background: #0F1B1E;
   --foreground: #F0F6F6;
   --card: #11272C;

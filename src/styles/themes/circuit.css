@@ -1,5 +1,5 @@
 /* Circuit Theme */
-.theme-circuit {
+html.theme-circuit {
   --background: #F5F8FA;
   --foreground: #293550;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Circuit Theme Dark Mode */
-.theme-circuit.dark {
+html.theme-circuit.dark {
   --background: #1B2430;
   --foreground: #E6EEF3;
   --card: #22304A;

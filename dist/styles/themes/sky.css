@@ -1,5 +1,5 @@
 /* Sky Theme */
-.theme-sky {
+html.theme-sky {
   --background: #F5FAFD;           /* airy light background with subtle blue tint */
   --foreground: #1C304A;           /* dark slate blue for primary text */
   --card: #FFFFFF;                 /* pure white cards for contrast */
@@ -32,7 +32,7 @@
 }
 
 /* Sky Theme Dark Mode */
-.theme-sky.dark {
+html.theme-sky.dark {
   --background: #0D2746;           /* deep navy background for dark mode */
   --foreground: #EAF6FA;           /* off‑white text for high contrast */
   --card: #16395C;                 /* dark card surfaces */

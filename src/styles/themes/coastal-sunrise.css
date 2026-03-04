@@ -1,5 +1,5 @@
 /* Coastal Sunrise Theme */
-.theme-coastal-sunrise {
+html.theme-coastal-sunrise {
   --background: #F4F8FA;
   --foreground: #004851;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Coastal Sunrise Theme Dark Mode */
-.theme-coastal-sunrise.dark {
+html.theme-coastal-sunrise.dark {
   --background: #00282E;
   --foreground: #D4F4F8;
   --card: #004851;

@@ -1,5 +1,5 @@
 /* Cyberpunk Theme */
-.theme-cyberpunk {
+html.theme-cyberpunk {
   --background: #F3F5FF;
   --foreground: #1B1B2A;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Cyberpunk Theme Dark Mode */
-.theme-cyberpunk.dark {
+html.theme-cyberpunk.dark {
   --background: #1B1B2A;
   --foreground: #E8E8F5;
   --card: #2C2C3A;

@@ -1,5 +1,5 @@
 /* Corporate Theme */
-.theme-corporate {
+html.theme-corporate {
   --background: #F9F7F5;            /* very light cream */
   --foreground: #2F2A28;            /* dark brown for primary text */
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Corporate Theme Dark Mode */
-.theme-corporate.dark {
+html.theme-corporate.dark {
   --background: #2F2A28;
   --foreground: #F0E9E0;            /* light beige text */
   --card: #403632;

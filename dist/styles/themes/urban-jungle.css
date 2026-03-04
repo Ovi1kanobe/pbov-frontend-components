@@ -1,5 +1,5 @@
 /* Urban Jungle Theme */
-.theme-urban-jungle {
+html.theme-urban-jungle {
   --background: #F5FAF7;
   --foreground: #1A322F;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Urban Jungle Theme Dark Mode */
-.theme-urban-jungle.dark {
+html.theme-urban-jungle.dark {
   --background: #0E1E17;
   --foreground: #D4F5E9;
   --card: #162C21;

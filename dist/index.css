@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* src/styles/themes/default.css */
-.theme-default {
+/* src/styles/themes/deep-sea.css */
+html.theme-deep-sea {
   --background: #F4F4F4;
   --foreground: #1B1E29;
   --card: #FFFFFF;
@@ -30,9 +30,37 @@
   --sidebar-border: #DCE4EF;
   --sidebar-ring: #00A6D2;
 }
+html.theme-deep-sea.dark {
+  --background: #1B1E29;
+  --foreground: #E1F3F8;
+  --card: #24344E;
+  --card-foreground: #E1F3F8;
+  --popover: #24344E;
+  --popover-foreground: #E1F3F8;
+  --primary: #205493;
+  --primary-foreground: #E1F3F8;
+  --secondary: #E1F3F8;
+  --secondary-foreground: #1B1E29;
+  --accent: #9BDAF1;
+  --accent-foreground: #1B1E29;
+  --destructive: #CD2026;
+  --muted: #24344E;
+  --muted-foreground: #9BDAF1;
+  --border: #112E51;
+  --input: #112E51;
+  --ring: #205493;
+  --sidebar: #112E51;
+  --sidebar-foreground: #E1F3F8;
+  --sidebar-primary: #205493;
+  --sidebar-primary-foreground: #E1F3F8;
+  --sidebar-accent: #9BDAF1;
+  --sidebar-accent-foreground: #1B1E29;
+  --sidebar-border: #112E51;
+  --sidebar-ring: #205493;
+}
 
 /* src/styles/themes/circuit.css */
-.theme-circuit {
+html.theme-circuit {
   --background: #F5F8FA;
   --foreground: #293550;
   --card: #FFFFFF;
@@ -60,7 +88,7 @@
   --sidebar-border: #D0D9E3;
   --sidebar-ring: #7A8CA0;
 }
-.theme-circuit.dark {
+html.theme-circuit.dark {
   --background: #1B2430;
   --foreground: #E6EEF3;
   --card: #22304A;
@@ -90,7 +118,7 @@
 }
 
 /* src/styles/themes/business-casual.css */
-.theme-business-casual {
+html.theme-business-casual {
   --background: #F0F6F6;
   --foreground: #0F1B1E;
   --card: #FFFFFF;
@@ -118,7 +146,7 @@
   --sidebar-border: #D7E0E0;
   --sidebar-ring: #A6C3CA;
 }
-.theme-business-casual.dark {
+html.theme-business-casual.dark {
   --background: #0F1B1E;
   --foreground: #F0F6F6;
   --card: #11272C;
@@ -148,7 +176,7 @@
 }
 
 /* src/styles/themes/corporate.css */
-.theme-corporate {
+html.theme-corporate {
   --background: #F9F7F5;
   --foreground: #2F2A28;
   --card: #FFFFFF;
@@ -176,7 +204,7 @@
   --sidebar-border: #E3D8C6;
   --sidebar-ring: #C59B6B;
 }
-.theme-corporate.dark {
+html.theme-corporate.dark {
   --background: #2F2A28;
   --foreground: #F0E9E0;
   --card: #403632;
@@ -206,7 +234,7 @@
 }
 
 /* src/styles/themes/sky.css */
-.theme-sky {
+html.theme-sky {
   --background: #F5FAFD;
   --foreground: #1C304A;
   --card: #FFFFFF;
@@ -234,7 +262,7 @@
   --sidebar-border: #D2E6F0;
   --sidebar-ring: #90C8E2;
 }
-.theme-sky.dark {
+html.theme-sky.dark {
   --background: #0D2746;
   --foreground: #EAF6FA;
   --card: #16395C;
@@ -264,7 +292,7 @@
 }
 
 /* src/styles/themes/coastal-sunrise.css */
-.theme-coastal-sunrise {
+html.theme-coastal-sunrise {
   --background: #F4F8FA;
   --foreground: #004851;
   --card: #FFFFFF;
@@ -292,7 +320,7 @@
   --sidebar-border: #CDE9F3;
   --sidebar-ring: #00BED6;
 }
-.theme-coastal-sunrise.dark {
+html.theme-coastal-sunrise.dark {
   --background: #00282E;
   --foreground: #D4F4F8;
   --card: #004851;
@@ -322,7 +350,7 @@
 }
 
 /* src/styles/themes/urban-jungle.css */
-.theme-urban-jungle {
+html.theme-urban-jungle {
   --background: #F5FAF7;
   --foreground: #1A322F;
   --card: #FFFFFF;
@@ -350,7 +378,7 @@
   --sidebar-border: #D4E6D8;
   --sidebar-ring: #27AE60;
 }
-.theme-urban-jungle.dark {
+html.theme-urban-jungle.dark {
   --background: #0E1E17;
   --foreground: #D4F5E9;
   --card: #162C21;
@@ -380,7 +408,7 @@
 }
 
 /* src/styles/themes/cyberpunk.css */
-.theme-cyberpunk {
+html.theme-cyberpunk {
   --background: #F3F5FF;
   --foreground: #1B1B2A;
   --card: #FFFFFF;
@@ -408,7 +436,7 @@
   --sidebar-border: #DADBF3;
   --sidebar-ring: #8900C9;
 }
-.theme-cyberpunk.dark {
+html.theme-cyberpunk.dark {
   --background: #1B1B2A;
   --foreground: #E8E8F5;
   --card: #2C2C3A;
@@ -438,7 +466,7 @@
 }
 
 /* src/styles/themes/candy-land.css */
-.theme-candy-land {
+html.theme-candy-land {
   --background: #FDFBFF;
   --foreground: #2B2B3A;
   --card: #FFFFFF;
@@ -466,7 +494,7 @@
   --sidebar-border: #E6E0FA;
   --sidebar-ring: #9985E3;
 }
-.theme-candy-land.dark {
+html.theme-candy-land.dark {
   --background: #2A223F;
   --foreground: #F5F1FC;
   --card: #3C2D55;

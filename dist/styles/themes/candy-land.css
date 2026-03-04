@@ -1,5 +1,5 @@
 /* Candy Land Theme */
-.theme-candy-land {
+html.theme-candy-land {
   --background: #FDFBFF;
   --foreground: #2B2B3A;
   --card: #FFFFFF;
@@ -32,7 +32,7 @@
 }
 
 /* Candy Land Theme Dark Mode */
-.theme-candy-land.dark {
+html.theme-candy-land.dark {
   --background: #2A223F;
   --foreground: #F5F1FC;
   --card: #3C2D55;
