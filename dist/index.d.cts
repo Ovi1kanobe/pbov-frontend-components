@@ -2,7 +2,7 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import * as React$1 from 'react';
 import { VariantProps } from 'class-variance-authority';
-import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1, Toggle as Toggle$1 } from 'radix-ui';
+import { Checkbox as Checkbox$1, Label as Label$1, Separator as Separator$1, Tabs as Tabs$1, Tooltip as Tooltip$1, Accordion as Accordion$1, Avatar as Avatar$1, AlertDialog as AlertDialog$1, Toggle as Toggle$1, Dialog as Dialog$1 } from 'radix-ui';
 import * as RechartsPrimitive from 'recharts';
 import Pocketbase, { RecordModel, RecordSubscription } from 'pocketbase';
 import { ClassValue } from 'clsx';
@@ -128,6 +128,21 @@ declare function ChartLegendContent({ className, hideIcon, payload, verticalAlig
     nameKey?: string;
 }): react_jsx_runtime.JSX.Element | null;
 
+declare function Dialog({ ...props }: React$1.ComponentProps<typeof Dialog$1.Root>): react_jsx_runtime.JSX.Element;
+declare function DialogTrigger({ ...props }: React$1.ComponentProps<typeof Dialog$1.Trigger>): react_jsx_runtime.JSX.Element;
+declare function DialogPortal({ ...props }: React$1.ComponentProps<typeof Dialog$1.Portal>): react_jsx_runtime.JSX.Element;
+declare function DialogClose({ ...props }: React$1.ComponentProps<typeof Dialog$1.Close>): react_jsx_runtime.JSX.Element;
+declare function DialogOverlay({ className, ...props }: React$1.ComponentProps<typeof Dialog$1.Overlay>): react_jsx_runtime.JSX.Element;
+declare function DialogContent({ className, children, showCloseButton, ...props }: React$1.ComponentProps<typeof Dialog$1.Content> & {
+    showCloseButton?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DialogHeader({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+declare function DialogFooter({ className, showCloseButton, children, ...props }: React$1.ComponentProps<"div"> & {
+    showCloseButton?: boolean;
+}): react_jsx_runtime.JSX.Element;
+declare function DialogTitle({ className, ...props }: React$1.ComponentProps<typeof Dialog$1.Title>): react_jsx_runtime.JSX.Element;
+declare function DialogDescription({ className, ...props }: React$1.ComponentProps<typeof Dialog$1.Description>): react_jsx_runtime.JSX.Element;
+
 declare function useDebounce<T>(value: T, delay?: number): T;
 
 declare function useIsMobile(): boolean;
@@ -146,4 +161,4 @@ declare function useDebouncedRealtimeSubscription<T = RecordModel>({ pb, collect
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Input, Label, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, toggleVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, Badge, Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Input, Label, Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, buttonVariants, cn, tabsListVariants, toggleVariants, useDebounce, useDebouncedRealtimeSubscription, useIsMobile };

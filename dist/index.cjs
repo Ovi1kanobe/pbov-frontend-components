@@ -68,6 +68,16 @@ __export(index_exports, {
   ChartTooltip: () => ChartTooltip,
   ChartTooltipContent: () => ChartTooltipContent,
   Checkbox: () => Checkbox,
+  Dialog: () => Dialog,
+  DialogClose: () => DialogClose,
+  DialogContent: () => DialogContent,
+  DialogDescription: () => DialogDescription,
+  DialogFooter: () => DialogFooter,
+  DialogHeader: () => DialogHeader,
+  DialogOverlay: () => DialogOverlay,
+  DialogPortal: () => DialogPortal,
+  DialogTitle: () => DialogTitle,
+  DialogTrigger: () => DialogTrigger,
   Input: () => Input,
   Label: () => Label,
   Separator: () => Separator,
@@ -1157,6 +1167,148 @@ function getPayloadConfigFromPayload(config, payload, key) {
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
+// src/components/ui/dialog.tsx
+var React15 = require("react");
+var import_radix_ui12 = require("radix-ui");
+var import_lucide_react3 = require("lucide-react");
+var import_jsx_runtime16 = require("react/jsx-runtime");
+function Dialog({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Root, { "data-slot": "dialog", ...props });
+}
+function DialogTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Trigger, { "data-slot": "dialog-trigger", ...props });
+}
+function DialogPortal({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Portal, { "data-slot": "dialog-portal", ...props });
+}
+function DialogClose({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Close, { "data-slot": "dialog-close", ...props });
+}
+function DialogOverlay({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    import_radix_ui12.Dialog.Overlay,
+    {
+      "data-slot": "dialog-overlay",
+      className: cn(
+        "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DialogContent({
+  className,
+  children,
+  showCloseButton = true,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DialogPortal, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(DialogOverlay, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+      import_radix_ui12.Dialog.Content,
+      {
+        "data-slot": "dialog-content",
+        className: cn(
+          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-background p-4 text-sm ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          className
+        ),
+        ...props,
+        children: [
+          children,
+          showCloseButton && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Close, { "data-slot": "dialog-close", asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+            Button,
+            {
+              variant: "ghost",
+              className: "absolute top-2 right-2",
+              size: "icon-sm",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+                  import_lucide_react3.XIcon,
+                  {}
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "sr-only", children: "Close" })
+              ]
+            }
+          ) })
+        ]
+      }
+    )
+  ] });
+}
+function DialogHeader({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    "div",
+    {
+      "data-slot": "dialog-header",
+      className: cn("flex flex-col gap-2", className),
+      ...props
+    }
+  );
+}
+function DialogFooter({
+  className,
+  showCloseButton = false,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+    "div",
+    {
+      "data-slot": "dialog-footer",
+      className: cn(
+        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        showCloseButton && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_radix_ui12.Dialog.Close, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { variant: "outline", children: "Close" }) })
+      ]
+    }
+  );
+}
+function DialogTitle({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    import_radix_ui12.Dialog.Title,
+    {
+      "data-slot": "dialog-title",
+      className: cn("text-base leading-none font-medium", className),
+      ...props
+    }
+  );
+}
+function DialogDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+    import_radix_ui12.Dialog.Description,
+    {
+      "data-slot": "dialog-description",
+      className: cn(
+        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 var import_react = require("react");
 function useDebounce(value, delay) {
@@ -1173,11 +1325,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React15 = __toESM(require("react"), 1);
+var React16 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React15.useState(void 0);
-  React15.useEffect(() => {
+  const [isMobile, setIsMobile] = React16.useState(void 0);
+  React16.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -1333,6 +1485,16 @@ function useDebouncedRealtimeSubscription({
   ChartTooltip,
   ChartTooltipContent,
   Checkbox,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
   Input,
   Label,
   Separator,

@@ -13,3 +13,4 @@ export * from "./ui/alert-dialog";
 export * from "./ui/badge";
 export * from "./ui/toggle";
 export * from "./ui/chart";
+export * from "./ui/dialog";
