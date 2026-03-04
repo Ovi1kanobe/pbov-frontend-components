@@ -70,6 +70,7 @@ function useIsMobile() {
 
 // src/hooks/useRealtimeSubscription.tsx
 var import_react2 = require("react");
+var import_pocketbase = require("pocketbase");
 function useDebouncedRealtimeSubscription({
   pb,
   collections,
@@ -83,28 +84,27 @@ function useDebouncedRealtimeSubscription({
   const debounceTimer = (0, import_react2.useRef)(null);
   const floodStartTime = (0, import_react2.useRef)(null);
   const lastEvent = (0, import_react2.useRef)(void 0);
-  const lastCollection = (0, import_react2.useRef)(void 0);
   const unsubscribersRef = (0, import_react2.useRef)([]);
   const setupRunId = (0, import_react2.useRef)(0);
-  const debouncedUpdate = (0, import_react2.useCallback)(
-    (event, collection) => {
-      lastEvent.current = event;
-      lastCollection.current = collection;
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      const now = Date.now();
-      if (!floodStartTime.current) floodStartTime.current = now;
-      if (now - floodStartTime.current >= maxFloodMs) {
-        floodStartTime.current = now;
-        onUpdate(event, collection);
-        return;
-      }
-      debounceTimer.current = setTimeout(() => {
-        onUpdate(lastEvent.current, lastCollection.current);
-        floodStartTime.current = null;
-      }, debounceMs);
-    },
-    [onUpdate, debounceMs, maxFloodMs]
-  );
+  const debouncedUpdate = (0, import_react2.useCallback)((event) => {
+    lastEvent.current = event;
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+    const now = Date.now();
+    if (!floodStartTime.current) {
+      floodStartTime.current = now;
+    }
+    if (now - floodStartTime.current >= maxFloodMs) {
+      floodStartTime.current = now;
+      onUpdate(event);
+      return;
+    }
+    debounceTimer.current = setTimeout(() => {
+      onUpdate(lastEvent.current);
+      floodStartTime.current = null;
+    }, debounceMs);
+  }, [onUpdate, debounceMs, maxFloodMs]);
   (0, import_react2.useEffect)(() => {
     if (!pb || !enabled) return;
     const collectionArray = Array.isArray(collections) ? collections : [collections];
@@ -115,15 +115,17 @@ function useDebouncedRealtimeSubscription({
       try {
         for (const collection of collectionArray) {
           if (isCancelled) break;
-          const maybePromise = pb.collection(collection).subscribe(id, (event) => {
-            if (filter && !filter(event, collection)) return;
-            debouncedUpdate(event, collection);
+          const unsubscribe = await pb.collection(collection).subscribe(id, (event) => {
+            if (filter && !filter(event, collection)) {
+              return;
+            }
+            debouncedUpdate(event);
           });
-          const unsubscribe = typeof maybePromise?.then === "function" ? await maybePromise : maybePromise;
           if (thisRun !== setupRunId.current || isCancelled) {
             try {
               unsubscribe();
             } catch {
+              console.error("Error during immediate unsubscribe");
             }
             continue;
           }

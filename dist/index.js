@@ -32,6 +32,7 @@ function useIsMobile() {
 
 // src/hooks/useRealtimeSubscription.tsx
 import { useEffect as useEffect3, useRef, useCallback } from "react";
+import "pocketbase";
 function useDebouncedRealtimeSubscription({
   pb,
   collections,
@@ -45,28 +46,27 @@ function useDebouncedRealtimeSubscription({
   const debounceTimer = useRef(null);
   const floodStartTime = useRef(null);
   const lastEvent = useRef(void 0);
-  const lastCollection = useRef(void 0);
   const unsubscribersRef = useRef([]);
   const setupRunId = useRef(0);
-  const debouncedUpdate = useCallback(
-    (event, collection) => {
-      lastEvent.current = event;
-      lastCollection.current = collection;
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      const now = Date.now();
-      if (!floodStartTime.current) floodStartTime.current = now;
-      if (now - floodStartTime.current >= maxFloodMs) {
-        floodStartTime.current = now;
-        onUpdate(event, collection);
-        return;
-      }
-      debounceTimer.current = setTimeout(() => {
-        onUpdate(lastEvent.current, lastCollection.current);
-        floodStartTime.current = null;
-      }, debounceMs);
-    },
-    [onUpdate, debounceMs, maxFloodMs]
-  );
+  const debouncedUpdate = useCallback((event) => {
+    lastEvent.current = event;
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+    const now = Date.now();
+    if (!floodStartTime.current) {
+      floodStartTime.current = now;
+    }
+    if (now - floodStartTime.current >= maxFloodMs) {
+      floodStartTime.current = now;
+      onUpdate(event);
+      return;
+    }
+    debounceTimer.current = setTimeout(() => {
+      onUpdate(lastEvent.current);
+      floodStartTime.current = null;
+    }, debounceMs);
+  }, [onUpdate, debounceMs, maxFloodMs]);
   useEffect3(() => {
     if (!pb || !enabled) return;
     const collectionArray = Array.isArray(collections) ? collections : [collections];
@@ -77,15 +77,17 @@ function useDebouncedRealtimeSubscription({
       try {
         for (const collection of collectionArray) {
           if (isCancelled) break;
-          const maybePromise = pb.collection(collection).subscribe(id, (event) => {
-            if (filter && !filter(event, collection)) return;
-            debouncedUpdate(event, collection);
+          const unsubscribe = await pb.collection(collection).subscribe(id, (event) => {
+            if (filter && !filter(event, collection)) {
+              return;
+            }
+            debouncedUpdate(event);
           });
-          const unsubscribe = typeof maybePromise?.then === "function" ? await maybePromise : maybePromise;
           if (thisRun !== setupRunId.current || isCancelled) {
             try {
               unsubscribe();
             } catch {
+              console.error("Error during immediate unsubscribe");
             }
             continue;
           }
