@@ -69,7 +69,7 @@ function TabsTrigger({
       <TabsPrimitive.Trigger
         data-slot="tabs-trigger"
         className={cn(
-          "peer data-[state=active]:text-accent", // ① make it a peer
+          "peer data-[state=active]:text-accent",
           className
         )}
         {...props}
@@ -77,7 +77,7 @@ function TabsTrigger({
       <div
         className="
           h-px w-full mt-1 bg-accent
-          opacity-0 peer-data-[state=active]:opacity-100   /* ② watch peer */
+          opacity-0 peer-data-[state=active]:opacity-100
           transition-opacity duration-200
         "
       />
