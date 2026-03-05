@@ -1893,14 +1893,15 @@ function TableFooter({ className, ...props }) {
     }
   );
 }
-function TableRow({ className, ...props }) {
+function TableRow({ className, variant, ...props }) {
   return /* @__PURE__ */ jsx24(
     "tr",
     {
       "data-slot": "table-row",
       className: cn(
         "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
-        className
+        className,
+        variant === "striped" ? "bg-muted/50 even:bg-transparent" : "data-[state=selected]:bg-muted"
       ),
       ...props
     }
