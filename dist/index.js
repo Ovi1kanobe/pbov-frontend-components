@@ -1784,7 +1784,7 @@ function Separator({
       decorative,
       orientation,
       className: cn(
-        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch",
         className
       ),
       ...props
@@ -2946,7 +2946,6 @@ function TabsTrigger2({
         "data-slot": "tabs-trigger",
         className: cn(
           "peer data-[state=active]:text-accent",
-          // ① make it a peer
           className
         ),
         ...props
@@ -2955,7 +2954,7 @@ function TabsTrigger2({
     /* @__PURE__ */ jsx33(
       "div",
       {
-        className: "\n          h-px w-full mt-1 bg-accent\n          opacity-0 peer-data-[state=active]:opacity-100   /* \u2461 watch peer */\n          transition-opacity duration-200\n        "
+        className: "\n          h-px w-full mt-1 bg-accent\n          opacity-0 peer-data-[state=active]:opacity-100\n          transition-opacity duration-200\n        "
       }
     )
   ] });
