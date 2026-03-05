@@ -3014,6 +3014,36 @@ function Toggle({
   );
 }
 
+// src/components/ui/progress.tsx
+import "react";
+import { Progress as ProgressPrimitive } from "radix-ui";
+import { jsx as jsx35 } from "react/jsx-runtime";
+function Progress({
+  className,
+  value,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx35(
+    ProgressPrimitive.Root,
+    {
+      "data-slot": "progress",
+      className: cn(
+        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ jsx35(
+        ProgressPrimitive.Indicator,
+        {
+          "data-slot": "progress-indicator",
+          className: "size-full flex-1 bg-primary transition-all",
+          style: { transform: `translateX(-${100 - (value || 0)}%)` }
+        }
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 import { useEffect as useEffect9, useState as useState6 } from "react";
 function useDebounce(value, delay) {
@@ -3030,11 +3060,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-import * as React37 from "react";
+import * as React38 from "react";
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React37.useState(void 0);
-  React37.useEffect(() => {
+  const [isMobile, setIsMobile] = React38.useState(void 0);
+  React38.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3235,6 +3265,7 @@ export {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
+  Progress,
   Separator,
   Skeleton,
   Table,

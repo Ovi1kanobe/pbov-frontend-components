@@ -114,6 +114,7 @@ __export(index_exports, {
   PopoverHeader: () => PopoverHeader,
   PopoverTitle: () => PopoverTitle,
   PopoverTrigger: () => PopoverTrigger,
+  Progress: () => Progress,
   Separator: () => Separator,
   Skeleton: () => Skeleton,
   Table: () => Table,
@@ -3160,6 +3161,36 @@ function Toggle({
   );
 }
 
+// src/components/ui/progress.tsx
+var React37 = require("react");
+var import_radix_ui14 = require("radix-ui");
+var import_jsx_runtime35 = require("react/jsx-runtime");
+function Progress({
+  className,
+  value,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+    import_radix_ui14.Progress.Root,
+    {
+      "data-slot": "progress",
+      className: cn(
+        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+        import_radix_ui14.Progress.Indicator,
+        {
+          "data-slot": "progress-indicator",
+          className: "size-full flex-1 bg-primary transition-all",
+          style: { transform: `translateX(-${100 - (value || 0)}%)` }
+        }
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 var import_react7 = require("react");
 function useDebounce(value, delay) {
@@ -3176,11 +3207,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React37 = __toESM(require("react"), 1);
+var React38 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React37.useState(void 0);
-  React37.useEffect(() => {
+  const [isMobile, setIsMobile] = React38.useState(void 0);
+  React38.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3382,6 +3413,7 @@ function useDebouncedRealtimeSubscription({
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
+  Progress,
   Separator,
   Skeleton,
   Table,
