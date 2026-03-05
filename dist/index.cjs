@@ -115,6 +115,8 @@ __export(index_exports, {
   PopoverTitle: () => PopoverTitle,
   PopoverTrigger: () => PopoverTrigger,
   Progress: () => Progress,
+  ScrollArea: () => ScrollArea,
+  ScrollBar: () => ScrollBar,
   Separator: () => Separator,
   Skeleton: () => Skeleton,
   Table: () => Table,
@@ -3191,6 +3193,63 @@ function Progress({
   );
 }
 
+// src/components/ui/scroll-area.tsx
+var React38 = require("react");
+var import_radix_ui15 = require("radix-ui");
+var import_jsx_runtime36 = require("react/jsx-runtime");
+function ScrollArea({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+    import_radix_ui15.ScrollArea.Root,
+    {
+      "data-slot": "scroll-area",
+      className: cn("relative", className),
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          import_radix_ui15.ScrollArea.Viewport,
+          {
+            "data-slot": "scroll-area-viewport",
+            className: "size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1",
+            children
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(ScrollBar, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_radix_ui15.ScrollArea.Corner, {})
+      ]
+    }
+  );
+}
+function ScrollBar({
+  className,
+  orientation = "vertical",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+    import_radix_ui15.ScrollArea.ScrollAreaScrollbar,
+    {
+      "data-slot": "scroll-area-scrollbar",
+      "data-orientation": orientation,
+      orientation,
+      className: cn(
+        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        import_radix_ui15.ScrollArea.ScrollAreaThumb,
+        {
+          "data-slot": "scroll-area-thumb",
+          className: "relative flex-1 rounded-full bg-border"
+        }
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 var import_react7 = require("react");
 function useDebounce(value, delay) {
@@ -3207,11 +3266,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React38 = __toESM(require("react"), 1);
+var React39 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React38.useState(void 0);
-  React38.useEffect(() => {
+  const [isMobile, setIsMobile] = React39.useState(void 0);
+  React39.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3414,6 +3473,8 @@ function useDebouncedRealtimeSubscription({
   PopoverTitle,
   PopoverTrigger,
   Progress,
+  ScrollArea,
+  ScrollBar,
   Separator,
   Skeleton,
   Table,

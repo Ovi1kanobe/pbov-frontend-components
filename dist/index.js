@@ -3044,6 +3044,63 @@ function Progress({
   );
 }
 
+// src/components/ui/scroll-area.tsx
+import "react";
+import { ScrollArea as ScrollAreaPrimitive } from "radix-ui";
+import { jsx as jsx36, jsxs as jsxs11 } from "react/jsx-runtime";
+function ScrollArea({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs11(
+    ScrollAreaPrimitive.Root,
+    {
+      "data-slot": "scroll-area",
+      className: cn("relative", className),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx36(
+          ScrollAreaPrimitive.Viewport,
+          {
+            "data-slot": "scroll-area-viewport",
+            className: "size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1",
+            children
+          }
+        ),
+        /* @__PURE__ */ jsx36(ScrollBar, {}),
+        /* @__PURE__ */ jsx36(ScrollAreaPrimitive.Corner, {})
+      ]
+    }
+  );
+}
+function ScrollBar({
+  className,
+  orientation = "vertical",
+  ...props
+}) {
+  return /* @__PURE__ */ jsx36(
+    ScrollAreaPrimitive.ScrollAreaScrollbar,
+    {
+      "data-slot": "scroll-area-scrollbar",
+      "data-orientation": orientation,
+      orientation,
+      className: cn(
+        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ jsx36(
+        ScrollAreaPrimitive.ScrollAreaThumb,
+        {
+          "data-slot": "scroll-area-thumb",
+          className: "relative flex-1 rounded-full bg-border"
+        }
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 import { useEffect as useEffect9, useState as useState6 } from "react";
 function useDebounce(value, delay) {
@@ -3060,11 +3117,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-import * as React38 from "react";
+import * as React39 from "react";
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React38.useState(void 0);
-  React38.useEffect(() => {
+  const [isMobile, setIsMobile] = React39.useState(void 0);
+  React39.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3266,6 +3323,8 @@ export {
   PopoverTitle,
   PopoverTrigger,
   Progress,
+  ScrollArea,
+  ScrollBar,
   Separator,
   Skeleton,
   Table,
