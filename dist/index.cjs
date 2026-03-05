@@ -120,6 +120,7 @@ __export(index_exports, {
   TabsContent: () => TabsContent,
   TabsList: () => TabsList,
   TabsTrigger: () => TabsTrigger,
+  Toaster: () => Toaster,
   Toggle: () => Toggle,
   Tooltip: () => Tooltip,
   TooltipContent: () => TooltipContent,
@@ -2065,6 +2066,41 @@ function AnimatedNumber({ value }) {
   return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_framer_motion.motion.span, { children: rounded });
 }
 
+// src/components/ui/sonner.tsx
+var import_next_themes = require("next-themes");
+var import_sonner = require("sonner");
+var import_lucide_react7 = require("lucide-react");
+var import_jsx_runtime25 = require("react/jsx-runtime");
+var Toaster = ({ ...props }) => {
+  const { theme = "system" } = (0, import_next_themes.useTheme)();
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+    import_sonner.Toaster,
+    {
+      theme,
+      className: "toaster group",
+      icons: {
+        success: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react7.CircleCheckIcon, { className: "size-4" }),
+        info: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react7.InfoIcon, { className: "size-4" }),
+        warning: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react7.TriangleAlertIcon, { className: "size-4" }),
+        error: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react7.OctagonXIcon, { className: "size-4" }),
+        loading: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react7.Loader2Icon, { className: "size-4 animate-spin" })
+      },
+      style: {
+        "--normal-bg": "var(--popover)",
+        "--normal-text": "var(--popover-foreground)",
+        "--normal-border": "var(--border)",
+        "--border-radius": "var(--radius)"
+      },
+      toastOptions: {
+        classNames: {
+          toast: "cn-toast"
+        }
+      },
+      ...props
+    }
+  );
+};
+
 // src/hooks/useDebounce.tsx
 var import_react5 = require("react");
 function useDebounce(value, delay) {
@@ -2293,6 +2329,7 @@ function useDebouncedRealtimeSubscription({
   TabsContent,
   TabsList,
   TabsTrigger,
+  Toaster,
   Toggle,
   Tooltip,
   TooltipContent,

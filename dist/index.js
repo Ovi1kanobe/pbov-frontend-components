@@ -1927,6 +1927,41 @@ function AnimatedNumber({ value }) {
   return /* @__PURE__ */ jsx24(motion.span, { children: rounded });
 }
 
+// src/components/ui/sonner.tsx
+import { useTheme } from "next-themes";
+import { Toaster as Sonner } from "sonner";
+import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react";
+import { jsx as jsx25 } from "react/jsx-runtime";
+var Toaster = ({ ...props }) => {
+  const { theme = "system" } = useTheme();
+  return /* @__PURE__ */ jsx25(
+    Sonner,
+    {
+      theme,
+      className: "toaster group",
+      icons: {
+        success: /* @__PURE__ */ jsx25(CircleCheckIcon, { className: "size-4" }),
+        info: /* @__PURE__ */ jsx25(InfoIcon, { className: "size-4" }),
+        warning: /* @__PURE__ */ jsx25(TriangleAlertIcon, { className: "size-4" }),
+        error: /* @__PURE__ */ jsx25(OctagonXIcon, { className: "size-4" }),
+        loading: /* @__PURE__ */ jsx25(Loader2Icon, { className: "size-4 animate-spin" })
+      },
+      style: {
+        "--normal-bg": "var(--popover)",
+        "--normal-text": "var(--popover-foreground)",
+        "--normal-border": "var(--border)",
+        "--border-radius": "var(--radius)"
+      },
+      toastOptions: {
+        classNames: {
+          toast: "cn-toast"
+        }
+      },
+      ...props
+    }
+  );
+};
+
 // src/hooks/useDebounce.tsx
 import { useEffect as useEffect3, useState as useState2 } from "react";
 function useDebounce(value, delay) {
@@ -2154,6 +2189,7 @@ export {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Toaster,
   Toggle,
   Tooltip,
   TooltipContent,
