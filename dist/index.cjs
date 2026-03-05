@@ -129,6 +129,7 @@ __export(index_exports, {
   SelectValue: () => SelectValue,
   Separator: () => Separator,
   Skeleton: () => Skeleton,
+  Switch: () => Switch,
   Table: () => Table,
   TableBody: () => TableBody,
   TableCaption: () => TableCaption,
@@ -3447,6 +3448,36 @@ function SelectScrollDownButton({
   );
 }
 
+// src/components/ui/switch.tsx
+var React40 = require("react");
+var import_radix_ui17 = require("radix-ui");
+var import_jsx_runtime38 = require("react/jsx-runtime");
+function Switch({
+  className,
+  size = "default",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+    import_radix_ui17.Switch.Root,
+    {
+      "data-slot": "switch",
+      "data-size": size,
+      className: cn(
+        "peer group/switch relative inline-flex shrink-0 items-center rounded-full border border-transparent transition-all outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-[18.4px] data-[size=default]:w-[32px] data-[size=sm]:h-[14px] data-[size=sm]:w-[24px] dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:bg-primary data-unchecked:bg-input dark:data-unchecked:bg-input/80 data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+        import_radix_ui17.Switch.Thumb,
+        {
+          "data-slot": "switch-thumb",
+          className: "pointer-events-none block rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground"
+        }
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 var import_react7 = require("react");
 function useDebounce(value, delay) {
@@ -3463,11 +3494,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React40 = __toESM(require("react"), 1);
+var React41 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React40.useState(void 0);
-  React40.useEffect(() => {
+  const [isMobile, setIsMobile] = React41.useState(void 0);
+  React41.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3684,6 +3715,7 @@ function useDebouncedRealtimeSubscription({
   SelectValue,
   Separator,
   Skeleton,
+  Switch,
   Table,
   TableBody,
   TableCaption,
