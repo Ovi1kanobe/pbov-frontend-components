@@ -117,6 +117,16 @@ __export(index_exports, {
   Progress: () => Progress,
   ScrollArea: () => ScrollArea,
   ScrollBar: () => ScrollBar,
+  Select: () => Select,
+  SelectContent: () => SelectContent,
+  SelectGroup: () => SelectGroup,
+  SelectItem: () => SelectItem,
+  SelectLabel: () => SelectLabel,
+  SelectScrollDownButton: () => SelectScrollDownButton,
+  SelectScrollUpButton: () => SelectScrollUpButton,
+  SelectSeparator: () => SelectSeparator,
+  SelectTrigger: () => SelectTrigger,
+  SelectValue: () => SelectValue,
   Separator: () => Separator,
   Skeleton: () => Skeleton,
   Table: () => Table,
@@ -131,6 +141,7 @@ __export(index_exports, {
   TabsContent: () => TabsContent2,
   TabsList: () => TabsList2,
   TabsTrigger: () => TabsTrigger2,
+  Textarea: () => Textarea,
   Toaster: () => Toaster,
   Toggle: () => Toggle,
   Tooltip: () => Tooltip2,
@@ -1286,6 +1297,19 @@ var import_class_variance_authority3 = require("class-variance-authority");
 // src/components/ui/textarea.tsx
 var React12 = require("react");
 var import_jsx_runtime14 = require("react/jsx-runtime");
+function Textarea({ className, ...props }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    "textarea",
+    {
+      "data-slot": "textarea",
+      className: cn(
+        "flex field-sizing-content min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        className
+      ),
+      ...props
+    }
+  );
+}
 
 // src/components/ui/input-group.tsx
 var import_jsx_runtime15 = require("react/jsx-runtime");
@@ -3250,6 +3274,179 @@ function ScrollBar({
   );
 }
 
+// src/components/ui/select.tsx
+var React39 = require("react");
+var import_radix_ui16 = require("radix-ui");
+var import_lucide_react8 = require("lucide-react");
+var import_jsx_runtime37 = require("react/jsx-runtime");
+function Select({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.Root, { "data-slot": "select", ...props });
+}
+function SelectGroup({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    import_radix_ui16.Select.Group,
+    {
+      "data-slot": "select-group",
+      className: cn("scroll-my-1 p-1", className),
+      ...props
+    }
+  );
+}
+function SelectValue({
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.Value, { "data-slot": "select-value", ...props });
+}
+function SelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    import_radix_ui16.Select.Trigger,
+    {
+      "data-slot": "select-trigger",
+      "data-size": size,
+      className: cn(
+        "flex w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground data-[size=default]:h-8 data-[size=sm]:h-7 data-[size=sm]:rounded-[min(var(--radius-md),10px)] *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react8.ChevronDownIcon, { className: "pointer-events-none size-4 text-muted-foreground" }) })
+      ]
+    }
+  );
+}
+function SelectContent({
+  className,
+  children,
+  position = "item-aligned",
+  align = "center",
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    import_radix_ui16.Select.Content,
+    {
+      "data-slot": "select-content",
+      "data-align-trigger": position === "item-aligned",
+      className: cn("relative z-50 max-h-(--radix-select-content-available-height) min-w-36 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1", className),
+      position,
+      align,
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(SelectScrollUpButton, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+          import_radix_ui16.Select.Viewport,
+          {
+            "data-position": position,
+            className: cn(
+              "data-[position=popper]:h-(--radix-select-trigger-height) data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)",
+              position === "popper" && ""
+            ),
+            children
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(SelectScrollDownButton, {})
+      ]
+    }
+  ) });
+}
+function SelectLabel({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    import_radix_ui16.Select.Label,
+    {
+      "data-slot": "select-label",
+      className: cn("px-1.5 py-1 text-xs text-muted-foreground", className),
+      ...props
+    }
+  );
+}
+function SelectItem({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    import_radix_ui16.Select.Item,
+    {
+      "data-slot": "select-item",
+      className: cn(
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "pointer-events-none absolute right-2 flex size-4 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react8.CheckIcon, { className: "pointer-events-none" }) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_radix_ui16.Select.ItemText, { children })
+      ]
+    }
+  );
+}
+function SelectSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    import_radix_ui16.Select.Separator,
+    {
+      "data-slot": "select-separator",
+      className: cn("pointer-events-none -mx-1 my-1 h-px bg-border", className),
+      ...props
+    }
+  );
+}
+function SelectScrollUpButton({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    import_radix_ui16.Select.ScrollUpButton,
+    {
+      "data-slot": "select-scroll-up-button",
+      className: cn(
+        "z-10 flex cursor-default items-center justify-center bg-popover py-1 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+        import_lucide_react8.ChevronUpIcon,
+        {}
+      )
+    }
+  );
+}
+function SelectScrollDownButton({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+    import_radix_ui16.Select.ScrollDownButton,
+    {
+      "data-slot": "select-scroll-down-button",
+      className: cn(
+        "z-10 flex cursor-default items-center justify-center bg-popover py-1 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
+        import_lucide_react8.ChevronDownIcon,
+        {}
+      )
+    }
+  );
+}
+
 // src/hooks/useDebounce.tsx
 var import_react7 = require("react");
 function useDebounce(value, delay) {
@@ -3266,11 +3463,11 @@ function useDebounce(value, delay) {
 }
 
 // src/hooks/useMobile.tsx
-var React39 = __toESM(require("react"), 1);
+var React40 = __toESM(require("react"), 1);
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React39.useState(void 0);
-  React39.useEffect(() => {
+  const [isMobile, setIsMobile] = React40.useState(void 0);
+  React40.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -3475,6 +3672,16 @@ function useDebouncedRealtimeSubscription({
   Progress,
   ScrollArea,
   ScrollBar,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
   Separator,
   Skeleton,
   Table,
@@ -3489,6 +3696,7 @@ function useDebouncedRealtimeSubscription({
   TabsContent,
   TabsList,
   TabsTrigger,
+  Textarea,
   Toaster,
   Toggle,
   Tooltip,
