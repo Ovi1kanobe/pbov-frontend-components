@@ -50,7 +50,7 @@ type LoginProps = {
   onFailedLogin: (error: PocketBaseError) => void
 }
 
-export default function LoginPage({
+export function LoginPage({
   pb,
   userId,
   onLoggedIn,
