@@ -3615,7 +3615,7 @@ function useDebouncedRealtimeSubscription({
   return cleanup;
 }
 
-// src/pages/Login.tsx
+// src/pages/LoginPage.tsx
 var import_react10 = __toESM(require("react"), 1);
 
 // src/components/auth/ProviderIcons.tsx
@@ -3628,7 +3628,7 @@ var import_jsx_runtime40 = require("react/jsx-runtime");
 // src/components/auth/AuthBackground.tsx
 var import_jsx_runtime41 = require("react/jsx-runtime");
 
-// src/pages/Login.tsx
+// src/pages/LoginPage.tsx
 var import_pocketbase2 = require("pocketbase");
 var import_jsx_runtime42 = require("react/jsx-runtime");
 // Annotate the CommonJS export names for ESM import in node:

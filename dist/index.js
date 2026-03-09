@@ -3454,7 +3454,7 @@ function useDebouncedRealtimeSubscription({
   return cleanup;
 }
 
-// src/pages/Login.tsx
+// src/pages/LoginPage.tsx
 import React43, { useEffect as useEffect12 } from "react";
 
 // src/components/auth/ProviderIcons.tsx
@@ -3467,7 +3467,7 @@ import { jsxs as jsxs14 } from "react/jsx-runtime";
 // src/components/auth/AuthBackground.tsx
 import { jsx as jsx40, jsxs as jsxs15 } from "react/jsx-runtime";
 
-// src/pages/Login.tsx
+// src/pages/LoginPage.tsx
 import "pocketbase";
 import { Fragment as Fragment4, jsx as jsx41, jsxs as jsxs16 } from "react/jsx-runtime";
 export {
