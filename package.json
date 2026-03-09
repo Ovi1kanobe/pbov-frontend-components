@@ -7,13 +7,18 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean && cp -r src/styles dist/"
+    "dev": "vite",
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean && cp -r src/styles dist/",
+    "preview": "vite preview"
   },
   "private": true,
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
     "@types/bun": "latest",
     "@types/react": "^19.2.14",
-    "tsup": "^8.5.1"
+    "@vitejs/plugin-react": "^5.1.4",
+    "tsup": "^8.5.1",
+    "vite": "^7.3.1"
   },
   "peerDependencies": {
     "pocketbase": "^0.26.8",

@@ -8,6 +8,7 @@ import "@/components/auth/starfield.css";
 import AuthBackground from "@/components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
 import type PocketBaseError from "@/lib/pberror";
+import "@/styles/globals.css";
 
 function AuthInput({
   type,
@@ -48,13 +49,15 @@ type LoginProps = {
   userId: string | undefined
   onLoggedIn: (userId: string) => void
   onFailedLogin: (error: PocketBaseError) => void
+  logoSrc?: string
 }
 
 export function LoginPage({
   pb,
   userId,
   onLoggedIn,
-  onFailedLogin
+  onFailedLogin,
+  logoSrc
 }: LoginProps) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -115,7 +118,7 @@ export function LoginPage({
           "scale-100 opacity-100"
         )}
       >
-        <img src="/favicon.png" alt="Logo" className="w-40 mx-auto mb-4" />
+        {logoSrc && <img src={logoSrc} alt="Logo" className="w-40 mx-auto mb-4" />}
         <p className="text-muted-foreground text-center text-lg">
           Unified Data for Court Reporting
         </p>

@@ -3658,7 +3658,8 @@ function LoginPage({
   pb,
   userId,
   onLoggedIn,
-  onFailedLogin
+  onFailedLogin,
+  logoSrc
 }) {
   const [username, setUsername] = React43.useState("");
   const [password, setPassword] = React43.useState("");
@@ -3716,7 +3717,7 @@ function LoginPage({
               "scale-100 opacity-100"
             ),
             children: [
-              /* @__PURE__ */ jsx41("img", { src: "/favicon.png", alt: "Logo", className: "w-40 mx-auto mb-4" }),
+              logoSrc && /* @__PURE__ */ jsx41("img", { src: logoSrc, alt: "Logo", className: "w-40 mx-auto mb-4" }),
               /* @__PURE__ */ jsx41("p", { className: "text-muted-foreground text-center text-lg", children: "Unified Data for Court Reporting" }),
               /* @__PURE__ */ jsxs16(
                 "form",
