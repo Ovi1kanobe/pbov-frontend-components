@@ -1,0 +1,114 @@
+.wave {
+  background: var(--accent);
+  border-radius: 1000% 1000% 0 0;
+  position: fixed;
+  width: 200%;
+  height: 20em;
+  bottom: 0;
+  left: 0;
+  transform: translate3d(0,0,0);
+  opacity: 0.1;
+  z-index: -1;
+  animation: wave 10s -3s linear infinite;
+}
+
+.wave.cccr-animating {
+  animation: slide-down 0.6s ease-in-out forwards;
+}
+
+.wave:nth-of-type(2) {
+  bottom: -1.25em;
+  animation: wave 18s linear reverse infinite;
+}
+
+.wave:nth-of-type(2).cccr-animating {
+  animation: slide-down 0.6s ease-in-out 0.05s forwards;
+}
+
+.wave:nth-of-type(3) {
+  bottom: -2.5em;
+  opacity: 0.2;
+  animation: wave 20s -1s reverse infinite;
+}
+
+.wave:nth-of-type(3).cccr-animating {
+  animation: slide-down 0.6s ease-in-out 0.1s forwards;
+}
+
+.wave-top {
+  background: var(--accent);
+  border-radius: 0 0 1000% 1000%;
+  position: fixed;
+  width: 200%;
+  height: 20em;
+  top: 0;
+  left: 0;
+  transform: translate3d(0,0,0);
+  opacity: 0.1;
+  z-index: -1;
+  animation: wave-reverse 12s -2s linear infinite;
+}
+
+.wave-top.cccr-animating {
+  animation: slide-up 0.6s ease-in-out forwards;
+}
+
+.wave-top:nth-child(5) {
+  top: -1.25em;
+  animation: wave-reverse 16s linear infinite;
+}
+
+.wave-top:nth-child(5).cccr-animating {
+  animation: slide-up 0.6s ease-in-out 0.05s forwards;
+}
+
+.wave-top:nth-child(6) {
+  top: -2.5em;
+  opacity: 0.15;
+  animation: wave-reverse 22s -1.5s linear infinite;
+}
+
+.wave-top:nth-child(6).cccr-animating {
+  animation: slide-up 0.6s ease-in-out 0.1s forwards;
+}
+
+@keyframes wave {
+  0%   { transform: translateX(0%);   }
+  25%  { transform: translateX(-25%); }
+  50%  { transform: translateX(-50%); }
+  75%  { transform: translateX(-25%); }
+  100% { transform: translateX(0%);   }
+}
+
+@keyframes wave-reverse {
+  0%   { transform: translateX(-50%); }
+  25%  { transform: translateX(-25%); }
+  50%  { transform: translateX(0%);   }
+  75%  { transform: translateX(-25%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* CCCR Animation keyframes */
+@keyframes slide-down {
+  0% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(60vh);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-60vh);
+  }
+  100% {
+    transform: translateY(-100vh);
+  }
+}
