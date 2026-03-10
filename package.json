@@ -4,7 +4,7 @@
   "description": "A React component library for PocketBase Applications",
   "exports": {
     ".": "./dist/index.js",
-    "./styles": "./dist/styles/globals.css"
+    "./styles": "./dist/styles/index.css"
   },
   "types": "dist/index.d.ts",
   "type": "module",
