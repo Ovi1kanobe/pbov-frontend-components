@@ -1,6 +1,6 @@
 {
-  "name": "pbov",
-  "version": "0.1.5",
+  "name": "@ovi1kanobe/pbov",
+  "version": "1.0.0",
   "description": "A React component library for PocketBase Applications",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

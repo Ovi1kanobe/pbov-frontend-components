@@ -8,7 +8,6 @@ import "@/components/auth/starfield.css";
 import AuthBackground from "@/components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
 import type PocketBaseError from "@/lib/pberror";
-import "@/styles/globals.css";
 
 function AuthInput({
   type,
