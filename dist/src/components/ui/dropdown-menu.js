@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 function DropdownMenu({ ...props }) {
     return _jsx(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });

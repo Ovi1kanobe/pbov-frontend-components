@@ -1,8 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "../../lib/utils";
+import { Button } from "../../components/ui/button";
 import { XIcon } from "lucide-react";
 function Dialog({ ...props }) {
     return _jsx(DialogPrimitive.Root, { "data-slot": "dialog", ...props });

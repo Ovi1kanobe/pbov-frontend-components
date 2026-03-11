@@ -9,9 +9,6 @@
     "allowJs": false,
 
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
 
     // Bundler mode
     "moduleResolution": "bundler",

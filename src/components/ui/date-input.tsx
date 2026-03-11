@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Input } from "./input";
+import { Label } from "./label";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { Button } from "./button";
+import { cn } from "../../lib/utils";
 
 interface DateInputProps {
   value: string;

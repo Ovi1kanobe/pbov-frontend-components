@@ -1,9 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
-import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
-import { InputGroup, InputGroupAddon, } from "@/components/ui/input-group";
+import { cn } from "../../lib/utils";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, } from "./dialog";
+import { InputGroup, InputGroupAddon, } from "./input-group";
 import { SearchIcon, CheckIcon } from "lucide-react";
 function Command({ className, ...props }) {
     return (_jsx(CommandPrimitive, { "data-slot": "command", className: cn("flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground", className), ...props }));

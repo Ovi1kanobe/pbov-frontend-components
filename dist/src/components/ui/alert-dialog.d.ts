@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 declare function AlertDialog({ ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Root>): import("react/jsx-runtime").JSX.Element;
 declare function AlertDialogTrigger({ ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>): import("react/jsx-runtime").JSX.Element;
 declare function AlertDialogPortal({ ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Portal>): import("react/jsx-runtime").JSX.Element;

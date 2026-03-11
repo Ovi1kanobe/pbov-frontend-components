@@ -1,11 +1,11 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { forwardRef, useMemo, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { cn } from '@/lib/utils';
-import { useForwardedRef } from '@/lib/use-forwarded-ref';
+import { cn } from "../../lib/utils";
+import { useForwardedRef } from '../../lib/use-forwarded-ref';
 import { Input } from "./input";
 import { Button, buttonVariants } from "./button";
-import { Popover, PopoverContent, PopoverTrigger, } from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger, } from './popover';
 const ColorPicker = forwardRef(({ disabled, value, onChange, onBlur, name, className, size, ...props }, forwardedRef) => {
     const ref = useForwardedRef(forwardedRef);
     const [open, setOpen] = useState(false);

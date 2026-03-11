@@ -1,6 +1,6 @@
 import * as React from "react";
 import { type VariantProps } from "class-variance-authority";
-import { Button } from "@/components/ui/button";
+import { Button } from "./button";
 declare function InputGroup({ className, ...props }: React.ComponentProps<"div">): import("react/jsx-runtime").JSX.Element;
 declare const inputGroupAddonVariants: (props?: ({
     align?: "inline-start" | "inline-end" | "block-start" | "block-end" | null | undefined;

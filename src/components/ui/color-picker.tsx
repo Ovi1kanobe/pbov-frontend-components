@@ -1,15 +1,15 @@
 
 import { forwardRef, useMemo, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { cn } from '@/lib/utils';
-import { useForwardedRef } from '@/lib/use-forwarded-ref';
+import { cn } from "../../lib/utils"
+import { useForwardedRef } from '../../lib/use-forwarded-ref';
 import { Input } from "./input";
 import { Button, buttonVariants } from "./button"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from './popover';
 import type { VariantProps } from 'class-variance-authority';
 
 interface ColorPickerProps {

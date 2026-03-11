@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 function Accordion({ className, ...props }) {
     return (_jsx(AccordionPrimitive.Root, { "data-slot": "accordion", className: cn("flex w-full flex-col", className), ...props }));

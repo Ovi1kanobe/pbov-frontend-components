@@ -1,7 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 function Popover({ ...props }) {
     return _jsx(PopoverPrimitive.Root, { "data-slot": "popover", ...props });
 }
