@@ -11,6 +11,8 @@
 @import "./themes/urban-jungle.css";
 @import "./themes/cyberpunk.css";
 @import "./themes/candy-land.css";
+@import "./auth/starfield.css";
+@import "./auth/auth.css";
 
 @custom-variant dark (&:is(.dark *));
 
