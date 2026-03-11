@@ -1,4 +1,4 @@
-import "@/components/auth/starfield.css";
+import "../components/auth/starfield.css";
 import Pocketbase from "pocketbase";
 import type PocketBaseError from "../lib/pberror";
 type LoginProps = {

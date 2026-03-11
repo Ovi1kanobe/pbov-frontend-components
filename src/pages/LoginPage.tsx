@@ -4,7 +4,7 @@ import { Separator } from "../components/ui/separator";
 import type { AuthMethodsList } from "pocketbase";
 import { OAuthButton } from "../components/auth/OAuthButton";
 import { Button } from "../components/ui/button";
-import "@/components/auth/starfield.css";
+import "../components/auth/starfield.css";
 import AuthBackground from "../components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
 import type PocketBaseError from "../lib/pberror";

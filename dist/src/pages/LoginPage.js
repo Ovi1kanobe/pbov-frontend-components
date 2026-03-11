@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 import { Separator } from "../components/ui/separator";
 import { OAuthButton } from "../components/auth/OAuthButton";
 import { Button } from "../components/ui/button";
-import "@/components/auth/starfield.css";
+import "../components/auth/starfield.css";
 import AuthBackground from "../components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
 function AuthInput({ type, id, value, onChange, placeholder, required, }) {
