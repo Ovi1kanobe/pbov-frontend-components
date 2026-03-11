@@ -1,6 +1,4 @@
-/* src/components/AuthBackground.jsx */
-import "./auth.css";
-
+/* src/components/AuthBackground.tsx */
 
 function AuthBackground() {
   return (
