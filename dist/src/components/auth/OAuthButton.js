@@ -1,5 +1,5 @@
 import { jsxs as _jsxs } from "react/jsx-runtime";
-import { Button } from "../../components/ui/button";
+import { Button } from "../ui/button";
 import { oauthProviderIcon } from "./ProviderIcons";
 export function OAuthButton({ provider, disabled, ...props }) {
     const icon = oauthProviderIcon(provider);

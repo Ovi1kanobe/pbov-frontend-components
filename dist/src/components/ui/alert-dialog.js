@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import { cn } from "../../lib/utils";
-import { Button } from "../../components/ui/button";
+import { Button } from "./button";
 function AlertDialog({ ...props }) {
     return _jsx(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
 }
