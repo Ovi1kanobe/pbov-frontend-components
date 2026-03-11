@@ -4,7 +4,7 @@ import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import { cn } from "../../lib/utils";
 import { Button } from "./button";
 function AlertDialog({ ...props }) {
-    return _jsx(AlertDialogPrimitive.Root, { "data-slot": "alert-dialog", ...props });
+    return _jsx(AlertDialogPrimitive.Root, { "data-qslot": "alert-dialog", ...props });
 }
 function AlertDialogTrigger({ ...props }) {
     return (_jsx(AlertDialogPrimitive.Trigger, { "data-slot": "alert-dialog-trigger", ...props }));
