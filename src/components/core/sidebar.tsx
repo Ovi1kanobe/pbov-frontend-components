@@ -18,7 +18,7 @@ type SidebarProps = {
   applicationShortDescription?: string;
 }
 
-function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps) {
+export function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
@@ -144,5 +144,3 @@ function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc,
     </>
   );
 }
-
-export default Sidebar;
