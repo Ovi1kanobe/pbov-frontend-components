@@ -60,6 +60,9 @@
   --sidebar-accent-foreground: #112E51;
   --sidebar-border: #DCE4EF;
   --sidebar-ring: #00A6D2;
+  --sidebar-width: 300px;
+  --sidebar-collapsed-width: 78px;
+  --sidebar-bg: #212529;
 }
 
 .font-special {

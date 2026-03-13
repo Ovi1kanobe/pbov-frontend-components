@@ -1,4 +1,3 @@
-import "@/assets/css/sidebar.css";
 import { type RouteConfig } from "../../lib/routes";
 type SidebarProps = {
     onLogout: () => void;

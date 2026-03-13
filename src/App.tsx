@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LoginPage } from "./pages/LoginPage";
 import { ShowcasePage } from "./pages/showcase";
 import Pocketbase from "pocketbase";
-import "@/styles/globals.css";
+import "./styles/index.css";
 
 const pb = new Pocketbase("http://127.0.0.1:8090");
 

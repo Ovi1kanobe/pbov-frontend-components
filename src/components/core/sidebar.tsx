@@ -1,7 +1,6 @@
 import {
   Lightbulb,
 } from "lucide-react";
-import "@/assets/css/sidebar.css";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Separator } from"../ui/separator";
 import { Toggle } from "../ui/toggle";
