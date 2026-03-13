@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 import { Separator } from "../components/ui/separator";
 import { OAuthButton } from "../components/auth/OAuthButton";
 import { Button } from "../components/ui/button";
-import AuthBackground from "../components/auth/AuthBackground";
+import { AuthBackground } from "../components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
 function AuthInput({ type, id, value, onChange, placeholder, required, }) {
     return (_jsxs("div", { className: "flex flex-col w-full h-10 relative", children: [_jsx("div", { className: "bg-input rounded-md w-full h-10 relative z-10", children: _jsx("input", { className: "w-full h-full rounded-md text-md px-4 relative z-10", type: type, id: id, value: value, onChange: onChange, required: required, style: { outline: "none", boxShadow: "none", background: "none" }, placeholder: placeholder }) }), _jsx("div", { className: "absolute w-full h-full bg-accent-foreground/10 bottom-0 left-0 z-0 translate-y-0.5 rounded-lg" })] }));

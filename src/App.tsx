@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { ShowcasePage } from "./pages/showcase";
+import { TooltipProvider } from "./components/ui/tooltip";
 import Pocketbase from "pocketbase";
 import "./styles/index.css";
 
@@ -23,19 +24,23 @@ function App() {
 
   if (isLoggedIn) {
     return (
-      <BrowserRouter>
-        <ShowcasePage />
-      </BrowserRouter>
+      <TooltipProvider>
+        <BrowserRouter>
+          <ShowcasePage />
+        </BrowserRouter>
+      </TooltipProvider>
     );
   }
 
   return (
-    <LoginPage
-      pb={pb}
-      userId={pb.authStore.record?.id}
-      onLoggedIn={handleLoggedIn}
-      onFailedLogin={handleFailedLogin}
-    />
+    <TooltipProvider>
+      <LoginPage
+        pb={pb}
+        userId={pb.authStore.record?.id}
+        onLoggedIn={handleLoggedIn}
+        onFailedLogin={handleFailedLogin}
+      />
+    </TooltipProvider>
   );
 }
 

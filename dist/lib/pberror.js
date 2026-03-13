@@ -14,4 +14,4 @@ class PocketBaseError extends Error {
         this.originalError = originalError;
     }
 }
-export default PocketBaseError;
+export { PocketBaseError };

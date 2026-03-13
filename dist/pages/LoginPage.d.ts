@@ -1,5 +1,5 @@
 import Pocketbase from "pocketbase";
-import type PocketBaseError from "../lib/pberror";
+import type { PocketBaseError } from "../lib/pberror";
 type LoginProps = {
     pb: Pocketbase;
     userId: string | undefined;

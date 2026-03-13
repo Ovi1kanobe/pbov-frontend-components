@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../components/ui/tabs";
 import { ScrollArea } from "../../components/ui/scroll-area";
-import Sidebar from "../../components/core/sidebar";
+import { Sidebar } from "../../components/core/sidebar";
 import { type RouteConfig } from "../../lib/routes";
 import { ButtonShowcase } from "./ButtonShowcase";
 import { InputShowcase } from "./InputShowcase";

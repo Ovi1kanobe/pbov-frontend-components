@@ -42,4 +42,4 @@ class PocketBaseError extends Error implements PocketBaseErrorData {
   }
 }
 
-export default PocketBaseError;
+export { PocketBaseError };

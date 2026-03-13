@@ -13,6 +13,7 @@ export * from "./ui/date-input";
 export * from "./ui/dialog";
 export * from "./ui/dropdown-menu";
 export * from "./ui/input";
+export * from "./ui/input-group";
 export * from "./ui/label";
 export * from "./ui/popover";
 export * from "./ui/separator";
@@ -27,4 +28,6 @@ export * from "./ui/scroll-area";
 export * from "./ui/select";
 export * from "./ui/textarea";
 export * from "./ui/switch";
+
 export * from "./core/sidebar";
+export * from "./core/record-selector";

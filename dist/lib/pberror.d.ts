@@ -27,4 +27,4 @@ declare class PocketBaseError extends Error implements PocketBaseErrorData {
         data: any;
     }, isAbort: boolean, originalError: any);
 }
-export default PocketBaseError;
+export { PocketBaseError };

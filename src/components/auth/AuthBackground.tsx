@@ -34,4 +34,4 @@ function AuthBackground() {
   );
 }
 
-export default AuthBackground;
+export { AuthBackground };

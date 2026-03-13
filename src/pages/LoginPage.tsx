@@ -4,9 +4,9 @@ import { Separator } from "../components/ui/separator";
 import type { AuthMethodsList } from "pocketbase";
 import { OAuthButton } from "../components/auth/OAuthButton";
 import { Button } from "../components/ui/button";
-import AuthBackground from "../components/auth/AuthBackground";
+import { AuthBackground } from "../components/auth/AuthBackground";
 import Pocketbase from "pocketbase";
-import type PocketBaseError from "../lib/pberror";
+import type { PocketBaseError } from "../lib/pberror";
 
 function AuthInput({
   type,

@@ -7,6 +7,12 @@ import { Switch } from "../../components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 import { DateInput } from "../../components/ui/date-input";
 import { ColorPicker } from "../../components/ui/color-picker";
+import { Popover, PopoverContent, PopoverTrigger } from "../../components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../../components/ui/command";
+import { Button } from "../../components/ui/button";
+import { RecordSelector } from "../../components/core/record-selector";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "../../lib/utils";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -17,11 +23,36 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
+const frameworks = [
+  { value: "next.js", label: "Next.js" },
+  { value: "sveltekit", label: "SvelteKit" },
+  { value: "nuxt.js", label: "Nuxt.js" },
+  { value: "remix", label: "Remix" },
+  { value: "astro", label: "Astro" },
+];
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+const sampleUsers: User[] = [
+  { id: "1", name: "Alice Johnson", email: "alice@example.com" },
+  { id: "2", name: "Bob Smith", email: "bob@example.com" },
+  { id: "3", name: "Charlie Brown", email: "charlie@example.com" },
+  { id: "4", name: "Diana Prince", email: "diana@example.com" },
+  { id: "5", name: "Eve Wilson", email: "eve@example.com" },
+];
+
 export function InputShowcase() {
   const [checked, setChecked] = useState(false);
   const [switchOn, setSwitchOn] = useState(false);
   const [color, setColor] = useState("#3b82f6");
   const [date, setDate] = useState("");
+  const [comboboxOpen, setComboboxOpen] = useState(false);
+  const [comboboxValue, setComboboxValue] = useState("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   return (
     <div className="space-y-8 max-w-md">
@@ -75,6 +106,55 @@ export function InputShowcase() {
         </div>
       </Section>
 
+      <Section title="Combobox (Popover + Command)">
+        <div className="space-y-2">
+          <Label>Select a framework</Label>
+          <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={comboboxOpen}
+                className="w-full justify-between"
+              >
+                {comboboxValue
+                  ? frameworks.find((framework) => framework.value === comboboxValue)?.label
+                  : "Select framework..."}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+              <Command>
+                <CommandInput placeholder="Search framework..." />
+                <CommandList>
+                  <CommandEmpty>No framework found.</CommandEmpty>
+                  <CommandGroup>
+                    {frameworks.map((framework) => (
+                      <CommandItem
+                        key={framework.value}
+                        value={framework.value}
+                        onSelect={(currentValue) => {
+                          setComboboxValue(currentValue === comboboxValue ? "" : currentValue);
+                          setComboboxOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            comboboxValue === framework.value ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {framework.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </Section>
+
       <Section title="Checkbox">
         <div className="flex items-center space-x-2">
           <Checkbox 
@@ -113,6 +193,26 @@ export function InputShowcase() {
           <Label>Pick a color</Label>
           <ColorPicker value={color} onChange={setColor} />
           <p className="text-sm text-muted-foreground">Selected: {color}</p>
+        </div>
+      </Section>
+
+      <Section title="Record Selector">
+        <div className="space-y-2 w-100">
+          <Label>Select a user</Label>
+          <RecordSelector
+            data={sampleUsers}
+            value={selectedUser}
+            setValue={setSelectedUser}
+            label={(user) => user.name}
+            identifier={(user) => user.id}
+            placeholder="Select a user..."
+            className="w-100"
+          />
+          {selectedUser && (
+            <p className="text-sm text-muted-foreground">
+              Selected: {selectedUser.name} ({selectedUser.email})
+            </p>
+          )}
         </div>
       </Section>
     </div>
