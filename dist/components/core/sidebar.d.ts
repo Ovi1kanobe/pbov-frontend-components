@@ -6,6 +6,8 @@ type SidebarProps = {
     isDarkMode: boolean;
     setDarkMode: (darkMode: boolean) => void;
     logoSrc?: string;
+    applicationName?: React.ReactNode;
+    applicationShortDescription?: string;
 };
-declare function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc }: SidebarProps): import("react/jsx-runtime").JSX.Element;
+declare function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps): import("react/jsx-runtime").JSX.Element;
 export default Sidebar;

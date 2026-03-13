@@ -14,9 +14,11 @@ type SidebarProps = {
   isDarkMode: boolean;
   setDarkMode: (darkMode: boolean) => void;
   logoSrc?: string;
+  applicationName?: React.ReactNode;
+  applicationShortDescription?: string;
 }
 
-function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc }: SidebarProps) {
+function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
@@ -63,11 +65,10 @@ function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc 
           <img src={logoSrc} alt="Logo" className="w-8 h-8 group-hover:w-12 group-hover:h-12  shrink-0 transition-all duration-400" />
           <div className="text-center flex flex-col gap-1 items-center">
             <p className="mt-2 text-xl opacity-0 font-special font-semibold group-hover:opacity-100 transition-opacity duration-300 text-nowrap">
-              <span className="text-sidebar-accent font-bold text-2xl">C</span>ircuit{" "}
-              <span className="text-sidebar-accent font-bold text-2xl">C</span>entral
+              {applicationName || "App Name"}
             </p>
             <p className="mt-0 text-md opacity-0 italic text-sidebar-foreground group-hover:opacity-100 transition-opacity duration-300 text-nowrap">
-              Court Reporting Application
+              {applicationShortDescription || "Admin Dashboard"}
             </p>
             <p className="mt-2 text-sm opacity-0 text-sidebar-accent group-hover:opacity-100 transition-opacity duration-300 text-nowrap">
               {userName || "Guest"}

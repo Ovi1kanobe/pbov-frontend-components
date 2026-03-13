@@ -21,7 +21,7 @@ html.theme-corporate {
   --input: #FFFFFF;
   --ring: #C59B6B;                /* warm brown focus ring */
 
-  --sidebar: #2F2A28;               /* dark brown sidebar */
+  --sidebar: rgba(47, 42, 40, 0.8); /* dark brown sidebar with 80% opacity */
   --sidebar-foreground: #F9F7F5;
   --sidebar-primary: #800020;
   --sidebar-primary-foreground: #FFFFFF;
@@ -54,7 +54,7 @@ html.theme-corporate.dark {
   --input: #2A2420;
   --ring: #800020;
 
-  --sidebar: #2A2420;
+  --sidebar: rgba(42, 36, 32, 0.8);
   --sidebar-foreground: #F0E9E0;
   --sidebar-primary: #800020;
   --sidebar-primary-foreground: #F0E9E0;

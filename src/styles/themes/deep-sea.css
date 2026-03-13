@@ -21,7 +21,7 @@ html.theme-deep-sea {
   --input: #FFFFFF;
   --ring: #00A6D2;
 
-  --sidebar: #112E51;
+  --sidebar: rgba(17, 46, 81, 0.8);
   --sidebar-foreground: #F4F4F4;
   --sidebar-primary: #205493;
   --sidebar-primary-foreground: #FFFFFF;
@@ -54,7 +54,7 @@ html.theme-deep-sea.dark {
   --input: #112E51;
   --ring: #205493;
 
-  --sidebar: #112E51;
+  --sidebar: rgba(17, 46, 81, 0.8);
   --sidebar-foreground: #E1F3F8;
   --sidebar-primary: #205493;
   --sidebar-primary-foreground: #E1F3F8;

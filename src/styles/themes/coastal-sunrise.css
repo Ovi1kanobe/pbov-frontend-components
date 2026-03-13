@@ -21,7 +21,7 @@ html.theme-coastal-sunrise {
   --input: #FFFFFF;
   --ring: #00BED6;
 
-  --sidebar: #004851;
+  --sidebar: rgba(0, 72, 81, 0.8);
   --sidebar-foreground: #F4F8FA;
   --sidebar-primary: #0095A8;
   --sidebar-primary-foreground: #FFFFFF;
@@ -54,7 +54,7 @@ html.theme-coastal-sunrise.dark {
   --input: #001B1F;
   --ring: #006C7A;
 
-  --sidebar: #001B1F;
+  --sidebar: rgba(0, 27, 31, 0.8);
   --sidebar-foreground: #D4F4F8;
   --sidebar-primary: #0095A8;
   --sidebar-primary-foreground: #D4F4F8;

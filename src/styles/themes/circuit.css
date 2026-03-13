@@ -21,7 +21,7 @@ html.theme-circuit {
   --input: #FFFFFF;
   --ring: #7A8CA0;
 
-  --sidebar: #293550;
+  --sidebar: rgba(41, 53, 80, 0.8);
   --sidebar-foreground: #F5F8FA;
   --sidebar-primary: #293550;
   --sidebar-primary-foreground: #FFFFFF;
@@ -54,7 +54,7 @@ html.theme-circuit.dark {
   --input: #142032;
   --ring: #293550;
 
-  --sidebar: #142032;
+  --sidebar: rgba(20, 32, 50, 0.8);
   --sidebar-foreground: #E6EEF3;
   --sidebar-primary: #293550;
   --sidebar-primary-foreground: #E6EEF3;

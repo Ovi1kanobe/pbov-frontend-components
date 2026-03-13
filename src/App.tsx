@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage";
 import { ShowcasePage } from "./pages/showcase";
 import Pocketbase from "pocketbase";
@@ -21,7 +22,11 @@ function App() {
   };
 
   if (isLoggedIn) {
-    return <ShowcasePage />;
+    return (
+      <BrowserRouter>
+        <ShowcasePage />
+      </BrowserRouter>
+    );
   }
 
   return (
