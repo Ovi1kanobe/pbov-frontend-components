@@ -27,3 +27,4 @@ export * from "./ui/scroll-area";
 export * from "./ui/select";
 export * from "./ui/textarea";
 export * from "./ui/switch";
+export * from "./core/sidebar";
