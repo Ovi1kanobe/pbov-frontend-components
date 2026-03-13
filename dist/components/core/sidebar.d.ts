@@ -9,5 +9,5 @@ type SidebarProps = {
     applicationName?: React.ReactNode;
     applicationShortDescription?: string;
 };
-declare function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps): import("react/jsx-runtime").JSX.Element;
-export default Sidebar;
+export declare function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }: SidebarProps): import("react/jsx-runtime").JSX.Element;
+export {};

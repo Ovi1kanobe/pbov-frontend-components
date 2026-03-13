@@ -5,7 +5,7 @@ import { Separator } from "../ui/separator";
 import { Toggle } from "../ui/toggle";
 import { toast } from "sonner";
 import {} from "../../lib/routes";
-function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }) {
+export function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc, applicationName, applicationShortDescription }) {
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.pathname;
@@ -45,4 +45,3 @@ function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc,
                   `, children: sidebarLabel || label })] }) }, label));
                         }) })] }), _jsx("div", { className: "fixed top-0 left-0 h-full\n        bg-none hidden\n        text-sidebar-foreground\n        transition-all duration-500\n        w-(--sidebar-collapsed-width)\n        hover:w-(--sidebar-width)\n        z-50 group rounded-r-3xl pt-20 group items-center" })] }));
 }
-export default Sidebar;
