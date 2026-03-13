@@ -54,7 +54,7 @@ function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, logoSrc,
         fixed top-0 left-0 h-full
         flex flex-col
         bg-sidebar
-        text-sidebar-foreground
+        text-sidebar-foreground backdrop-blur-md
         transition-all duration-500
         w-(--sidebar-collapsed-width)
         hover:w-(--sidebar-width)
