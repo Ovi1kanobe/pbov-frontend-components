@@ -26,6 +26,7 @@ export function RecordSelector({ data, value, setValue, label, identifier, place
                                         return (_jsx(CommandItem, { value: text, onSelect: () => {
                                                 setValue(selected ? null : item);
                                                 setOpen(false);
-                                            }, children: text }, identifier(item)));
+                                            }, "data-current": selected ? "true" : "false", children: text }, identifier(item)));
                                     }) })] })] }) })] }));
 }
+``;
