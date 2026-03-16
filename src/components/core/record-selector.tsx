@@ -11,7 +11,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { ChevronsUpDown, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
-
 /* ------------------------------------------------------------
  * Generic props
  * ---------------------------------------------------------- */
@@ -104,6 +103,7 @@ export function RecordSelector<T>({
                       setValue(selected ? null : item);
                       setOpen(false);
                     }}
+                    data-current={selected ? "true" : "false"}
                   >
                     {text}
                   </CommandItem>
@@ -115,4 +115,4 @@ export function RecordSelector<T>({
       </PopoverContent>
     </Popover>
   );
-}
+}``
