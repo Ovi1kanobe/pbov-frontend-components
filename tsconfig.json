@@ -9,6 +9,7 @@
     "allowJs": false,
 
     "baseUrl": ".",
+    "rootDir": "src",
 
     // Bundler mode
     "moduleResolution": "bundler",

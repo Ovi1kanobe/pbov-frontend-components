@@ -31,3 +31,6 @@ export * from "./ui/switch";
 
 export * from "./core/sidebar";
 export * from "./core/record-selector";
+export * from "./core/user-avatar";
+export * from "./core/user-avatar-form";
+export * from "./core/dark-mode-switch";
