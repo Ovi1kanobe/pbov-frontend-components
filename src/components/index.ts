@@ -37,3 +37,4 @@ export * from "./core/dark-mode-switch";
 export * from "./core/widget-type-1";
 
 export * from "./widgets/theme-selection-widget";
+export * from "./widgets/dark-mode-selection-widget";
