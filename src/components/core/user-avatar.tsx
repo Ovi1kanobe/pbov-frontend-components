@@ -10,7 +10,7 @@ type UserAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
   children?: React.ReactNode;
 };
 
-function UserAvatar({ user, children, onClick, className, pb }: UserAvatarProps) {
+export function UserAvatar({ user, children, onClick, className, pb }: UserAvatarProps) {
 
   return (
     <Avatar
@@ -23,5 +23,3 @@ function UserAvatar({ user, children, onClick, className, pb }: UserAvatarProps)
     </Avatar>
   );
 }
-
-export default UserAvatar;

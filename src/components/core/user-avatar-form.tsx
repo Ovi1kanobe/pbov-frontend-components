@@ -1,5 +1,5 @@
 import { Camera } from "lucide-react";
-import UserAvatar from "./user-avatar";
+import { UserAvatar } from "./user-avatar";
 import { useRef } from "react";
 import { cn } from "../../lib/utils";
 import Pocketbase from "pocketbase";
@@ -19,7 +19,7 @@ interface UserAvatarFormProps {
   updateUser: (data: { avatar: File }) => void;
 }
 
-function UserAvatarForm({ avatarClassName, user, pb, updateUser }: UserAvatarFormProps) {
+export function UserAvatarForm({ avatarClassName, user, pb, updateUser }: UserAvatarFormProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = () => {
@@ -52,5 +52,3 @@ function UserAvatarForm({ avatarClassName, user, pb, updateUser }: UserAvatarFor
     </UserAvatar>
   );
 }
-
-export default UserAvatarForm;
