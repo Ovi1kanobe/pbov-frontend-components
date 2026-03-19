@@ -33,6 +33,6 @@ export * from "./core/record-selector";
 export * from "./core/user-avatar";
 export * from "./core/user-avatar-form";
 export * from "./core/dark-mode-switch";
-export * from "./core/widget-type-1";
+export * from "./core/settings-widget";
 export * from "./widgets/theme-selection-widget";
 export * from "./widgets/dark-mode-selection-widget";

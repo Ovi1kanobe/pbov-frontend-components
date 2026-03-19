@@ -1,5 +1,5 @@
 import { RecordSelector } from "@ovi1kanobe/pbov";
-import { Widget1 } from "../core/widget-type-1";
+import { SettingsWidget } from "../core/settings-widget";
 import { Paintbrush } from "lucide-react";
 
 type ThemeSelectionWidgetProps = {
@@ -11,9 +11,9 @@ type ThemeSelectionWidgetProps = {
 export function ThemeSelectionWidget({ availableThemes, theme, setTheme }: ThemeSelectionWidgetProps) {
 
   return (
-    <Widget1
+    <SettingsWidget
         title="Application Theme"
-        description="Choose your preffered color scheme"
+        description="Choose your preferred color scheme"
         icon={<Paintbrush size={18} />}
     >
         <div className="flex flex-col gap-4">
@@ -33,6 +33,6 @@ export function ThemeSelectionWidget({ availableThemes, theme, setTheme }: Theme
     />
     <p className="text-xs text-muted-foreground"> Select from our collection of carefully crafted themes to personalize your experience.</p>
     </div>
-    </Widget1>
+    </SettingsWidget>
   );
 }

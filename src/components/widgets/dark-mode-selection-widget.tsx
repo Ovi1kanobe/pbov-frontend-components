@@ -1,5 +1,5 @@
 import { ToggleDarkModeSwitch } from "../core/dark-mode-switch";
-import { Widget1 } from "../core/widget-type-1";
+import { SettingsWidget } from "../core/settings-widget";
 import { Moon } from "lucide-react";
 
 type DarkModeSelectionWidgetProps = {
@@ -10,7 +10,7 @@ type DarkModeSelectionWidgetProps = {
 export function DarkModeSelectionWidget({ isDarkMode, setDarkMode }: DarkModeSelectionWidgetProps) {
 
     return (
-        <Widget1
+        <SettingsWidget
             title="Dark Mode"
             description="Toggle between light and dark appearance"
             icon={<Moon size={18} />}
@@ -24,6 +24,6 @@ export function DarkModeSelectionWidget({ isDarkMode, setDarkMode }: DarkModeSel
                     Dark mode reduces eye strain and saves battery life on devices with OLED screens
                 </p>
             </div>
-        </Widget1>
+        </SettingsWidget>
     );
 }

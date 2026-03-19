@@ -1,9 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { RecordSelector } from "@ovi1kanobe/pbov";
-import { Widget1 } from "../core/widget-type-1";
+import { SettingsWidget } from "../core/settings-widget";
 import { Paintbrush } from "lucide-react";
 export function ThemeSelectionWidget({ availableThemes, theme, setTheme }) {
-    return (_jsx(Widget1, { title: "Application Theme", description: "Choose your preffered color scheme", icon: _jsx(Paintbrush, { size: 18 }), children: _jsxs("div", { className: "flex flex-col gap-4", children: [_jsx(RecordSelector, { data: availableThemes, value: availableThemes.find((t) => t.value === theme) || null, setValue: (selectedTheme) => {
+    return (_jsx(SettingsWidget, { title: "Application Theme", description: "Choose your preferred color scheme", icon: _jsx(Paintbrush, { size: 18 }), children: _jsxs("div", { className: "flex flex-col gap-4", children: [_jsx(RecordSelector, { data: availableThemes, value: availableThemes.find((t) => t.value === theme) || null, setValue: (selectedTheme) => {
                         if (selectedTheme) {
                             setTheme(selectedTheme.value);
                         }

@@ -9,7 +9,7 @@ interface SettingsSectionProps {
   className?: string;
 }
 
-export function Widget1({ 
+export function SettingsWidget({ 
   title, 
   description, 
   children, 
