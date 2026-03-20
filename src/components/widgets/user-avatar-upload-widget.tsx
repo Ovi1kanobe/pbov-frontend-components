@@ -23,7 +23,7 @@ export function UserAvatarUploadWidget({ user, pb, updateUser }: UserAvatarUploa
                     user={user} 
                     pb={pb} 
                     updateUser={updateUser} 
-                    avatarClassName="w-24 h-24 border-3 border-accent shadow-lg" 
+                    avatarClassName="w-24 h-24 border-3 shadow-lg" 
                 />
                 <p className="text-xs text-muted-foreground text-center">
                     Click to upload a new profile picture. Recommended aspect ratio is 1:1 and maximum file size is 5MB.
