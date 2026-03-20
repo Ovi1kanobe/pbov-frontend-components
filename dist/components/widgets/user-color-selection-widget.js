@@ -10,5 +10,5 @@ export function UserColorSelectionWidget({ currentColor, setCurrentColor, onErro
         }
         setCurrentColor(newColor);
     }
-    return (_jsx(SettingsWidget, { title: "Profile Color", description: "Choose your personal color scheme for your profile", icon: _jsx(Palette, { size: 18 }), children: _jsxs("div", { className: "flex flex-col items-center gap-4", children: [_jsx(ColorPicker, { value: currentColor, onChange: handleColorChange, className: "w-50" }), _jsx("p", { children: "This color will be used to personalize your profile." })] }) }));
+    return (_jsx(SettingsWidget, { title: "Profile Color", description: "Choose your personal color scheme for your profile", icon: _jsx(Palette, { size: 18 }), children: _jsxs("div", { className: "flex flex-col items-center gap-4", children: [_jsx(ColorPicker, { value: currentColor, onChange: handleColorChange, className: "w-50" }), _jsx("p", { className: "text-xs text-muted-foreground text-center", children: "This color will be used to personalize your profile." })] }) }));
 }

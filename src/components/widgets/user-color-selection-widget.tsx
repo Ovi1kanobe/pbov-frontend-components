@@ -29,7 +29,7 @@ export function UserColorSelectionWidget({ currentColor, setCurrentColor, onErro
                     className="w-50"
                 />
 
-                <p>
+                <p className="text-xs text-muted-foreground text-center">
                     This color will be used to personalize your profile.
                 </p>
             </div>
