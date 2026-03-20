@@ -38,3 +38,4 @@ export * from "./core/settings-widget";
 
 export * from "./widgets/theme-selection-widget";
 export * from "./widgets/dark-mode-selection-widget";
+export * from "./widgets/user-color-selection-widget";

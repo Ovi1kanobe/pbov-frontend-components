@@ -8,5 +8,5 @@ interface ColorPickerProps {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
     asChild?: boolean;
 }
-declare const ColorPicker: import("react").ForwardRefExoticComponent<Omit<ButtonProps, "onBlur" | "onChange" | "value"> & ColorPickerProps & ButtonProps & import("react").RefAttributes<HTMLInputElement>>;
+declare const ColorPicker: import("react").ForwardRefExoticComponent<Omit<ButtonProps, "onBlur" | "onChange" | "value"> & ColorPickerProps & import("react").RefAttributes<HTMLInputElement>>;
 export { ColorPicker };
