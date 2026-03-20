@@ -36,6 +36,7 @@ export * from "./core/user-avatar-form";
 export * from "./core/dark-mode-switch";
 export * from "./core/settings-widget";
 export * from "./core/settings-navigation";
+export * from "./core/feedback-dialog-box";
 
 export * from "./widgets/theme-selection-widget";
 export * from "./widgets/dark-mode-selection-widget";
