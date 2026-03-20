@@ -18,16 +18,14 @@ interface SettingsNavigationProps {
   activeSection: string;
   onSectionChange: (sectionId: string) => void;
   navigationItems: NavigationItem[];
-  user: {
-    role: string;
-  };
+  userRole: string;
 }
 
 
-export function SettingsNavigation({ activeSection, onSectionChange, navigationItems, user }: SettingsNavigationProps) {
+export function SettingsNavigation({ activeSection, onSectionChange, navigationItems, userRole }: SettingsNavigationProps) {
 
   const filteredItems = navigationItems.filter(item => 
-    !item.authorizedRoles || (item.authorizedRoles && item.authorizedRoles.includes(user?.role))
+    !item.authorizedRoles || (item.authorizedRoles && item.authorizedRoles.includes(userRole))
   );
 
   return (

@@ -11,9 +11,7 @@ interface SettingsNavigationProps {
     activeSection: string;
     onSectionChange: (sectionId: string) => void;
     navigationItems: NavigationItem[];
-    user: {
-        role: string;
-    };
+    userRole: string;
 }
-export declare function SettingsNavigation({ activeSection, onSectionChange, navigationItems, user }: SettingsNavigationProps): import("react/jsx-runtime").JSX.Element;
+export declare function SettingsNavigation({ activeSection, onSectionChange, navigationItems, userRole }: SettingsNavigationProps): import("react/jsx-runtime").JSX.Element;
 export {};
