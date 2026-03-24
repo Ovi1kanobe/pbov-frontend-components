@@ -24,13 +24,13 @@
     "@types/bun": "latest",
     "@types/react": "^19.2.14",
     "@vitejs/plugin-react": "^5.1.4",
-    "react-router-dom": "^7.13.1",
     "vite": "^7.3.1"
   },
   "peerDependencies": {
     "pocketbase": "^0.26.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.1",
     "typescript": "^5"
   },
   "dependencies": {
