@@ -14,7 +14,7 @@ interface PageLayoutProps {
   pb: Pocketbase;
   user: {
     id: string;
-    name: string;
+    name: string | undefined;
     email: string;
     role: string;
   }
