@@ -7,7 +7,9 @@ export interface RouteConfig {
     Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
     showInHeader?: boolean;
     showInSidebar?: boolean;
-    requiredRoles?: any[];
+    requiredRoles?: string[];
     description?: string;
     isExternal?: boolean;
 }
+export declare function getFilteredRoutes(userRole: string | undefined, routes: RouteConfig[], showInHeader?: boolean, showInSidebar?: boolean): RouteConfig[];
+export declare function getRouteByPath(path: string, routes: RouteConfig[]): RouteConfig | undefined;

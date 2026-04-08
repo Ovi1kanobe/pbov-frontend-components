@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../components/ui/tabs";
 import { ScrollArea } from "../../components/ui/scroll-area";
 import { Sidebar } from "../../components/core/sidebar";
+import { AppHeader } from "../../components/core/header";
 import { type RouteConfig } from "../../lib/routes";
 import { ButtonShowcase } from "./ButtonShowcase";
 import { InputShowcase } from "./InputShowcase";
@@ -65,6 +66,10 @@ export function ShowcasePage() {
     console.log("Logout clicked");
   };
 
+  const handleSubmitFeedback = async (data: { subject?: string; description?: string; images?: File[] }) => {
+    console.log("Feedback submitted:", data);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Sidebar
@@ -77,7 +82,13 @@ export function ShowcasePage() {
       <div className="ml-(--sidebar-collapsed-width) p-6">
         <div className="max-w-6xl mx-auto">
           <header className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Component Showcase</h1>
+            <AppHeader
+              title="Component Showcase"
+              onLogout={handleLogout}
+              routes={showcaseRoutes}
+              version="1.0.0"
+              onSubmitFeedback={handleSubmitFeedback}
+            />
           <p className="text-muted-foreground">
             Browse all available components in the library
           </p>
