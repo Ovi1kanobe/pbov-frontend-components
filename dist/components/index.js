@@ -37,6 +37,7 @@ export * from "./core/settings-widget";
 export * from "./core/settings-navigation";
 export * from "./core/feedback-dialog-box";
 export * from "./core/header";
+export * from "./core/page-layout";
 export * from "./widgets/theme-selection-widget";
 export * from "./widgets/dark-mode-selection-widget";
 export * from "./widgets/user-color-selection-widget";
