@@ -16,7 +16,7 @@ interface PageLayoutProps {
     id: string;
     name: string | undefined;
     email: string;
-    role: string;
+    role: string | undefined;
   }
   version: string;
   routes: RouteConfig[];
