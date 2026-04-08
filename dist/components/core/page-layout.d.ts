@@ -7,12 +7,7 @@ interface PageLayoutProps {
     /** When true, content fits parent without page scroll (child components handle their own scrolling) */
     fitContent?: boolean;
     pb: Pocketbase;
-    user: {
-        id: string;
-        name: string | undefined;
-        email: string;
-        role: string | undefined;
-    };
+    userRole?: string;
     version: string;
     routes: RouteConfig[];
 }

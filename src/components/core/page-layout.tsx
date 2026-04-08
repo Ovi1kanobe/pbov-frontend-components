@@ -12,17 +12,12 @@ interface PageLayoutProps {
   /** When true, content fits parent without page scroll (child components handle their own scrolling) */
   fitContent?: boolean;
   pb: Pocketbase;
-  user: {
-    id: string;
-    name: string | undefined;
-    email: string;
-    role: string | undefined;
-  }
+  userRole?: string;
   version: string;
   routes: RouteConfig[];
 }
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ title, children, fitContent = false, pb, user, version, routes }) => {
+export const PageLayout: React.FC<PageLayoutProps> = ({ title, children, fitContent = false, pb, userRole, version, routes }) => {
 
     async function onSubmitFeedback(data: {
     subject?: string;
@@ -32,29 +27,13 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, children, fitCont
     await pb.collection("developer_feedback_submissions").create(data);
   }
 
-  if (!user) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center gap-4"
-        >
-          <Skeleton className="h-8 w-full text-primary animate-spin" />
-          <p className="text-sm text-muted-foreground">Loading...</p>
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col w-full h-full max-h-screen p-8 pb-0 px-16 justify-start">
       {/* Header Section */}
       <AppHeader 
         title={title} 
         onLogout={() => {}} 
-        routes={getFilteredRoutes(user.role, routes, true)} 
+        routes={getFilteredRoutes(userRole, routes, true)} 
         version={version}
         onSubmitFeedback={onSubmitFeedback}
       />
