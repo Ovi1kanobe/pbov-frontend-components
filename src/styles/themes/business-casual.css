@@ -21,7 +21,7 @@ html.theme-business-casual {
   --input: #F0F6F6;
   --ring: #A6C3CA;
 
-  --sidebar: rgba(90, 138, 150, 0.8);
+  --sidebar: rgba(90, 138, 150, 0.9);
   --sidebar-foreground: #F0F6F6;
   --sidebar-primary: #5A8A96;
   --sidebar-primary-foreground: #0F1B1E;
@@ -54,7 +54,7 @@ html.theme-business-casual.dark {
   --input: #1B2A2E;
   --ring: #3E616A;
 
-  --sidebar: rgba(33, 62, 70, 0.8);
+  --sidebar: rgba(33, 62, 70, 0.9);
   --sidebar-foreground: #F0F6F6;
   --sidebar-primary: #213E46;
   --sidebar-primary-foreground: #F0F6F6;

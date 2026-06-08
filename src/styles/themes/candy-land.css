@@ -21,7 +21,7 @@ html.theme-candy-land {
   --input: #FFFFFF;
   --ring: #9985E3;
 
-  --sidebar: rgba(110, 108, 255, 0.8);
+  --sidebar: rgba(110, 108, 255, 0.9);
   --sidebar-foreground: #FDFBFF;
   --sidebar-primary: #C2FFC1;
   --sidebar-primary-foreground: #2B2B3A;
@@ -54,7 +54,7 @@ html.theme-candy-land.dark {
   --input: #221B33;
   --ring: #8F80FF;
 
-  --sidebar: rgba(34, 27, 51, 0.8);
+  --sidebar: rgba(34, 27, 51, 0.9);
   --sidebar-foreground: #F5F1FC;
   --sidebar-primary: #6E6CFF;
   --sidebar-primary-foreground: #F5F1FC;

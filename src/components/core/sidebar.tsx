@@ -55,7 +55,8 @@ export function Sidebar({ onLogout, routes, userName, isDarkMode, setDarkMode, l
         flex flex-col
         bg-sidebar
         text-sidebar-foreground backdrop-blur-md
-        transition-all duration-500
+        transition-all duration-500 backdrop-saturate-200 backdrop-brightness-110
+        saturate-125
         w-(--sidebar-collapsed-width)
         hover:w-(--sidebar-width)
         z-50 group rounded-r-3xl pt-20 items-center

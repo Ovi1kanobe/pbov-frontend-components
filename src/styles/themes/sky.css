@@ -21,7 +21,7 @@ html.theme-sky {
   --input: #F5FAFD;                /* same as background for inputs */
   --ring: #90C8E2;                 /* medium blue ring/focus color */
 
-  --sidebar: rgba(4, 107, 153, 0.8); /* reuse primary for sidebar background with 80% opacity */
+  --sidebar: rgba(4, 107, 153, 0.9); /* reuse primary for sidebar background with 80% opacity */
   --sidebar-foreground: #F5FAFD;   /* light text on sidebar */
   --sidebar-primary: #046B99;      /* primary variant for sidebar elements */
   --sidebar-primary-foreground: #FFFFFF; /* white text on sidebar primary */
@@ -54,7 +54,7 @@ html.theme-sky.dark {
   --input: #123B56;                /* dark input backgrounds */
   --ring: #2E5C8B;                 /* rich blue ring for focus */
 
-  --sidebar: rgba(22, 57, 92, 0.8); /* dark sidebar background with 80% opacity */
+  --sidebar: rgba(22, 57, 92, 0.9); /* dark sidebar background with 80% opacity */
   --sidebar-foreground: #EAF6FA;   /* light text in sidebar */
   --sidebar-primary: #16395C;      /* primary dark sidebar section */
   --sidebar-primary-foreground: #EAF6FA; /* light text on sidebar primary */

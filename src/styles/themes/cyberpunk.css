@@ -21,7 +21,7 @@ html.theme-cyberpunk {
   --input: #FFFFFF;
   --ring: #8900C9;
 
-  --sidebar: rgba(44, 44, 58, 0.8);
+  --sidebar: rgba(44, 44, 58, 0.9);
   --sidebar-foreground: #E8E8F5;
   --sidebar-primary: #A700FF;
   --sidebar-primary-foreground: #FFFFFF;
@@ -54,7 +54,7 @@ html.theme-cyberpunk.dark {
   --input: #161620;
   --ring: #A700FF;
 
-  --sidebar: rgba(22, 22, 32, 0.8);
+  --sidebar: rgba(22, 22, 32, 0.9);
   --sidebar-foreground: #E8E8F5;
   --sidebar-primary: #A700FF;
   --sidebar-primary-foreground: #E8E8F5;
