@@ -7,5 +7,5 @@ type UserAvatarUploadWidgetProps = {
         avatar: File;
     }) => void;
 };
-export declare function UserAvatarUploadWidget({ user, pb, updateUser }: UserAvatarUploadWidgetProps): import("react/jsx-runtime").JSX.Element;
+export declare function UserAvatarUploadWidget({ user, pb, updateUser }: UserAvatarUploadWidgetProps): import("react").JSX.Element;
 export {};

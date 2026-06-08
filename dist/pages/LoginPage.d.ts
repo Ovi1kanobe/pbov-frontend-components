@@ -1,3 +1,4 @@
+import React from "react";
 import Pocketbase from "pocketbase";
 import type { PocketBaseError } from "../lib/pberror";
 type LoginProps = {
@@ -7,5 +8,5 @@ type LoginProps = {
     onFailedLogin: (error: PocketBaseError) => void;
     logoSrc?: string;
 };
-export declare function LoginPage({ pb, userId, onLoggedIn, onFailedLogin, logoSrc }: LoginProps): import("react/jsx-runtime").JSX.Element;
+export declare function LoginPage({ pb, userId, onLoggedIn, onFailedLogin, logoSrc }: LoginProps): React.JSX.Element;
 export {};

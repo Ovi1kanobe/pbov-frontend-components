@@ -1,3 +1,4 @@
+import React from "react";
 interface DateInputProps {
     value: string;
     onChange: (value: string) => void;
@@ -13,5 +14,5 @@ interface DateInputProps {
     calendarTooltip?: string;
     showCalendarIcon?: boolean;
 }
-export declare function DateInput({ value, onChange, label, placeholder, disabled, className, showNavigation, onPreviousDate, onNextDate, previousLabel, nextLabel, calendarTooltip, showCalendarIcon, }: DateInputProps): import("react/jsx-runtime").JSX.Element;
+export declare function DateInput({ value, onChange, label, placeholder, disabled, className, showNavigation, onPreviousDate, onNextDate, previousLabel, nextLabel, calendarTooltip, showCalendarIcon, }: DateInputProps): React.JSX.Element;
 export {};

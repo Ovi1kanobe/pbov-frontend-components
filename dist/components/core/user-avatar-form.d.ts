@@ -14,5 +14,5 @@ interface UserAvatarFormProps {
         avatar: File;
     }) => void;
 }
-export declare function UserAvatarForm({ avatarClassName, user, pb, updateUser }: UserAvatarFormProps): import("react/jsx-runtime").JSX.Element | null;
+export declare function UserAvatarForm({ avatarClassName, user, pb, updateUser }: UserAvatarFormProps): import("react").JSX.Element | null;
 export {};

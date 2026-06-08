@@ -3,5 +3,5 @@ type UserColorSelectionWidgetProps = {
     setCurrentColor: (currentColor: string) => void;
     onError: (errorMessage: string) => void;
 };
-export declare function UserColorSelectionWidget({ currentColor, setCurrentColor, onError }: UserColorSelectionWidgetProps): import("react/jsx-runtime").JSX.Element;
+export declare function UserColorSelectionWidget({ currentColor, setCurrentColor, onError }: UserColorSelectionWidgetProps): import("react").JSX.Element;
 export {};

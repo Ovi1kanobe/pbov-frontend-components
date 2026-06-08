@@ -7,5 +7,5 @@ interface FeedbackDialogProps {
         images?: File[];
     }) => Promise<void>;
 }
-export declare function FeedbackDialog({ open, onOpenChange, onSubmit }: FeedbackDialogProps): import("react/jsx-runtime").JSX.Element;
+export declare function FeedbackDialog({ open, onOpenChange, onSubmit }: FeedbackDialogProps): import("react").JSX.Element;
 export {};

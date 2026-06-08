@@ -1,2 +1,2 @@
-declare function AuthBackground(): import("react/jsx-runtime").JSX.Element;
+declare function AuthBackground(): import("react").JSX.Element;
 export { AuthBackground };

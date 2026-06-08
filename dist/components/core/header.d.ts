@@ -10,5 +10,5 @@ type AppHeaderProps = {
         images?: File[];
     }) => Promise<void>;
 };
-export declare function AppHeader({ title, onLogout, routes, version, onSubmitFeedback }: AppHeaderProps): import("react/jsx-runtime").JSX.Element;
+export declare function AppHeader({ title, onLogout, routes, version, onSubmitFeedback }: AppHeaderProps): import("react").JSX.Element;
 export {};

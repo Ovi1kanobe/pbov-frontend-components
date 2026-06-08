@@ -6,5 +6,5 @@ type ThemeSelectionWidgetProps = {
     theme: string;
     setTheme: (theme: string) => void;
 };
-export declare function ThemeSelectionWidget({ availableThemes, theme, setTheme }: ThemeSelectionWidgetProps): import("react/jsx-runtime").JSX.Element;
+export declare function ThemeSelectionWidget({ availableThemes, theme, setTheme }: ThemeSelectionWidgetProps): import("react").JSX.Element;
 export {};

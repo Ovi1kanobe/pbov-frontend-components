@@ -1,3 +1,4 @@
+import * as React from "react";
 type SelectorProps<T> = {
     /** list of records to pick from */
     data: T[];
@@ -23,5 +24,5 @@ type SelectorProps<T> = {
     /** custom message when no results found */
     emptyMessage?: string;
 };
-export declare function RecordSelector<T>({ data, value, setValue, label, identifier, placeholder, className, loading, disabled, emptyMessage, }: SelectorProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function RecordSelector<T>({ data, value, setValue, label, identifier, placeholder, className, loading, disabled, emptyMessage, }: SelectorProps<T>): React.JSX.Element;
 export {};

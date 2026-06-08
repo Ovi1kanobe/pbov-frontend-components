@@ -6,5 +6,5 @@ interface SettingsSectionProps {
     icon?: ReactNode;
     className?: string;
 }
-export declare function SettingsWidget({ title, description, children, icon, className }: SettingsSectionProps): import("react/jsx-runtime").JSX.Element;
+export declare function SettingsWidget({ title, description, children, icon, className }: SettingsSectionProps): import("react").JSX.Element;
 export {};
