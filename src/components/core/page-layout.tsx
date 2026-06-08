@@ -44,7 +44,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, children, fitCont
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={cn(
-          "flex relative w-full flex-1 min-h-0",
+          "flex relative w-full flex-1 min-h-0 flex-col",
           fitContent ? "overflow-hidden" : "overflow-y-scroll"
         )}
       >
