@@ -8,24 +8,23 @@ import {
 } from "react";
 import type { ReactNode } from "react";
 import type Pocketbase from "pocketbase";
-import type { RecordModel } from "pocketbase";
 import { toast } from "sonner";
 import { useDebouncedRealtimeSubscription } from "../hooks/useRealtimeSubscription";
 import type { PocketBaseError } from "../lib/pberror";
 
 export interface CreateUsersContextConfig<
   PbT extends Pocketbase,
-  UserT extends RecordModel,
+  UserT extends { id: string },
 > {
   useClient: () => { pb: PbT };
   useUser: () => {
-    user: (UserT & RecordModel) | null;
+    user: UserT | null;
     refetch: () => void;
   };
   usersCollection?: string;
 }
 
-export interface UsersContextValue<UserT extends RecordModel> {
+export interface UsersContextValue<UserT extends { id: string }> {
   users: UserT[];
   loading: boolean;
   error: string | null;
@@ -36,7 +35,7 @@ export interface UsersContextValue<UserT extends RecordModel> {
 
 export function createUsersContext<
   PbT extends Pocketbase,
-  UserT extends RecordModel,
+  UserT extends { id: string },
 >(config: CreateUsersContextConfig<PbT, UserT>) {
   const { useClient, useUser } = config;
   const usersCol = config.usersCollection ?? "users";

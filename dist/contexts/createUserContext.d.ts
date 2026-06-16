@@ -1,6 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type Pocketbase from "pocketbase";
-import type { RecordModel } from "pocketbase";
 export interface CreateUserContextConfig<PbT extends Pocketbase> {
     useClient: () => {
         pb: PbT;
@@ -9,13 +8,25 @@ export interface CreateUserContextConfig<PbT extends Pocketbase> {
     preferencesCollection?: string;
     msProfileCollection?: string;
 }
-export type ExpandedUserRecord<UserT extends RecordModel, PrefsT extends RecordModel, MsT extends RecordModel> = UserT & {
+export type ExpandedUserRecord<UserT extends {
+    id: string;
+}, PrefsT extends {
+    id: string;
+}, MsT extends {
+    id: string;
+}> = UserT & {
     expand?: {
         preferences?: PrefsT | null;
         ms_profile?: MsT | null;
     };
 };
-export interface UserContextValue<UserT extends RecordModel, PrefsT extends RecordModel, MsT extends RecordModel> {
+export interface UserContextValue<UserT extends {
+    id: string;
+}, PrefsT extends {
+    id: string;
+}, MsT extends {
+    id: string;
+}> {
     user: ExpandedUserRecord<UserT, PrefsT, MsT> | null;
     msProfile: MsT | null;
     preferences: PrefsT | null;
@@ -29,7 +40,13 @@ export interface UserContextValue<UserT extends RecordModel, PrefsT extends Reco
     setUser: Dispatch<SetStateAction<ExpandedUserRecord<UserT, PrefsT, MsT> | null>>;
     updatePreferences: (data: Partial<PrefsT>) => Promise<void>;
 }
-export declare function createUserContext<PbT extends Pocketbase, UserT extends RecordModel, PrefsT extends RecordModel, MsT extends RecordModel>(config: CreateUserContextConfig<PbT>): {
+export declare function createUserContext<PbT extends Pocketbase, UserT extends {
+    id: string;
+}, PrefsT extends {
+    id: string;
+}, MsT extends {
+    id: string;
+}>(config: CreateUserContextConfig<PbT>): {
     UserProvider: ({ children }: {
         children: ReactNode;
     }) => import("react").JSX.Element;

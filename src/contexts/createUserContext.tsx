@@ -8,7 +8,7 @@ import {
 } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type Pocketbase from "pocketbase";
-import type { RecordModel, RecordSubscription } from "pocketbase";
+import type { RecordSubscription } from "pocketbase";
 import { useDebouncedRealtimeSubscription } from "../hooks/useRealtimeSubscription";
 import type { PocketBaseError } from "../lib/pberror";
 
@@ -20,9 +20,9 @@ export interface CreateUserContextConfig<PbT extends Pocketbase> {
 }
 
 export type ExpandedUserRecord<
-  UserT extends RecordModel,
-  PrefsT extends RecordModel,
-  MsT extends RecordModel,
+  UserT extends { id: string },
+  PrefsT extends { id: string },
+  MsT extends { id: string },
 > = UserT & {
   expand?: {
     preferences?: PrefsT | null;
@@ -31,9 +31,9 @@ export type ExpandedUserRecord<
 };
 
 export interface UserContextValue<
-  UserT extends RecordModel,
-  PrefsT extends RecordModel,
-  MsT extends RecordModel,
+  UserT extends { id: string },
+  PrefsT extends { id: string },
+  MsT extends { id: string },
 > {
   user: ExpandedUserRecord<UserT, PrefsT, MsT> | null;
   msProfile: MsT | null;
@@ -51,9 +51,9 @@ export interface UserContextValue<
 
 export function createUserContext<
   PbT extends Pocketbase,
-  UserT extends RecordModel,
-  PrefsT extends RecordModel,
-  MsT extends RecordModel,
+  UserT extends { id: string },
+  PrefsT extends { id: string },
+  MsT extends { id: string },
 >(config: CreateUserContextConfig<PbT>) {
   const { useClient } = config;
   const usersCol = config.usersCollection ?? "users";
