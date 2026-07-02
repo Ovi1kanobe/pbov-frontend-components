@@ -8,6 +8,18 @@ export function useDebouncedRealtimeSubscription({ pb, collections, id = '*', on
     const unsubscribersRef = useRef([]);
     // NEW: track the current effect "run" to guard late promises
     const setupRunId = useRef(0);
+    // Hold the latest callbacks in refs so the subscribe effect never depends on
+    // their identity. Callers almost always pass inline `onUpdate`/`filter` arrows,
+    // which are new on every render. If those were effect deps, the effect would
+    // tear down and re-subscribe on every render — and teardown clears the pending
+    // debounce timer, silently dropping the queued realtime event. Reading through a
+    // ref keeps the subscription stable while still calling the freshest closure.
+    const onUpdateRef = useRef(onUpdate);
+    const filterRef = useRef(filter);
+    useEffect(() => {
+        onUpdateRef.current = onUpdate;
+        filterRef.current = filter;
+    }, [onUpdate, filter]);
     const debouncedUpdate = useCallback((event) => {
         lastEvent.current = event;
         if (debounceTimer.current) {
@@ -20,30 +32,35 @@ export function useDebouncedRealtimeSubscription({ pb, collections, id = '*', on
         // Force refresh if updates keep coming for too long
         if (now - floodStartTime.current >= maxFloodMs) {
             floodStartTime.current = now;
-            onUpdate(event);
+            onUpdateRef.current(event);
             return;
         }
         debounceTimer.current = setTimeout(() => {
-            onUpdate(lastEvent.current);
+            onUpdateRef.current(lastEvent.current);
             floodStartTime.current = null;
         }, debounceMs);
-    }, [onUpdate, debounceMs, maxFloodMs]);
+    }, [debounceMs, maxFloodMs]);
+    // Normalize to a stable primitive so an inline array literal for `collections`
+    // doesn't re-trigger the effect every render the way a new array reference would.
+    const collectionArray = Array.isArray(collections) ? collections : [collections];
+    const collectionKey = collectionArray.join(",");
     useEffect(() => {
         if (!pb || !enabled)
             return;
-        const collectionArray = Array.isArray(collections) ? collections : [collections];
+        const cols = collectionKey.split(",");
         // identify this setup run and reset our unsub list
         const thisRun = ++setupRunId.current;
         unsubscribersRef.current = [];
         let isCancelled = false;
         const setupSubscriptions = async () => {
             try {
-                for (const collection of collectionArray) {
+                for (const collection of cols) {
                     if (isCancelled)
                         break;
                     const unsubscribe = await pb.collection(collection).subscribe(id, (event) => {
-                        // Apply filter if provided
-                        if (filter && !filter(event, collection)) {
+                        // Apply filter if provided (read the latest via ref)
+                        const currentFilter = filterRef.current;
+                        if (currentFilter && !currentFilter(event, collection)) {
                             return; // Skip this update
                         }
                         debouncedUpdate(event);
@@ -88,7 +105,7 @@ export function useDebouncedRealtimeSubscription({ pb, collections, id = '*', on
                 }
             }
         };
-    }, [pb, collections, id, debouncedUpdate, enabled, filter]);
+    }, [pb, collectionKey, id, debouncedUpdate, enabled]);
     // Cleanup function for manual use
     const cleanup = useCallback(() => {
         if (debounceTimer.current) {
