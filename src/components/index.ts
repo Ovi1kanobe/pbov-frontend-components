@@ -47,3 +47,4 @@ export * from "./widgets/user-avatar-upload-widget";
 export * from "./widgets/user-profile-display-widget";
 
 export * from "./sections/user-preferences-section";
+export * from "./sections/diagnostics-section";
