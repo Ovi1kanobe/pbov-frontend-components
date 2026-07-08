@@ -45,3 +45,6 @@ export * from "./widgets/user-avatar-upload-widget";
 export * from "./widgets/user-profile-display-widget";
 export * from "./sections/user-preferences-section";
 export * from "./sections/diagnostics-section";
+export * from "./sections/my-team/user-actions";
+export * from "./sections/my-team/data-table";
+export * from "./sections/my-team/my-team-section";
