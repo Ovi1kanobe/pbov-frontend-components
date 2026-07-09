@@ -116,9 +116,10 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
         className="mb-4"
       />
       {(searchQuery.length >= 2 || selectedUsersWithRoles.length > 0) && (
-        <div className="border rounded-md max-h-100 overflow-y-auto">
+        <div className="border rounded-md max-h-96 overflow-hidden">
+          <div className="overflow-y-auto max-h-96">
           <Table>
-            <TableHeader className="sticky top-0 bg-background">
+            <TableHeader className="sticky top-0 bg-background z-10">
               <TableRow>
                 <TableHead className="w-12">
                   <Checkbox
@@ -167,7 +168,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                           }}
                           disabled={!isUserSelected(user)}
                         >
-                          <SelectTrigger className="w-45">
+                          <SelectTrigger className="w-32">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -185,6 +186,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
               )}
             </TableBody>
           </Table>
+          </div>
         </div>
       )}
       {searchQuery.length > 0 && searchQuery.length < 2 && selectedUsersWithRoles.length === 0 && (
