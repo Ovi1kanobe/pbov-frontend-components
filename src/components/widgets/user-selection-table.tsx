@@ -160,7 +160,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                             value={getUserRole(user)}
                             onValueChange={(value) => updateUserRole(user, value)}
                           >
-                            <SelectTrigger className="w-[180px]">
+                            <SelectTrigger className="w-45">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
