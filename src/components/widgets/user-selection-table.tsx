@@ -155,25 +155,29 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                     <TableCell className="truncate">{user.email}</TableCell>
                     {Object.keys(availableRoles).length > 0 && (
                       <TableCell onClick={(e) => e.stopPropagation()}>
-                        {isUserSelected(user) ? (
-                          <Select
-                            value={getUserRole(user)}
-                            onValueChange={(value) => updateUserRole(user, value)}
-                          >
-                            <SelectTrigger className="w-45">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {Object.entries(availableRoles).map(([key, value]) => (
-                                <SelectItem key={key} value={key}>
-                                  {value}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : (
-                          <span className="text-muted-foreground">-</span>
-                        )}
+                        <Select
+                          value={isUserSelected(user) ? getUserRole(user) : defaultRole}
+                          onValueChange={(value) => {
+                            if (!isUserSelected(user)) {
+                              // Auto-select user when changing role
+                              onSelectionChange([...selectedUsersWithRoles, { user, role: value }])
+                            } else {
+                              updateUserRole(user, value)
+                            }
+                          }}
+                          disabled={!isUserSelected(user)}
+                        >
+                          <SelectTrigger className="w-45">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Object.entries(availableRoles).map(([key, value]) => (
+                              <SelectItem key={key} value={key}>
+                                {value}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </TableCell>
                     )}
                   </TableRow>
