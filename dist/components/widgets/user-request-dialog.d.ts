@@ -12,9 +12,10 @@ interface UserRequestDialogProps<T extends {
     defaultRole?: string;
     title?: string;
     description?: string;
+    className?: string;
 }
 export declare function UserRequestDialog<T extends {
     id: string;
     email: string;
-}>({ open, onOpenChange, onConfirm, users, availableRoles, defaultRole, title, description, }: UserRequestDialogProps<T>): React.JSX.Element;
+}>({ open, onOpenChange, onConfirm, users, availableRoles, defaultRole, title, description, className, }: UserRequestDialogProps<T>): React.JSX.Element;
 export {};

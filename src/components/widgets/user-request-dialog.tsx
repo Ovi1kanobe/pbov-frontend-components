@@ -19,6 +19,7 @@ interface UserRequestDialogProps<T extends { id: string; email: string }> {
   defaultRole?: string
   title?: string
   description?: string
+  className?: string
 }
 
 export function UserRequestDialog<T extends { id: string; email: string }>({
@@ -30,6 +31,7 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
   defaultRole,
   title = "Select Users",
   description = "Search and select users to request permissions for",
+  className,
 }: UserRequestDialogProps<T>) {
   const [selectedUsersWithRoles, setSelectedUsersWithRoles] = React.useState<UserWithRole<T>[]>([])
 
@@ -46,7 +48,7 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl max-h-[80vh]">
+      <DialogContent className={`max-h-[80vh] ${className}`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
