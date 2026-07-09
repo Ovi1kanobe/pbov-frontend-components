@@ -108,31 +108,30 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
   const allFilteredSelected = filteredUsers.length > 0 && filteredUsers.every((user) => isUserSelected(user))
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col space-y-4">
       <Input
         placeholder="Search by email (type at least 2 characters)..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="mb-4"
       />
       {(searchQuery.length >= 2 || selectedUsersWithRoles.length > 0) && (
-        <div className="border rounded-md max-h-96 overflow-hidden">
-          <div className="overflow-y-auto max-h-96">
-          <Table>
-            <TableHeader className="sticky top-0 bg-background z-10">
-              <TableRow>
-                <TableHead className="w-12">
-                  <Checkbox
-                    checked={allFilteredSelected}
-                    onCheckedChange={toggleSelectAll}
-                  />
-                </TableHead>
-                <TableHead>Email</TableHead>
-                {Object.keys(availableRoles).length > 0 && (
-                  <TableHead>Role</TableHead>
-                )}
-              </TableRow>
-            </TableHeader>
+        <div className="border rounded-md">
+          <div className="max-h-[300px] overflow-auto">
+            <Table>
+              <TableHeader className="sticky top-0 bg-background border-b">
+                <TableRow>
+                  <TableHead className="w-10 px-2">
+                    <Checkbox
+                      checked={allFilteredSelected}
+                      onCheckedChange={toggleSelectAll}
+                    />
+                  </TableHead>
+                  <TableHead className="min-w-0">Email</TableHead>
+                  {Object.keys(availableRoles).length > 0 && (
+                    <TableHead className="w-32">Role</TableHead>
+                  )}
+                </TableRow>
+              </TableHeader>
             <TableBody>
               {filteredUsers.length === 0 ? (
                 <TableRow>
@@ -147,15 +146,15 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                     className="cursor-pointer"
                     onClick={() => toggleUserSelection(user)}
                   >
-                    <TableCell onClick={(e) => e.stopPropagation()}>
+                    <TableCell className="px-2" onClick={(e) => e.stopPropagation()}>
                       <Checkbox
                         checked={isUserSelected(user)}
                         onCheckedChange={() => toggleUserSelection(user)}
                       />
                     </TableCell>
-                    <TableCell className="truncate">{user.email}</TableCell>
+                    <TableCell className="truncate min-w-0 max-w-[200px]">{user.email}</TableCell>
                     {Object.keys(availableRoles).length > 0 && (
-                      <TableCell onClick={(e) => e.stopPropagation()}>
+                      <TableCell className="w-32" onClick={(e) => e.stopPropagation()}>
                         <Select
                           value={isUserSelected(user) ? getUserRole(user) : defaultRole}
                           onValueChange={(value) => {
@@ -168,7 +167,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                           }}
                           disabled={!isUserSelected(user)}
                         >
-                          <SelectTrigger className="w-32">
+                          <SelectTrigger className="w-full">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>

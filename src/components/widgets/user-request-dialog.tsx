@@ -48,7 +48,7 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={`max-w-4xl max-h-[80vh] ${className || ""}`}>
+      <DialogContent className={`max-w-2xl ${className || ""}`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
