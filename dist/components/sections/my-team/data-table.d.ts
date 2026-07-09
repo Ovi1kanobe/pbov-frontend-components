@@ -5,6 +5,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     loading?: boolean;
     onRowClick?: (row: TData) => void;
+    onRequestUsers?: (rows: TData[]) => void;
 }
-export declare function DataTable<TData, TValue>({ columns, data, loading, onRowClick, }: DataTableProps<TData, TValue>): React.JSX.Element;
+export declare function DataTable<TData, TValue>({ columns, data, loading, onRowClick, onRequestUsers, }: DataTableProps<TData, TValue>): React.JSX.Element;
 export {};

@@ -22,12 +22,14 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { Skeleton } from "../../ui/skeleton";
+import { Plus } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   loading?: boolean;
   onRowClick?: (row: TData) => void;
+  onRequestUsers?: (rows: TData[]) => void;
 }
 
 const PAGE_SIZE = 10;
@@ -37,6 +39,7 @@ export function DataTable<TData, TValue>({
   data,
   loading = false,
   onRowClick,
+  onRequestUsers,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -69,15 +72,17 @@ export function DataTable<TData, TValue>({
   if (loading) {
     return (
       <div>
-        <div className="flex items-center py-4 px-1">
-          <Input
-            placeholder="Filter users by name..."
-            value=""
-            onChange={() => {}}
-            className="max-w-sm bg-white"
-            disabled
-          />
-        </div>
+        <div className="flex flex-wrap items-center gap-4 py-4 px-1">
+        <Input
+          placeholder="Filter users by name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
+          className="min-w-60 flex-1 bg-white"
+        />
+        <Button className="w-fit shrink-0"><Plus /> Request New</Button>
+      </div>
         <div className="overflow-hidden rounded-md border">
           <Table>
             <TableHeader>
@@ -116,18 +121,24 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div>
-      <div className="flex items-center py-4 px-1">
+    <div className="">
+      <div className="flex flex-wrap items-center gap-4 py-4 px-1">
         <Input
           placeholder="Filter users by name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white"
+          className="min-w-60 flex-1 bg-white"
         />
+        <Button
+          className="w-fit shrink-0"
+          onClick={() => onRequestUsers && onRequestUsers(table.getSelectedRowModel().rows.map(row => row.original))}
+        >
+          <Plus /> Request New
+        </Button>
       </div>
-    <div className="overflow-hidden rounded-md border h-[540px] flex flex-col">
+    <div className="overflow-hidden rounded-md border h-135 flex flex-col">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -10,6 +10,7 @@ import { CardShowcase } from "./CardShowcase";
 import { FeedbackShowcase } from "./FeedbackShowcase";
 import { DataDisplayShowcase } from "./DataDisplayShowcase";
 import { OverlayShowcase } from "./OverlayShowcase";
+import { MyTeamShowcase } from "./MyTeamShowcase";
 import {
   LayoutDashboard,
   Settings,
@@ -102,6 +103,7 @@ export function ShowcasePage() {
             <TabsTrigger value="feedback">Feedback</TabsTrigger>
             <TabsTrigger value="data">Data Display</TabsTrigger>
             <TabsTrigger value="overlays">Overlays</TabsTrigger>
+            <TabsTrigger value="my-team">My Team</TabsTrigger>
           </TabsList>
 
           <ScrollArea className="h-[calc(100vh-220px)] mt-4">
@@ -122,6 +124,9 @@ export function ShowcasePage() {
             </TabsContent>
             <TabsContent value="overlays">
               <OverlayShowcase />
+            </TabsContent>
+            <TabsContent value="my-team">
+              <MyTeamShowcase />
             </TabsContent>
           </ScrollArea>
         </Tabs>

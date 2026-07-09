@@ -114,6 +114,7 @@ export interface MyTeamSectionProps {
   renderActions?: (user: TeamMember) => ReactNode;
   title?: string;
   description?: string;
+  onRequestUsers?: (users: TeamMember[]) => void;
 }
 
 export function MyTeamSection({
@@ -123,6 +124,7 @@ export function MyTeamSection({
   renderActions,
   title = "My Team Management",
   description = "View and manage team members under your supervision",
+  onRequestUsers,
 }: MyTeamSectionProps) {
   return (
     <div className="space-y-6">
@@ -133,6 +135,7 @@ export function MyTeamSection({
               columns={getTeamColumns(pb, renderActions)}
               data={users}
               loading={loading}
+              onRequestUsers={onRequestUsers}
             />
           </div>
         </div>

@@ -18,5 +18,6 @@ export interface MyTeamSectionProps {
     renderActions?: (user: TeamMember) => ReactNode;
     title?: string;
     description?: string;
+    onRequestUsers?: (users: TeamMember[]) => void;
 }
-export declare function MyTeamSection({ users, pb, loading, renderActions, title, description, }: MyTeamSectionProps): import("react").JSX.Element;
+export declare function MyTeamSection({ users, pb, loading, renderActions, title, description, onRequestUsers, }: MyTeamSectionProps): import("react").JSX.Element;

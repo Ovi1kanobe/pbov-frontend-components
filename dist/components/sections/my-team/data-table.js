@@ -6,8 +6,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { Skeleton } from "../../ui/skeleton";
+import { Plus } from "lucide-react";
 const PAGE_SIZE = 10;
-export function DataTable({ columns, data, loading = false, onRowClick, }) {
+export function DataTable({ columns, data, loading = false, onRowClick, onRequestUsers, }) {
     const [sorting, setSorting] = React.useState([]);
     const [columnFilters, setColumnFilters] = React.useState([]);
     const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
@@ -34,13 +35,13 @@ export function DataTable({ columns, data, loading = false, onRowClick, }) {
         setCurrentPageIndex(0);
     }, [columnFilters]);
     if (loading) {
-        return (_jsxs("div", { children: [_jsx("div", { className: "flex items-center py-4 px-1", children: _jsx(Input, { placeholder: "Filter users by name...", value: "", onChange: () => { }, className: "max-w-sm bg-white", disabled: true }) }), _jsx("div", { className: "overflow-hidden rounded-md border", children: _jsxs(Table, { children: [_jsx(TableHeader, { children: table.getHeaderGroups().map((headerGroup) => (_jsx(TableRow, { children: headerGroup.headers.map((header) => {
+        return (_jsxs("div", { children: [_jsxs("div", { className: "flex flex-wrap items-center gap-4 py-4 px-1", children: [_jsx(Input, { placeholder: "Filter users by name...", value: table.getColumn("name")?.getFilterValue() ?? "", onChange: (event) => table.getColumn("name")?.setFilterValue(event.target.value), className: "min-w-60 flex-1 bg-white" }), _jsxs(Button, { className: "w-fit shrink-0", children: [_jsx(Plus, {}), " Request New"] })] }), _jsx("div", { className: "overflow-hidden rounded-md border", children: _jsxs(Table, { children: [_jsx(TableHeader, { children: table.getHeaderGroups().map((headerGroup) => (_jsx(TableRow, { children: headerGroup.headers.map((header) => {
                                         return (_jsx(TableHead, { children: header.isPlaceholder
                                                 ? null
                                                 : flexRender(header.column.columnDef.header, header.getContext()) }, header.id));
                                     }) }, headerGroup.id))) }), _jsx(TableBody, { children: Array.from({ length: PAGE_SIZE }).map((_, i) => (_jsx(TableRow, { children: columns.map((_, colIndex) => (_jsx(TableCell, { children: _jsx(Skeleton, { className: "h-6 w-full" }) }, colIndex))) }, i))) })] }) })] }));
     }
-    return (_jsxs("div", { children: [_jsx("div", { className: "flex items-center py-4 px-1", children: _jsx(Input, { placeholder: "Filter users by name...", value: table.getColumn("name")?.getFilterValue() ?? "", onChange: (event) => table.getColumn("name")?.setFilterValue(event.target.value), className: "max-w-sm bg-white" }) }), _jsx("div", { className: "overflow-hidden rounded-md border h-[540px] flex flex-col", children: _jsxs(Table, { children: [_jsx(TableHeader, { children: table.getHeaderGroups().map((headerGroup) => (_jsx(TableRow, { children: headerGroup.headers.map((header) => {
+    return (_jsxs("div", { className: "", children: [_jsxs("div", { className: "flex flex-wrap items-center gap-4 py-4 px-1", children: [_jsx(Input, { placeholder: "Filter users by name...", value: table.getColumn("name")?.getFilterValue() ?? "", onChange: (event) => table.getColumn("name")?.setFilterValue(event.target.value), className: "min-w-60 flex-1 bg-white" }), _jsxs(Button, { className: "w-fit shrink-0", onClick: () => onRequestUsers && onRequestUsers(table.getSelectedRowModel().rows.map(row => row.original)), children: [_jsx(Plus, {}), " Request New"] })] }), _jsx("div", { className: "overflow-hidden rounded-md border h-135 flex flex-col", children: _jsxs(Table, { children: [_jsx(TableHeader, { children: table.getHeaderGroups().map((headerGroup) => (_jsx(TableRow, { children: headerGroup.headers.map((header) => {
                                     return (_jsx(TableHead, { children: header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext()) }, header.id));

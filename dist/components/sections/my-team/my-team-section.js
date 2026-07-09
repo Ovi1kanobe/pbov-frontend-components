@@ -43,6 +43,6 @@ function getTeamColumns(pb, renderActions) {
     }
     return columns;
 }
-export function MyTeamSection({ users, pb, loading, renderActions, title = "My Team Management", description = "View and manage team members under your supervision", }) {
-    return (_jsx("div", { className: "space-y-6", children: _jsx(SettingsWidget, { title: title, description: description, icon: _jsx(Users, { size: 18 }), children: _jsx("div", { className: "space-y-4", children: _jsx("div", { className: "h-full w-full", children: _jsx(DataTable, { columns: getTeamColumns(pb, renderActions), data: users, loading: loading }) }) }) }) }));
+export function MyTeamSection({ users, pb, loading, renderActions, title = "My Team Management", description = "View and manage team members under your supervision", onRequestUsers, }) {
+    return (_jsx("div", { className: "space-y-6", children: _jsx(SettingsWidget, { title: title, description: description, icon: _jsx(Users, { size: 18 }), children: _jsx("div", { className: "space-y-4", children: _jsx("div", { className: "h-full w-full", children: _jsx(DataTable, { columns: getTeamColumns(pb, renderActions), data: users, loading: loading, onRequestUsers: onRequestUsers }) }) }) }) }));
 }
