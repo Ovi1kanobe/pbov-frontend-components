@@ -45,6 +45,8 @@ export * from "./widgets/dark-mode-selection-widget";
 export * from "./widgets/user-color-selection-widget";
 export * from "./widgets/user-avatar-upload-widget";
 export * from "./widgets/user-profile-display-widget";
+export * from "./widgets/user-request-dialog";
+export * from "./widgets/user-selection-table";
 
 export * from "./sections/user-preferences-section";
 export * from "./sections/diagnostics-section";
