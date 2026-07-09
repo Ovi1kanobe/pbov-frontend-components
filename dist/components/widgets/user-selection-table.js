@@ -3,14 +3,16 @@ import * as React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "../ui/table";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
-export function UserSelectionTable({ users, selectedUsers, onSelectionChange, }) {
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+export function UserSelectionTable({ users, selectedUsersWithRoles, onSelectionChange, availableRoles = {}, defaultRole = Object.keys(availableRoles)[0] || "user", }) {
     const [searchQuery, setSearchQuery] = React.useState("");
     // filter users based on search - only show results when at least 2 chars typed
     // Always show selected users regardless of search
     const filteredUsers = React.useMemo(() => {
+        const selectedUsersList = selectedUsersWithRoles.map(item => item.user);
         if (searchQuery.length < 2) {
             // Show selected users even when no search
-            return selectedUsers;
+            return selectedUsersList;
         }
         const query = searchQuery.toLowerCase();
         const matchingUsers = users.filter((user) => {
@@ -18,45 +20,53 @@ export function UserSelectionTable({ users, selectedUsers, onSelectionChange, })
             return email.includes(query);
         });
         // Combine selected users with search results, avoiding duplicates
-        const selectedIds = new Set(selectedUsers.map(u => u.id));
+        const selectedIds = new Set(selectedUsersList.map(u => u.id));
         // Add selected users first, then matching non-selected users
-        const combined = [...selectedUsers];
+        const combined = [...selectedUsersList];
         matchingUsers.forEach(user => {
             if (!selectedIds.has(user.id)) {
                 combined.push(user);
             }
         });
         return combined;
-    }, [users, searchQuery, selectedUsers]);
+    }, [users, searchQuery, selectedUsersWithRoles]);
     const isUserSelected = (user) => {
-        return selectedUsers.some((u) => u.id === user.id);
+        return selectedUsersWithRoles.some((item) => item.user.id === user.id);
+    };
+    const getUserRole = (user) => {
+        const found = selectedUsersWithRoles.find((item) => item.user.id === user.id);
+        return found?.role || defaultRole;
     };
     const toggleUserSelection = (user) => {
         if (isUserSelected(user)) {
-            onSelectionChange(selectedUsers.filter((u) => u.id !== user.id));
+            onSelectionChange(selectedUsersWithRoles.filter((item) => item.user.id !== user.id));
         }
         else {
-            onSelectionChange([...selectedUsers, user]);
+            onSelectionChange([...selectedUsersWithRoles, { user, role: defaultRole }]);
         }
+    };
+    const updateUserRole = (user, role) => {
+        const updated = selectedUsersWithRoles.map((item) => item.user.id === user.id ? { ...item, role } : item);
+        onSelectionChange(updated);
     };
     const toggleSelectAll = () => {
         const allFiltered = filteredUsers.every((user) => isUserSelected(user));
         if (allFiltered) {
             // deselect all filtered users
             const filteredIds = new Set(filteredUsers.map((u) => u.id));
-            onSelectionChange(selectedUsers.filter((u) => !filteredIds.has(u.id)));
+            onSelectionChange(selectedUsersWithRoles.filter((item) => !filteredIds.has(item.user.id)));
         }
         else {
             // select all filtered users
-            const newSelection = [...selectedUsers];
+            const newSelection = [...selectedUsersWithRoles];
             filteredUsers.forEach((user) => {
                 if (!isUserSelected(user)) {
-                    newSelection.push(user);
+                    newSelection.push({ user, role: defaultRole });
                 }
             });
             onSelectionChange(newSelection);
         }
     };
     const allFilteredSelected = filteredUsers.length > 0 && filteredUsers.every((user) => isUserSelected(user));
-    return (_jsxs("div", { className: "w-full", children: [_jsx(Input, { placeholder: "Search by email (type at least 2 characters)...", value: searchQuery, onChange: (e) => setSearchQuery(e.target.value), className: "mb-4" }), (searchQuery.length >= 2 || selectedUsers.length > 0) && (_jsx("div", { className: "border rounded-md max-h-100 overflow-y-auto", children: _jsxs(Table, { children: [_jsx(TableHeader, { className: "sticky top-0 bg-background", children: _jsxs(TableRow, { children: [_jsx(TableHead, { className: "w-12", children: _jsx(Checkbox, { checked: allFilteredSelected, onCheckedChange: toggleSelectAll }) }), _jsx(TableHead, { children: "Email" })] }) }), _jsx(TableBody, { children: filteredUsers.length === 0 ? (_jsx(TableRow, { children: _jsx(TableCell, { colSpan: 2, className: "text-center text-muted-foreground", children: "No users found matching your search" }) })) : (filteredUsers.map((user) => (_jsxs(TableRow, { className: "cursor-pointer", onClick: () => toggleUserSelection(user), children: [_jsx(TableCell, { onClick: (e) => e.stopPropagation(), children: _jsx(Checkbox, { checked: isUserSelected(user), onCheckedChange: () => toggleUserSelection(user) }) }), _jsx(TableCell, { className: "truncate", children: user.email })] }, user.id)))) })] }) })), searchQuery.length > 0 && searchQuery.length < 2 && selectedUsers.length === 0 && (_jsx("p", { className: "text-sm text-muted-foreground text-center py-4", children: "Type at least 2 characters to search" }))] }));
+    return (_jsxs("div", { className: "w-full", children: [_jsx(Input, { placeholder: "Search by email (type at least 2 characters)...", value: searchQuery, onChange: (e) => setSearchQuery(e.target.value), className: "mb-4" }), (searchQuery.length >= 2 || selectedUsersWithRoles.length > 0) && (_jsx("div", { className: "border rounded-md max-h-100 overflow-y-auto", children: _jsxs(Table, { children: [_jsx(TableHeader, { className: "sticky top-0 bg-background", children: _jsxs(TableRow, { children: [_jsx(TableHead, { className: "w-12", children: _jsx(Checkbox, { checked: allFilteredSelected, onCheckedChange: toggleSelectAll }) }), _jsx(TableHead, { children: "Email" }), Object.keys(availableRoles).length > 0 && (_jsx(TableHead, { children: "Role" }))] }) }), _jsx(TableBody, { children: filteredUsers.length === 0 ? (_jsx(TableRow, { children: _jsx(TableCell, { colSpan: Object.keys(availableRoles).length > 0 ? 3 : 2, className: "text-center text-muted-foreground", children: "No users found matching your search" }) })) : (filteredUsers.map((user) => (_jsxs(TableRow, { className: "cursor-pointer", onClick: () => toggleUserSelection(user), children: [_jsx(TableCell, { onClick: (e) => e.stopPropagation(), children: _jsx(Checkbox, { checked: isUserSelected(user), onCheckedChange: () => toggleUserSelection(user) }) }), _jsx(TableCell, { className: "truncate", children: user.email }), Object.keys(availableRoles).length > 0 && (_jsx(TableCell, { onClick: (e) => e.stopPropagation(), children: isUserSelected(user) ? (_jsxs(Select, { value: getUserRole(user), onValueChange: (value) => updateUserRole(user, value), children: [_jsx(SelectTrigger, { className: "w-[180px]", children: _jsx(SelectValue, {}) }), _jsx(SelectContent, { children: Object.entries(availableRoles).map(([key, value]) => (_jsx(SelectItem, { value: key, children: value }, key))) })] })) : (_jsx("span", { className: "text-muted-foreground", children: "-" })) }))] }, user.id)))) })] }) })), searchQuery.length > 0 && searchQuery.length < 2 && selectedUsersWithRoles.length === 0 && (_jsx("p", { className: "text-sm text-muted-foreground text-center py-4", children: "Type at least 2 characters to search" }))] }));
 }

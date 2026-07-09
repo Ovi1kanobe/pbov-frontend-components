@@ -9,26 +9,38 @@ import {
 } from "../ui/table"
 import { Checkbox } from "../ui/checkbox"
 import { Input } from "../ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+
+export interface UserWithRole<T extends { id: string; email: string }> {
+  user: T
+  role: string
+}
 
 interface UserSelectionTableProps<T extends { id: string; email: string }> {
   users: T[]
-  selectedUsers: T[]
-  onSelectionChange: (selectedUsers: T[]) => void
+  selectedUsersWithRoles: UserWithRole<T>[]
+  onSelectionChange: (selectedUsersWithRoles: UserWithRole<T>[]) => void
+  availableRoles?: Record<string, string> // e.g., { "user": "user", "manager": "manager", "administrator": "administrator" }
+  defaultRole?: string
 }
 
 export function UserSelectionTable<T extends { id: string; email: string }>({
   users,
-  selectedUsers,
+  selectedUsersWithRoles,
   onSelectionChange,
+  availableRoles = {},
+  defaultRole = Object.keys(availableRoles)[0] || "user",
 }: UserSelectionTableProps<T>) {
   const [searchQuery, setSearchQuery] = React.useState("")
 
   // filter users based on search - only show results when at least 2 chars typed
   // Always show selected users regardless of search
   const filteredUsers = React.useMemo(() => {
+    const selectedUsersList = selectedUsersWithRoles.map(item => item.user)
+
     if (searchQuery.length < 2) {
       // Show selected users even when no search
-      return selectedUsers
+      return selectedUsersList
     }
 
     const query = searchQuery.toLowerCase()
@@ -38,10 +50,10 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
     })
 
     // Combine selected users with search results, avoiding duplicates
-    const selectedIds = new Set(selectedUsers.map(u => u.id))
+    const selectedIds = new Set(selectedUsersList.map(u => u.id))
 
     // Add selected users first, then matching non-selected users
-    const combined = [...selectedUsers]
+    const combined = [...selectedUsersList]
     matchingUsers.forEach(user => {
       if (!selectedIds.has(user.id)) {
         combined.push(user)
@@ -49,18 +61,30 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
     })
 
     return combined
-  }, [users, searchQuery, selectedUsers])
+  }, [users, searchQuery, selectedUsersWithRoles])
 
   const isUserSelected = (user: T) => {
-    return selectedUsers.some((u) => u.id === user.id)
+    return selectedUsersWithRoles.some((item) => item.user.id === user.id)
+  }
+
+  const getUserRole = (user: T) => {
+    const found = selectedUsersWithRoles.find((item) => item.user.id === user.id)
+    return found?.role || defaultRole
   }
 
   const toggleUserSelection = (user: T) => {
     if (isUserSelected(user)) {
-      onSelectionChange(selectedUsers.filter((u) => u.id !== user.id))
+      onSelectionChange(selectedUsersWithRoles.filter((item) => item.user.id !== user.id))
     } else {
-      onSelectionChange([...selectedUsers, user])
+      onSelectionChange([...selectedUsersWithRoles, { user, role: defaultRole }])
     }
+  }
+
+  const updateUserRole = (user: T, role: string) => {
+    const updated = selectedUsersWithRoles.map((item) =>
+      item.user.id === user.id ? { ...item, role } : item
+    )
+    onSelectionChange(updated)
   }
 
   const toggleSelectAll = () => {
@@ -68,13 +92,13 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
     if (allFiltered) {
       // deselect all filtered users
       const filteredIds = new Set(filteredUsers.map((u) => u.id))
-      onSelectionChange(selectedUsers.filter((u) => !filteredIds.has(u.id)))
+      onSelectionChange(selectedUsersWithRoles.filter((item) => !filteredIds.has(item.user.id)))
     } else {
       // select all filtered users
-      const newSelection = [...selectedUsers]
+      const newSelection = [...selectedUsersWithRoles]
       filteredUsers.forEach((user) => {
         if (!isUserSelected(user)) {
-          newSelection.push(user)
+          newSelection.push({ user, role: defaultRole })
         }
       })
       onSelectionChange(newSelection)
@@ -91,7 +115,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-4"
       />
-      {(searchQuery.length >= 2 || selectedUsers.length > 0) && (
+      {(searchQuery.length >= 2 || selectedUsersWithRoles.length > 0) && (
         <div className="border rounded-md max-h-100 overflow-y-auto">
           <Table>
             <TableHeader className="sticky top-0 bg-background">
@@ -103,12 +127,15 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                   />
                 </TableHead>
                 <TableHead>Email</TableHead>
+                {Object.keys(availableRoles).length > 0 && (
+                  <TableHead>Role</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={2} className="text-center text-muted-foreground">
+                  <TableCell colSpan={Object.keys(availableRoles).length > 0 ? 3 : 2} className="text-center text-muted-foreground">
                     No users found matching your search
                   </TableCell>
                 </TableRow>
@@ -126,6 +153,29 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
                       />
                     </TableCell>
                     <TableCell className="truncate">{user.email}</TableCell>
+                    {Object.keys(availableRoles).length > 0 && (
+                      <TableCell onClick={(e) => e.stopPropagation()}>
+                        {isUserSelected(user) ? (
+                          <Select
+                            value={getUserRole(user)}
+                            onValueChange={(value) => updateUserRole(user, value)}
+                          >
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(availableRoles).map(([key, value]) => (
+                                <SelectItem key={key} value={key}>
+                                  {value}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <span className="text-muted-foreground">-</span>
+                        )}
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))
               )}
@@ -133,7 +183,7 @@ export function UserSelectionTable<T extends { id: string; email: string }>({
           </Table>
         </div>
       )}
-      {searchQuery.length > 0 && searchQuery.length < 2 && selectedUsers.length === 0 && (
+      {searchQuery.length > 0 && searchQuery.length < 2 && selectedUsersWithRoles.length === 0 && (
         <p className="text-sm text-muted-foreground text-center py-4">
           Type at least 2 characters to search
         </p>

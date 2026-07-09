@@ -8,13 +8,15 @@ import {
   DialogTitle,
 } from "../ui/dialog"
 import { Button } from "../ui/button"
-import { UserSelectionTable } from "./user-selection-table"
+import { UserSelectionTable, type UserWithRole } from "./user-selection-table"
 
 interface UserRequestDialogProps<T extends { id: string; email: string }> {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onConfirm: (selectedUsers: T[]) => void
+  onConfirm: (selectedUsersWithRoles: UserWithRole<T>[]) => void
   users: T[]
+  availableRoles?: Record<string, string>
+  defaultRole?: string
   title?: string
   description?: string
 }
@@ -24,20 +26,22 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
   onOpenChange,
   onConfirm,
   users,
+  availableRoles,
+  defaultRole,
   title = "Select Users",
   description = "Search and select users to request permissions for",
 }: UserRequestDialogProps<T>) {
-  const [selectedUsers, setSelectedUsers] = React.useState<T[]>([])
+  const [selectedUsersWithRoles, setSelectedUsersWithRoles] = React.useState<UserWithRole<T>[]>([])
 
   const handleConfirm = () => {
-    onConfirm(selectedUsers)
+    onConfirm(selectedUsersWithRoles)
     onOpenChange(false)
-    setSelectedUsers([])
+    setSelectedUsersWithRoles([])
   }
 
   const handleCancel = () => {
     onOpenChange(false)
-    setSelectedUsers([])
+    setSelectedUsersWithRoles([])
   }
 
   return (
@@ -50,8 +54,10 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
         <div className="py-4">
           <UserSelectionTable
             users={users}
-            selectedUsers={selectedUsers}
-            onSelectionChange={setSelectedUsers}
+            selectedUsersWithRoles={selectedUsersWithRoles}
+            onSelectionChange={setSelectedUsersWithRoles}
+            availableRoles={availableRoles}
+            defaultRole={defaultRole}
           />
         </div>
         <DialogFooter>
@@ -60,9 +66,9 @@ export function UserRequestDialog<T extends { id: string; email: string }>({
           </Button>
           <Button
             onClick={handleConfirm}
-            disabled={selectedUsers.length === 0}
+            disabled={selectedUsersWithRoles.length === 0}
           >
-            Request Permissions ({selectedUsers.length})
+            Request Permissions ({selectedUsersWithRoles.length})
           </Button>
         </DialogFooter>
       </DialogContent>

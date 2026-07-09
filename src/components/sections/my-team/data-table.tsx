@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
           }
           className="min-w-60 flex-1 bg-white"
         />
-        <Button className="w-fit shrink-0"><Plus /> Request New</Button>
+        <Button className="w-fit shrink-0"><Plus /> Request New Team Member</Button>
       </div>
         <div className="overflow-hidden rounded-md border">
           <Table>
@@ -135,7 +135,7 @@ export function DataTable<TData, TValue>({
           className="w-fit shrink-0"
           onClick={() => onRequestUsers && onRequestUsers(table.getSelectedRowModel().rows.map(row => row.original))}
         >
-          <Plus /> Request New
+          <Plus /> Request New Team Member
         </Button>
       </div>
     <div className="overflow-hidden rounded-md border h-135 flex flex-col">
