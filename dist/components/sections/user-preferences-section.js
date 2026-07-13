@@ -1,8 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { ExternalLink, User } from "lucide-react";
 import Pocketbase from "pocketbase";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 import { SettingsWidget } from "../core/settings-widget";
 import { DarkModeSelectionWidget } from "../widgets/dark-mode-selection-widget";
 import { ThemeSelectionWidget } from "../widgets/theme-selection-widget";
@@ -10,7 +11,7 @@ import { UserAvatarUploadWidget } from "../widgets/user-avatar-upload-widget";
 import { UserColorSelectionWidget } from "../widgets/user-color-selection-widget";
 import { UserProfileDisplayWidget } from "../widgets/user-profile-display-widget";
 import { useDebounce } from "../../hooks/useDebounce";
-export function UserPreferencesSection({ user, pb, updateUser, preferences, updatePreferences, isDarkMode, setDarkMode, availableThemes, theme, setTheme, onError, }) {
+export function UserPreferencesSection({ user, pb, updateUser, preferences, updatePreferences, isDarkMode, setDarkMode, availableThemes, theme, setTheme, onError, profileManagedBy, }) {
     const handleError = onError ?? ((message) => toast.error(message));
     // local color state, debounced so dragging the picker doesn't spam updatePreferences
     const [localColor, setLocalColor] = useState(preferences?.color || "#000000");
@@ -32,5 +33,12 @@ export function UserPreferencesSection({ user, pb, updateUser, preferences, upda
     if (!user) {
         return (_jsx(SettingsWidget, { title: "User Preferences", description: "Please log in to view and edit your preferences.", icon: _jsx(User, { size: 18 }), children: _jsx("p", { className: "text-sm text-muted-foreground", children: "You need to be logged in to access your preferences." }) }));
     }
-    return (_jsxs("div", { className: "space-y-6", children: [_jsx(UserProfileDisplayWidget, { user: user, pb: pb }), _jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [_jsx(UserAvatarUploadWidget, { user: user, pb: pb, updateUser: updateUser }), _jsx(UserColorSelectionWidget, { currentColor: localColor, setCurrentColor: setLocalColor, onError: handleError })] }), _jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [_jsx(ThemeSelectionWidget, { theme: theme, setTheme: setTheme, availableThemes: availableThemes }), _jsx(DarkModeSelectionWidget, { isDarkMode: isDarkMode, setDarkMode: setDarkMode })] })] }));
+    return (_jsxs("div", { className: "space-y-6", children: [_jsx(UserProfileDisplayWidget, { user: user, pb: pb }), _jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [profileManagedBy ? (_jsx(ManagedProfileWidget, { url: profileManagedBy.url, label: profileManagedBy.label })) : (_jsx(UserAvatarUploadWidget, { user: user, pb: pb, updateUser: updateUser })), _jsx(UserColorSelectionWidget, { currentColor: localColor, setCurrentColor: setLocalColor, onError: handleError })] }), _jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-2 gap-6", children: [_jsx(ThemeSelectionWidget, { theme: theme, setTheme: setTheme, availableThemes: availableThemes }), _jsx(DarkModeSelectionWidget, { isDarkMode: isDarkMode, setDarkMode: setDarkMode })] })] }));
+}
+// Shown in place of the avatar upload when the profile is synced from the
+// parent app — same pattern as Microsoft 365 apps linking out to the account
+// page instead of editing the profile in-place.
+function ManagedProfileWidget({ url, label }) {
+    const appLabel = label ?? "CCFW";
+    return (_jsx(SettingsWidget, { title: "Profile", description: `Your name, email, role, and avatar are managed centrally in ${appLabel}.`, icon: _jsx(User, { size: 18 }), children: _jsxs("div", { className: "space-y-3", children: [_jsx("p", { className: "text-xs text-muted-foreground", children: "Changes made there sync to this app automatically." }), _jsx(Button, { asChild: true, size: "sm", variant: "outline", className: "gap-1.5", children: _jsxs("a", { href: url, target: "_blank", rel: "noreferrer", children: [_jsx(ExternalLink, { size: 12 }), "Edit profile on ", appLabel] }) })] }) }));
 }

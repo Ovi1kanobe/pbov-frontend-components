@@ -35,5 +35,15 @@ export interface UserPreferencesSectionProps {
     setTheme: (theme: string) => void;
     /** Optional error handler; defaults to a toast. */
     onError?: (message: string) => void;
+    /**
+     * When set, the user's identity (name, email, role, avatar) is managed by
+     * the parent ccfw app: the avatar upload is replaced with a link to edit
+     * the profile there. Build the value from useParentLinkInfo — pass null on
+     * the parent app or while the link is down to keep local avatar editing.
+     */
+    profileManagedBy?: {
+        url: string;
+        label?: string;
+    } | null;
 }
-export declare function UserPreferencesSection({ user, pb, updateUser, preferences, updatePreferences, isDarkMode, setDarkMode, availableThemes, theme, setTheme, onError, }: UserPreferencesSectionProps): import("react").JSX.Element;
+export declare function UserPreferencesSection({ user, pb, updateUser, preferences, updatePreferences, isDarkMode, setDarkMode, availableThemes, theme, setTheme, onError, profileManagedBy, }: UserPreferencesSectionProps): import("react").JSX.Element;
