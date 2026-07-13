@@ -1,3 +1,43 @@
+# pbov-frontend-components — Notes for Claude
+
+Shared React component library (`@ovi1kanobe/pbov`) for the court's PocketBase
+apps (ccfw, cccr, ccja, ccme). Consumed as a git dependency; the built `dist/`
+is committed so apps install straight from GitHub.
+
+## Component conventions
+
+- **Components are presentational — they never make network requests.** No
+  `pb.send`, no `pb.collection`, no fetch inside a component or a hook shipped
+  from this package. Anything that needs data takes it as props; anything that
+  needs to *do* something takes a function prop (e.g.
+  `fetchStatus: () => Promise<Status>`, `saveConfig: (c) => Promise<Config>`).
+  The consuming app owns endpoints, auth, and the PocketBase client. See
+  `ParentLinkSection` / `DiagnosticsSection` for the pattern.
+- A `pb` prop is acceptable only for non-request uses like building file URLs
+  (`pb.files.getURL`), as in the avatar widgets.
+- Components that poll via a function prop must keep the latest fn in a ref
+  (see `DiagnosticsSection`) so callers can pass inline arrows without the
+  changing identity resetting the interval every render.
+- Export the request/response types next to the component so apps can type
+  their `pb.send` calls.
+- Generic, reusable UI lives here; app-specific composition stays in the app,
+  colocated under the page that uses it (`_components/`).
+- User-facing actions must give feedback: toast on success and failure, and
+  disable buttons while in flight. Show dirty state on forms with a Save.
+
+## Publishing a change (apps consume this via git)
+
+1. `bun run build` in this package.
+2. `git status` and check for weird build artifacts — especially macOS
+   duplicate files like `foo 2.js` in `dist/`. Delete them and rebuild if any
+   show up. Never commit them.
+3. Commit `src/` + `dist/` together and push to main.
+4. In each consuming app's `frontend/`: `bun pm cache rm` first — bun's cache
+   likes to keep serving old versions of git deps — then
+   `bun update @ovi1kanobe/pbov` (ccme aliases it as plain `pbov`).
+5. `bun run build` in the app to confirm.
+
+## Bun basics
 
 Default to using Bun instead of Node.js.
 

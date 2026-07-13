@@ -13,6 +13,8 @@ export type ParentLinkModuleStatus = {
     last_pull_at: string;
     last_status: string;
     last_error: string;
+    /** Parent's word on whether this module is enabled for this app; null until the first heartbeat. */
+    synced_on_parent?: boolean | null;
     extra?: Record<string, unknown>;
 };
 export type ParentLinkStatusResponse = {

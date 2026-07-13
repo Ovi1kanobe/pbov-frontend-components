@@ -34,6 +34,8 @@ export type ParentLinkModuleStatus = {
   last_pull_at: string;
   last_status: string;
   last_error: string;
+  /** Parent's word on whether this module is enabled for this app; null until the first heartbeat. */
+  synced_on_parent?: boolean | null;
   extra?: Record<string, unknown>;
 };
 
@@ -349,6 +351,7 @@ export function ParentLinkSection({
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <ModuleStatusBadge status={m.last_status} />
+              <SyncedOnParentBadge synced={m.synced_on_parent} />
               <Button
                 size="sm"
                 variant="outline"
@@ -427,6 +430,33 @@ function ConnBadge({ ok, link }: { ok: boolean; link: ParentLinkLinkStatus }) {
     <Badge variant="outline" className="gap-1 border-destructive/40 text-destructive">
       <AlertCircle size={11} />
       {label}
+    </Badge>
+  );
+}
+
+// SyncedOnParentBadge reports whether the parent admin has this module's sync
+// turned on — the answer comes back on every heartbeat, so null means the
+// first heartbeat hasn't landed yet.
+function SyncedOnParentBadge({ synced }: { synced?: boolean | null }) {
+  if (synced === null || synced === undefined) {
+    return (
+      <Badge variant="outline" className="gap-1 text-muted-foreground">
+        Parent status unknown
+      </Badge>
+    );
+  }
+  if (synced) {
+    return (
+      <Badge variant="outline" className="gap-1 border-green-600/40 text-green-700 dark:text-green-400">
+        <CheckCircle2 size={11} />
+        Enabled on CCFW
+      </Badge>
+    );
+  }
+  return (
+    <Badge variant="outline" className="gap-1 border-amber-500/40 text-amber-700 dark:text-amber-400">
+      <AlertCircle size={11} />
+      Not enabled on CCFW
     </Badge>
   );
 }
