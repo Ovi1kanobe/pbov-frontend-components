@@ -1,15 +1,33 @@
-import Pocketbase from "pocketbase";
+export type DiagnosticsResponse = {
+    go_version: string;
+    go_os: string;
+    go_arch: string;
+    process_started_at: string;
+    uptime_seconds: number;
+    num_goroutines: number;
+    pocketbase_version: string;
+    nginx_version: string;
+    bun_version: string;
+    hostname: string;
+    pid: number;
+    mem_alloc_mib: number;
+    mem_total_alloc_mib: number;
+    mem_sys_mib: number;
+    mem_heap_alloc_mib: number;
+    system_ram_bytes: number;
+    frontend_size_bytes: number;
+};
 export interface DiagnosticsSectionProps {
-    pb: Pocketbase;
     /**
-     * Endpoint to poll. Defaults to the local app's /api/diagnostics. Point it
-     * at /api/apps/{id}/diagnostics on ccfw to view a child app's diagnostics
-     * through the parent's proxy.
+     * Fetch one diagnostics snapshot. Called on mount and every pollMs. The
+     * consuming app owns the endpoint and auth — e.g. the local
+     * /api/diagnostics, or ccfw's /api/apps/{id}/diagnostics proxy (unwrap its
+     * { diagnostics } envelope in the fn).
      */
-    endpoint?: string;
-    /** Poll interval in ms. Default 2000 — use a longer one against the proxy, it caches for 30s. */
+    fetchDiagnostics: () => Promise<DiagnosticsResponse>;
+    /** Poll interval in ms. Default 2000 — use a longer one against ccfw's proxy, it caches for 30s. */
     pollMs?: number;
     /** Card title. Default "Server diagnostics". */
     title?: string;
 }
-export declare function DiagnosticsSection({ pb, endpoint, pollMs, title, }: DiagnosticsSectionProps): import("react").JSX.Element | null;
+export declare function DiagnosticsSection({ fetchDiagnostics, pollMs, title, }: DiagnosticsSectionProps): import("react").JSX.Element | null;

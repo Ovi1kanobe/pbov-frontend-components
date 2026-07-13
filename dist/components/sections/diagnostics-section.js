@@ -1,6 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useCallback, useEffect, useState } from "react";
-import Pocketbase from "pocketbase";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Activity, AlertCircle, RefreshCw } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -15,16 +14,19 @@ const memChartConfig = {
     heap: { label: "Heap", color: "var(--chart-1)" },
     sys: { label: "Sys", color: "var(--chart-2)" },
 };
-export function DiagnosticsSection({ pb, endpoint = "/api/diagnostics", pollMs = 2_000, title = "Server diagnostics", }) {
+export function DiagnosticsSection({ fetchDiagnostics, pollMs = 2_000, title = "Server diagnostics", }) {
     const [data, setData] = useState(null);
     const [samples, setSamples] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // ref'd so inline arrow props don't reset the poll interval every render
+    const fetchRef = useRef(fetchDiagnostics);
+    useEffect(() => {
+        fetchRef.current = fetchDiagnostics;
+    });
     const load = useCallback(async () => {
         try {
-            const raw = await pb.send(endpoint, { method: "GET" });
-            // ccfw's per-app proxy wraps the child's payload in { diagnostics, cached, ... }
-            const res = "diagnostics" in raw ? raw.diagnostics : raw;
+            const res = await fetchRef.current();
             setData(res);
             setError(null);
             // push this reading into the rolling window, dropping the oldest
@@ -49,12 +51,8 @@ export function DiagnosticsSection({ pb, endpoint = "/api/diagnostics", pollMs =
         finally {
             setLoading(false);
         }
-    }, [pb, endpoint]);
+    }, []);
     useEffect(() => {
-        // reset the rolling memory window when the target changes
-        setSamples([]);
-        setData(null);
-        setLoading(true);
         load();
         const t = window.setInterval(load, pollMs);
         return () => window.clearInterval(t);

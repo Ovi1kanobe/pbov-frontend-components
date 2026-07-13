@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import Pocketbase from "pocketbase";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AlertCircle,
   CheckCircle2,
@@ -19,7 +18,7 @@ import { Switch } from "../ui/switch";
 import { SettingsWidget } from "../core/settings-widget";
 import { PocketBaseError } from "../../lib/pberror";
 
-type LinkStatus = {
+export type ParentLinkLinkStatus = {
   configured: boolean;
   enabled: boolean;
   parent_url: string;
@@ -29,7 +28,7 @@ type LinkStatus = {
   last_inbound_push_at: string;
 };
 
-type ModuleStatus = {
+export type ParentLinkModuleStatus = {
   name: string;
   last_push_at: string;
   last_pull_at: string;
@@ -38,46 +37,89 @@ type ModuleStatus = {
   extra?: Record<string, unknown>;
 };
 
-type StatusResponse = {
-  link: LinkStatus;
-  modules: ModuleStatus[];
+export type ParentLinkStatusResponse = {
+  link: ParentLinkLinkStatus;
+  modules: ParentLinkModuleStatus[];
 };
 
-type ConfigResponse = {
+export type ParentLinkConfig = {
   parent_url: string;
   parent_app_id: string;
   secret_set: boolean;
   enabled: boolean;
 };
 
+export type ParentLinkConfigUpdate = {
+  parent_url: string;
+  parent_app_id: string;
+  /** Empty string keeps the stored secret. */
+  parent_secret: string;
+  enabled: boolean;
+};
+
+export type ParentLinkPullResult = {
+  ok: boolean;
+  pulled?: number;
+  created?: number;
+  updated?: number;
+  noop?: number;
+  errors?: string[];
+};
+
 export interface ParentLinkSectionProps {
-  pb: Pocketbase;
+  /** GET the link + module status. Called on mount and every pollMs. */
+  fetchStatus: () => Promise<ParentLinkStatusResponse>;
+  /** GET the current connection config (secret redacted). Called on mount and after save. */
+  fetchConfig: () => Promise<ParentLinkConfig>;
+  /** POST new connection settings; resolves with the saved config. */
+  saveConfig: (config: ParentLinkConfigUpdate) => Promise<ParentLinkConfig>;
+  /** POST a force pull for one module; resolves with counts. */
+  forcePull: (module: string) => Promise<ParentLinkPullResult>;
+  /** Status poll interval in ms. Default 5000. */
+  pollMs?: number;
 }
 
 /**
  * Parent-connection settings and sync status for a child app linked to the
- * central ccfw instance. Admins paste the application id + secret issued by
- * ccfw's Applications page here; the section then shows live heartbeat and
- * per-module sync status, with a force-pull per module. Child apps only —
- * ccfw itself is the parent.
+ * central ccfw instance. Purely presentational — all network calls come in
+ * through the fetch/save/pull props, so the consuming app decides endpoints
+ * and auth. Admins paste the application id + secret issued by ccfw's
+ * Applications page here; the section then shows live heartbeat and
+ * per-module sync status, with a force-pull per module.
  */
-export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
-  const [status, setStatus] = useState<StatusResponse | null>(null);
+export function ParentLinkSection({
+  fetchStatus,
+  fetchConfig,
+  saveConfig,
+  forcePull,
+  pollMs = 5000,
+}: ParentLinkSectionProps) {
+  const [status, setStatus] = useState<ParentLinkStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pulling, setPulling] = useState<string | null>(null);
 
   // connection form
-  const [config, setConfig] = useState<ConfigResponse | null>(null);
+  const [config, setConfig] = useState<ParentLinkConfig | null>(null);
   const [parentUrl, setParentUrl] = useState("");
   const [parentAppId, setParentAppId] = useState("");
   const [parentSecret, setParentSecret] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // keep the latest fns in refs so callers can pass inline arrows without
+  // retriggering the poll effect (a new fn identity every render would
+  // otherwise reset the interval and refire the load each render)
+  const fetchStatusRef = useRef(fetchStatus);
+  const fetchConfigRef = useRef(fetchConfig);
+  useEffect(() => {
+    fetchStatusRef.current = fetchStatus;
+    fetchConfigRef.current = fetchConfig;
+  });
+
   const loadStatus = useCallback(async () => {
     try {
-      const res = await pb.send<StatusResponse>("/api/parentlink/status", { method: "GET" });
+      const res = await fetchStatusRef.current();
       setStatus(res);
       setError(null);
     } catch (e) {
@@ -87,11 +129,11 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
     } finally {
       setLoading(false);
     }
-  }, [pb]);
+  }, []);
 
   const loadConfig = useCallback(async () => {
     try {
-      const res = await pb.send<ConfigResponse>("/api/parentlink/config", { method: "GET" });
+      const res = await fetchConfigRef.current();
       setConfig(res);
       setParentUrl(res.parent_url);
       setParentAppId(res.parent_app_id);
@@ -99,33 +141,43 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
     } catch (e) {
       const err = e as PocketBaseError;
       if (err?.isAbort) return;
-      // status card already surfaces connectivity problems; a config load
-      // failure just leaves the form blank
+      // the status card already surfaces connectivity problems; a config
+      // load failure just leaves the form blank
     }
-  }, [pb]);
+  }, []);
 
   useEffect(() => {
     loadStatus();
     loadConfig();
-    const t = window.setInterval(loadStatus, 5000);
+    const t = window.setInterval(loadStatus, pollMs);
     return () => window.clearInterval(t);
-  }, [loadStatus, loadConfig]);
+  }, [loadStatus, loadConfig, pollMs]);
 
-  const saveConfig = async () => {
+  // dirty when the form differs from the last loaded config
+  const dirty =
+    config === null
+      ? parentUrl !== "" || parentAppId !== "" || parentSecret !== "" || enabled
+      : parentUrl.trim() !== config.parent_url ||
+        parentAppId.trim() !== config.parent_app_id ||
+        parentSecret !== "" ||
+        enabled !== config.enabled;
+
+  const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await pb.send<ConfigResponse>("/api/parentlink/config", {
-        method: "POST",
-        body: {
-          parent_url: parentUrl.trim(),
-          parent_app_id: parentAppId.trim(),
-          parent_secret: parentSecret.trim(), // empty keeps the stored secret
-          enabled,
-        },
+      const res = await saveConfig({
+        parent_url: parentUrl.trim(),
+        parent_app_id: parentAppId.trim(),
+        parent_secret: parentSecret.trim(),
+        enabled,
       });
       setConfig(res);
       setParentSecret("");
-      toast.success("Connection settings saved");
+      toast.success(
+        res.enabled
+          ? "Saved — connecting on the next heartbeat (~30s)"
+          : "Saved — connection disabled",
+      );
       await loadStatus();
     } catch (e) {
       const err = e as PocketBaseError;
@@ -135,17 +187,10 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
     }
   };
 
-  const forcePull = async (moduleName: string) => {
+  const handleForcePull = async (moduleName: string) => {
     setPulling(moduleName);
     try {
-      const res = await pb.send<{
-        ok: boolean;
-        pulled?: number;
-        created?: number;
-        updated?: number;
-        noop?: number;
-        errors?: string[];
-      }>(`/api/sync/${moduleName}/pull`, { method: "POST" });
+      const res = await forcePull(moduleName);
       if (res.pulled === 0) {
         toast.warning(`${moduleName}: parent returned 0 records — check sync is enabled for this app on ccfw`);
       } else {
@@ -195,6 +240,11 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <ConnBadge ok={connOk} link={link} />
+            {dirty && (
+              <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-400">
+                Unsaved changes
+              </Badge>
+            )}
             <Button
               size="sm"
               variant="outline"
@@ -248,7 +298,7 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
               <Switch id="pl-enabled" checked={enabled} onCheckedChange={setEnabled} />
               <Label htmlFor="pl-enabled" className="text-xs">Enable connection</Label>
             </div>
-            <Button size="sm" className="h-7 gap-1" onClick={saveConfig} disabled={saving}>
+            <Button size="sm" className="h-7 gap-1" onClick={handleSave} disabled={saving || !dirty}>
               {saving ? <Loader2 size={11} className="animate-spin" /> : <Save size={11} />}
               Save
             </Button>
@@ -281,6 +331,12 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
               rotating the secret on ccfw requires pasting the new one here.
             </Hint>
           )}
+          {link.configured && link.enabled && !link.last_heartbeat_status && (
+            <Hint>
+              Waiting for the first heartbeat — the connection is checked
+              roughly every 30 seconds.
+            </Hint>
+          )}
         </div>
       </SettingsWidget>
 
@@ -297,7 +353,7 @@ export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
                 size="sm"
                 variant="outline"
                 className="ml-auto h-7 gap-1"
-                onClick={() => forcePull(m.name)}
+                onClick={() => handleForcePull(m.name)}
                 disabled={!connOk || pulling === m.name}
               >
                 {pulling === m.name ? (
@@ -353,7 +409,7 @@ function moduleIcon(name: string) {
   return <Network size={18} />;
 }
 
-function ConnBadge({ ok, link }: { ok: boolean; link: LinkStatus }) {
+function ConnBadge({ ok, link }: { ok: boolean; link: ParentLinkLinkStatus }) {
   if (ok) {
     return (
       <Badge variant="outline" className="gap-1 border-green-600/40 text-green-700 dark:text-green-400">

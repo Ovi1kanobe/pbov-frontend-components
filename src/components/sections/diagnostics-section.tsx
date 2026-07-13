@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import Pocketbase from "pocketbase";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Activity, AlertCircle, RefreshCw } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -14,7 +13,7 @@ import {
 } from "../ui/chart";
 import { PocketBaseError } from "../../lib/pberror";
 
-type DiagnosticsResponse = {
+export type DiagnosticsResponse = {
   go_version: string;
   go_os: string;
   go_arch: string;
@@ -52,22 +51,21 @@ const memChartConfig = {
 } satisfies ChartConfig;
 
 export interface DiagnosticsSectionProps {
-  pb: Pocketbase;
   /**
-   * Endpoint to poll. Defaults to the local app's /api/diagnostics. Point it
-   * at /api/apps/{id}/diagnostics on ccfw to view a child app's diagnostics
-   * through the parent's proxy.
+   * Fetch one diagnostics snapshot. Called on mount and every pollMs. The
+   * consuming app owns the endpoint and auth — e.g. the local
+   * /api/diagnostics, or ccfw's /api/apps/{id}/diagnostics proxy (unwrap its
+   * { diagnostics } envelope in the fn).
    */
-  endpoint?: string;
-  /** Poll interval in ms. Default 2000 — use a longer one against the proxy, it caches for 30s. */
+  fetchDiagnostics: () => Promise<DiagnosticsResponse>;
+  /** Poll interval in ms. Default 2000 — use a longer one against ccfw's proxy, it caches for 30s. */
   pollMs?: number;
   /** Card title. Default "Server diagnostics". */
   title?: string;
 }
 
 export function DiagnosticsSection({
-  pb,
-  endpoint = "/api/diagnostics",
+  fetchDiagnostics,
   pollMs = 2_000,
   title = "Server diagnostics",
 }: DiagnosticsSectionProps) {
@@ -76,14 +74,15 @@ export function DiagnosticsSection({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // ref'd so inline arrow props don't reset the poll interval every render
+  const fetchRef = useRef(fetchDiagnostics);
+  useEffect(() => {
+    fetchRef.current = fetchDiagnostics;
+  });
+
   const load = useCallback(async () => {
     try {
-      const raw = await pb.send<DiagnosticsResponse | { diagnostics: DiagnosticsResponse }>(
-        endpoint,
-        { method: "GET" },
-      );
-      // ccfw's per-app proxy wraps the child's payload in { diagnostics, cached, ... }
-      const res = "diagnostics" in raw ? raw.diagnostics : raw;
+      const res = await fetchRef.current();
       setData(res);
       setError(null);
       // push this reading into the rolling window, dropping the oldest
@@ -105,13 +104,9 @@ export function DiagnosticsSection({
     } finally {
       setLoading(false);
     }
-  }, [pb, endpoint]);
+  }, []);
 
   useEffect(() => {
-    // reset the rolling memory window when the target changes
-    setSamples([]);
-    setData(null);
-    setLoading(true);
     load();
     const t = window.setInterval(load, pollMs);
     return () => window.clearInterval(t);
