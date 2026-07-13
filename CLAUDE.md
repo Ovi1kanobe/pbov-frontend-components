@@ -29,8 +29,11 @@ is committed so apps install straight from GitHub.
 
 1. `bun run build` in this package.
 2. `git status` and check for weird build artifacts — especially macOS
-   duplicate files like `foo 2.js` in `dist/`. Delete them and rebuild if any
-   show up. Never commit them.
+   duplicate files like `foo 2.js` in `dist/`. These are iCloud Drive conflict
+   copies (the repo lives under ~/Documents, which iCloud syncs) and can appear
+   at any moment, including between a clean check and the commit. Check `git
+   status` output in full immediately before committing; delete any and never
+   commit them: `find . -path ./node_modules -prune -o \( -name "* 2.*" -o -name "* 2" \) -exec rm -rf {} \;`
 3. Commit `src/` + `dist/` together and push to main.
 4. In each consuming app's `frontend/`: `bun pm cache rm` first — bun's cache
    likes to keep serving old versions of git deps — then
