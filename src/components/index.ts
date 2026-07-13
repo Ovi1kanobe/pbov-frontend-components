@@ -50,7 +50,7 @@ export * from "./widgets/user-selection-table";
 
 export * from "./sections/user-preferences-section";
 export * from "./sections/diagnostics-section";
-export * from "./sections/ccfw-sync-section";
+export * from "./sections/parent-link-section";
 export * from "./sections/my-team/user-actions";
 export * from "./sections/my-team/data-table";
 export * from "./sections/my-team/my-team-section";

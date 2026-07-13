@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { ExternalLink, User } from "lucide-react";
 import Pocketbase from "pocketbase";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 import { SettingsWidget } from "../core/settings-widget";
 import { DarkModeSelectionWidget } from "../widgets/dark-mode-selection-widget";
 import { ThemeSelectionWidget } from "../widgets/theme-selection-widget";
@@ -38,6 +39,13 @@ export interface UserPreferencesSectionProps {
   setTheme: (theme: string) => void;
   /** Optional error handler; defaults to a toast. */
   onError?: (message: string) => void;
+  /**
+   * When set, the user's identity (name, email, role, avatar) is managed by
+   * the parent ccfw app: the avatar upload is replaced with a link to edit
+   * the profile there. Build the value from useParentLinkInfo — pass null on
+   * the parent app or while the link is down to keep local avatar editing.
+   */
+  profileManagedBy?: { url: string; label?: string } | null;
 }
 
 export function UserPreferencesSection({
@@ -52,6 +60,7 @@ export function UserPreferencesSection({
   theme,
   setTheme,
   onError,
+  profileManagedBy,
 }: UserPreferencesSectionProps) {
   const handleError = onError ?? ((message: string) => toast.error(message));
 
@@ -94,7 +103,14 @@ export function UserPreferencesSection({
       <UserProfileDisplayWidget user={user} pb={pb} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <UserAvatarUploadWidget user={user} pb={pb} updateUser={updateUser} />
+        {profileManagedBy ? (
+          <ManagedProfileWidget
+            url={profileManagedBy.url}
+            label={profileManagedBy.label}
+          />
+        ) : (
+          <UserAvatarUploadWidget user={user} pb={pb} updateUser={updateUser} />
+        )}
 
         <UserColorSelectionWidget
           currentColor={localColor}
@@ -113,5 +129,31 @@ export function UserPreferencesSection({
         <DarkModeSelectionWidget isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
       </div>
     </div>
+  );
+}
+
+// Shown in place of the avatar upload when the profile is synced from the
+// parent app — same pattern as Microsoft 365 apps linking out to the account
+// page instead of editing the profile in-place.
+function ManagedProfileWidget({ url, label }: { url: string; label?: string }) {
+  const appLabel = label ?? "CCFW";
+  return (
+    <SettingsWidget
+      title="Profile"
+      description={`Your name, email, role, and avatar are managed centrally in ${appLabel}.`}
+      icon={<User size={18} />}
+    >
+      <div className="space-y-3">
+        <p className="text-xs text-muted-foreground">
+          Changes made there sync to this app automatically.
+        </p>
+        <Button asChild size="sm" variant="outline" className="gap-1.5">
+          <a href={url} target="_blank" rel="noreferrer">
+            <ExternalLink size={12} />
+            Edit profile on {appLabel}
+          </a>
+        </Button>
+      </div>
+    </SettingsWidget>
   );
 }

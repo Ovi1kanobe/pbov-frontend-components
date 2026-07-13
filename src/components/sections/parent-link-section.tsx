@@ -6,19 +6,22 @@ import {
   Loader2,
   Network,
   RefreshCw,
+  Save,
   Users as UsersIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { Switch } from "../ui/switch";
 import { SettingsWidget } from "../core/settings-widget";
 import { PocketBaseError } from "../../lib/pberror";
 
 type LinkStatus = {
   configured: boolean;
   enabled: boolean;
-  handshake_complete: boolean;
   parent_url: string;
   parent_app_id: string;
   last_heartbeat_at: string;
@@ -40,23 +43,39 @@ type StatusResponse = {
   modules: ModuleStatus[];
 };
 
-export interface CCFWSyncSectionProps {
+type ConfigResponse = {
+  parent_url: string;
+  parent_app_id: string;
+  secret_set: boolean;
+  enabled: boolean;
+};
+
+export interface ParentLinkSectionProps {
   pb: Pocketbase;
 }
 
 /**
- * Parent-connection and module-sync status for a child app linked to the
- * central ccfw instance. Polls /api/parentlink/status and lets an admin force
- * a per-module pull. Intended for child apps only — ccfw itself is the parent
- * and has nothing to sync from.
+ * Parent-connection settings and sync status for a child app linked to the
+ * central ccfw instance. Admins paste the application id + secret issued by
+ * ccfw's Applications page here; the section then shows live heartbeat and
+ * per-module sync status, with a force-pull per module. Child apps only —
+ * ccfw itself is the parent.
  */
-export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
+export function ParentLinkSection({ pb }: ParentLinkSectionProps) {
   const [status, setStatus] = useState<StatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pulling, setPulling] = useState<string | null>(null);
 
-  const load = useCallback(async () => {
+  // connection form
+  const [config, setConfig] = useState<ConfigResponse | null>(null);
+  const [parentUrl, setParentUrl] = useState("");
+  const [parentAppId, setParentAppId] = useState("");
+  const [parentSecret, setParentSecret] = useState("");
+  const [enabled, setEnabled] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const loadStatus = useCallback(async () => {
     try {
       const res = await pb.send<StatusResponse>("/api/parentlink/status", { method: "GET" });
       setStatus(res);
@@ -70,11 +89,51 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
     }
   }, [pb]);
 
+  const loadConfig = useCallback(async () => {
+    try {
+      const res = await pb.send<ConfigResponse>("/api/parentlink/config", { method: "GET" });
+      setConfig(res);
+      setParentUrl(res.parent_url);
+      setParentAppId(res.parent_app_id);
+      setEnabled(res.enabled);
+    } catch (e) {
+      const err = e as PocketBaseError;
+      if (err?.isAbort) return;
+      // status card already surfaces connectivity problems; a config load
+      // failure just leaves the form blank
+    }
+  }, [pb]);
+
   useEffect(() => {
-    load();
-    const t = window.setInterval(load, 5000);
+    loadStatus();
+    loadConfig();
+    const t = window.setInterval(loadStatus, 5000);
     return () => window.clearInterval(t);
-  }, [load]);
+  }, [loadStatus, loadConfig]);
+
+  const saveConfig = async () => {
+    setSaving(true);
+    try {
+      const res = await pb.send<ConfigResponse>("/api/parentlink/config", {
+        method: "POST",
+        body: {
+          parent_url: parentUrl.trim(),
+          parent_app_id: parentAppId.trim(),
+          parent_secret: parentSecret.trim(), // empty keeps the stored secret
+          enabled,
+        },
+      });
+      setConfig(res);
+      setParentSecret("");
+      toast.success("Connection settings saved");
+      await loadStatus();
+    } catch (e) {
+      const err = e as PocketBaseError;
+      toast.error(err?.message ?? "Failed to save connection settings");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const forcePull = async (moduleName: string) => {
     setPulling(moduleName);
@@ -82,21 +141,22 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
       const res = await pb.send<{
         ok: boolean;
         pulled?: number;
-        applied?: number;
-        conflicts?: number;
+        created?: number;
+        updated?: number;
+        noop?: number;
         errors?: string[];
       }>(`/api/sync/${moduleName}/pull`, { method: "POST" });
-      const parts: string[] = [];
-      if (typeof res.pulled === "number") parts.push(`pulled ${res.pulled}`);
-      if (typeof res.applied === "number") parts.push(`applied ${res.applied}`);
-      if (typeof res.conflicts === "number" && res.conflicts > 0) parts.push(`${res.conflicts} conflicts`);
-      const msg = `${moduleName}: ${parts.length > 0 ? parts.join(", ") : "pull complete"}`;
       if (res.pulled === 0) {
-        toast.warning(`${moduleName}: parent returned 0 users — check ccfw has users with ms_profile set`);
+        toast.warning(`${moduleName}: parent returned 0 records — check sync is enabled for this app on ccfw`);
       } else {
-        toast.success(msg);
+        const parts: string[] = [];
+        if (typeof res.pulled === "number") parts.push(`pulled ${res.pulled}`);
+        if (typeof res.created === "number" && res.created > 0) parts.push(`created ${res.created}`);
+        if (typeof res.updated === "number" && res.updated > 0) parts.push(`updated ${res.updated}`);
+        if (res.errors && res.errors.length > 0) parts.push(`${res.errors.length} errors`);
+        toast.success(`${moduleName}: ${parts.join(", ") || "pull complete"}`);
       }
-      await load();
+      await loadStatus();
     } catch (e) {
       const err = e as PocketBaseError;
       toast.error(err?.message ?? `${moduleName}: pull failed`);
@@ -111,7 +171,7 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
 
   if (error) {
     return (
-      <SettingsWidget title="CCFW Sync" icon={<Network size={18} />}>
+      <SettingsWidget title="Parent Link" icon={<Network size={18} />}>
         <div className="flex items-center gap-2 rounded border border-destructive/40 bg-destructive/10 p-3 text-sm">
           <AlertCircle size={14} className="text-destructive" />
           <span>{error}</span>
@@ -123,23 +183,23 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
   if (!status) return null;
 
   const link = status.link;
-  const connOk = link.configured && link.enabled && link.handshake_complete && link.last_heartbeat_status === "ok";
+  const connOk = link.configured && link.enabled && link.last_heartbeat_status === "ok";
 
   return (
     <div className="space-y-6">
       <SettingsWidget
         title="Parent Connection"
-        description="Connection to the central ccfw instance that drives user sync."
+        description="Connect this app to the central ccfw instance. Create the application on ccfw's Applications page and paste its id and secret here."
         icon={<Network size={18} />}
       >
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center gap-2">
             <ConnBadge ok={connOk} link={link} />
             <Button
               size="sm"
               variant="outline"
               className="ml-auto h-7 gap-1"
-              onClick={load}
+              onClick={loadStatus}
               disabled={loading}
             >
               <RefreshCw size={11} className={loading ? "animate-spin" : ""} />
@@ -149,26 +209,54 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
 
           <Separator />
 
+          {/* connection form */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="pl-url" className="text-xs">Parent URL</Label>
+              <Input
+                id="pl-url"
+                placeholder="https://ccfw.example.org"
+                value={parentUrl}
+                onChange={(e) => setParentUrl(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pl-appid" className="text-xs">Application ID</Label>
+              <Input
+                id="pl-appid"
+                placeholder="issued by ccfw"
+                className="font-mono"
+                value={parentAppId}
+                onChange={(e) => setParentAppId(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5 md:col-span-2">
+              <Label htmlFor="pl-secret" className="text-xs">Application Secret</Label>
+              <Input
+                id="pl-secret"
+                type="password"
+                className="font-mono"
+                placeholder={config?.secret_set ? "secret is set — leave blank to keep it" : "paste the secret from ccfw"}
+                value={parentSecret}
+                onChange={(e) => setParentSecret(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Switch id="pl-enabled" checked={enabled} onCheckedChange={setEnabled} />
+              <Label htmlFor="pl-enabled" className="text-xs">Enable connection</Label>
+            </div>
+            <Button size="sm" className="h-7 gap-1" onClick={saveConfig} disabled={saving}>
+              {saving ? <Loader2 size={11} className="animate-spin" /> : <Save size={11} />}
+              Save
+            </Button>
+          </div>
+
+          <Separator />
+
           <dl className="grid grid-cols-1 gap-3 text-xs md:grid-cols-2">
-            <Detail label="Parent URL">
-              {link.parent_url || <Muted>not set</Muted>}
-            </Detail>
-            <Detail label="Parent App ID">
-              {link.parent_app_id ? (
-                <span className="font-mono">{link.parent_app_id}</span>
-              ) : (
-                <Muted>not set</Muted>
-              )}
-            </Detail>
-            <Detail label="Configured">
-              <BoolPill ok={link.configured} />
-            </Detail>
-            <Detail label="Enabled">
-              <BoolPill ok={link.enabled} />
-            </Detail>
-            <Detail label="Handshake complete">
-              <BoolPill ok={link.handshake_complete} />
-            </Detail>
             <Detail label="Last heartbeat status">
               {link.last_heartbeat_status ? (
                 <span className={link.last_heartbeat_status === "ok" ? "text-green-600" : "text-destructive"}>
@@ -181,24 +269,16 @@ export function CCFWSyncSection({ pb }: CCFWSyncSectionProps) {
             <Detail label="Last heartbeat at">
               {fmtTime(link.last_heartbeat_at)}
             </Detail>
-            <Detail label="Last inbound push at">
+            <Detail label="Last inbound push at" full>
               {fmtTime(link.last_inbound_push_at)}
             </Detail>
           </dl>
 
-          {!link.configured && (
+          {link.configured && link.enabled && link.last_heartbeat_status && link.last_heartbeat_status !== "ok" && (
             <Hint>
-              Fill in <code>parent_url</code>, <code>parent_app_id</code>, and{" "}
-              <code>parent_secret</code> on the singleton <code>_parent_link</code>{" "}
-              row (PocketBase admin UI) to start syncing.
-            </Hint>
-          )}
-          {link.configured && !link.handshake_complete && (
-            <Hint>
-              Config is in place but the child hasn't completed the handshake
-              yet. Wait ~30s for the next heartbeat tick. If status stays in
-              error, check that <code>parent_url</code> is reachable and the
-              parent app's <code>secret</code> matches what's pasted here.
+              The heartbeat is failing. Check that the parent URL is reachable
+              and that the application id + secret match what ccfw issued —
+              rotating the secret on ccfw requires pasting the new one here.
             </Hint>
           )}
         </div>
@@ -285,8 +365,8 @@ function ConnBadge({ ok, link }: { ok: boolean; link: LinkStatus }) {
   let label = "Disconnected";
   if (!link.configured) label = "Not configured";
   else if (!link.enabled) label = "Disabled";
-  else if (!link.handshake_complete) label = "Handshake pending";
   else if (link.last_heartbeat_status && link.last_heartbeat_status !== "ok") label = "Heartbeat error";
+  else if (!link.last_heartbeat_status) label = "Waiting for first heartbeat";
   return (
     <Badge variant="outline" className="gap-1 border-destructive/40 text-destructive">
       <AlertCircle size={11} />
@@ -315,14 +395,6 @@ function ModuleStatusBadge({ status }: { status: string }) {
     <Badge variant="outline" className="gap-1 border-destructive/40 text-destructive">
       <AlertCircle size={11} />
       {status}
-    </Badge>
-  );
-}
-
-function BoolPill({ ok }: { ok: boolean }) {
-  return (
-    <Badge variant="outline" className={ok ? "border-green-600/40 text-green-700 dark:text-green-400" : "border-muted-foreground/40 text-muted-foreground"}>
-      {ok ? "yes" : "no"}
     </Badge>
   );
 }

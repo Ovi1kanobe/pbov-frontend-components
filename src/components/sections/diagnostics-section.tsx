@@ -53,9 +53,24 @@ const memChartConfig = {
 
 export interface DiagnosticsSectionProps {
   pb: Pocketbase;
+  /**
+   * Endpoint to poll. Defaults to the local app's /api/diagnostics. Point it
+   * at /api/apps/{id}/diagnostics on ccfw to view a child app's diagnostics
+   * through the parent's proxy.
+   */
+  endpoint?: string;
+  /** Poll interval in ms. Default 2000 — use a longer one against the proxy, it caches for 30s. */
+  pollMs?: number;
+  /** Card title. Default "Server diagnostics". */
+  title?: string;
 }
 
-export function DiagnosticsSection({ pb }: DiagnosticsSectionProps) {
+export function DiagnosticsSection({
+  pb,
+  endpoint = "/api/diagnostics",
+  pollMs = 2_000,
+  title = "Server diagnostics",
+}: DiagnosticsSectionProps) {
   const [data, setData] = useState<DiagnosticsResponse | null>(null);
   const [samples, setSamples] = useState<MemSample[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +78,12 @@ export function DiagnosticsSection({ pb }: DiagnosticsSectionProps) {
 
   const load = useCallback(async () => {
     try {
-      const res = await pb.send<DiagnosticsResponse>("/api/diagnostics", { method: "GET" });
+      const raw = await pb.send<DiagnosticsResponse | { diagnostics: DiagnosticsResponse }>(
+        endpoint,
+        { method: "GET" },
+      );
+      // ccfw's per-app proxy wraps the child's payload in { diagnostics, cached, ... }
+      const res = "diagnostics" in raw ? raw.diagnostics : raw;
       setData(res);
       setError(null);
       // push this reading into the rolling window, dropping the oldest
@@ -85,13 +105,17 @@ export function DiagnosticsSection({ pb }: DiagnosticsSectionProps) {
     } finally {
       setLoading(false);
     }
-  }, [pb]);
+  }, [pb, endpoint]);
 
   useEffect(() => {
+    // reset the rolling memory window when the target changes
+    setSamples([]);
+    setData(null);
+    setLoading(true);
     load();
-    const t = window.setInterval(load, 2_000);
+    const t = window.setInterval(load, pollMs);
     return () => window.clearInterval(t);
-  }, [load]);
+  }, [load, pollMs]);
 
   if (loading && !data) {
     return <p className="py-12 text-center text-sm text-muted-foreground">Loading diagnostics…</p>;
@@ -115,7 +139,7 @@ export function DiagnosticsSection({ pb }: DiagnosticsSectionProps) {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Activity size={14} className="text-muted-foreground" />
-          Server diagnostics
+          {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
