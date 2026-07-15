@@ -34,6 +34,7 @@ export * from "./core/user-avatar";
 export * from "./core/user-avatar-form";
 export * from "./core/dark-mode-switch";
 export * from "./core/settings-widget";
+export * from "./core/map-view";
 export * from "./core/settings-navigation";
 export * from "./core/feedback-dialog-box";
 export * from "./core/header";
