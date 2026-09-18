@@ -98,9 +98,9 @@ export function UpdatesSection({
     try {
       const res = await fetchConfigRef.current();
       setConfig(res);
-      setRepoOwner(res.repo_owner);
-      setRepoName(res.repo_name);
-      setEnabled(res.enabled);
+      setRepoOwner(res.repo_owner ?? "");
+      setRepoName(res.repo_name ?? "");
+      setEnabled(res.enabled ?? false);
       setError(null);
     } catch (e) {
       const err = e as PocketBaseError;

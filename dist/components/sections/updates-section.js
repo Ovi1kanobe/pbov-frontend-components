@@ -37,9 +37,9 @@ export function UpdatesSection({ fetchConfig, saveConfig, checkForUpdate, applyU
         try {
             const res = await fetchConfigRef.current();
             setConfig(res);
-            setRepoOwner(res.repo_owner);
-            setRepoName(res.repo_name);
-            setEnabled(res.enabled);
+            setRepoOwner(res.repo_owner ?? "");
+            setRepoName(res.repo_name ?? "");
+            setEnabled(res.enabled ?? false);
             setError(null);
         }
         catch (e) {
